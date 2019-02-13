@@ -1,0 +1,20 @@
+version: '2'
+
+services:
+
+  db:
+    image: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+          - POSTGRES_PASSWORD=justatestpassword
+          - POSTGRES_USER=postgres
+          - POSTGRES_DB=library
+          - PGDATA=/var/lib/pgsql/data
+
+  adminer:
+      image: adminer
+      restart: always
+      ports:
+        - 8000:8080
