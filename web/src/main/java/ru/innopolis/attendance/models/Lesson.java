@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 @NoArgsConstructor
@@ -25,5 +26,6 @@ public class Lesson {
     private User teacher;
 
     @NotNull
-    private int room;
+    @Size(min = 3, max = 3)
+    private String room;
 }
