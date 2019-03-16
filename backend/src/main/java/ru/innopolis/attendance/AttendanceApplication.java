@@ -7,6 +7,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 @SpringBootApplication
 public class AttendanceApplication {
+
     private static String[] args;
     private static ConfigurableApplicationContext context;
 
