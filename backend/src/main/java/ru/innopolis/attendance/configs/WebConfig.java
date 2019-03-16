@@ -11,17 +11,17 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import ru.innopolis.attendance.services.InnoUserDetailsService;
+import ru.innopolis.attendance.services.UserProfileDetailsService;
 
 @Log
 @Configuration
 @EnableWebSecurity
 public class WebConfig extends WebSecurityConfigurerAdapter {
 
-    private final InnoUserDetailsService userDetailsService;
+    private final UserProfileDetailsService userDetailsService;
 
     @Autowired
-    public WebConfig(InnoUserDetailsService userDetailsService) {
+    public WebConfig(UserProfileDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 

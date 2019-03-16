@@ -7,23 +7,23 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Collections;
 
-public class InnoUserDetails implements UserDetails {
+public class UserProfileDetails implements UserDetails {
 
     private String email;
 
     private String password;
 
-    private Role role;
+    private UserProfile.Role role;
 
-    public InnoUserDetails(InnoUser user) {
-        email = user.getEmail();
-        password = user.getPassword();
-        role = user.getRole();
+    public UserProfileDetails(UserProfile userProfile) {
+        email = userProfile.getEmail();
+        password = userProfile.getPassword();
+        role = userProfile.getRole();
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(new SimpleGrantedAuthority(role.getName()));
+        return Collections.singletonList(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override

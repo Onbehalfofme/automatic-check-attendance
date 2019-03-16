@@ -3,30 +3,42 @@ package ru.innopolis.attendance.models;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.innopolis.attendance.converters.DateTimeConverter;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
-
+import java.util.Collection;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Entity
-@Table(name = "LESSON")
 public class Lesson {
-    @NotNull
-    private LocalDateTime date;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
 
     @NotNull
+    @Convert(converter = DateTimeConverter.class)
+    private LocalDateTime dateTime;
+
+    @NotNull
+    @ManyToOne(cascade = CascadeType.DETACH)
+    @JoinColumn(name = "course_id")
     private Course course;
 
     @NotNull
-    private User teacher;
+    @ManyToOne(cascade = CascadeType.DETACH)
+    @JoinColumn(name = "teacher_id")
+    private UserProfile teacher;
 
     @NotNull
     @Size(min = 3, max = 3)
     private String room;
+
+    @OneToMany(mappedBy = "id.lesson")
+    private Collection<LessonStudent> lessonStudents;
 }
