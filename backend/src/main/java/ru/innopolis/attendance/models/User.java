@@ -4,8 +4,6 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
@@ -19,28 +17,27 @@ public class User {
 
     @NotNull
     @Column(unique = true)
-    @Pattern(regexp = "^[a-z]+\\.[a-z]+@innopolis\\.ru$", message = "Inappropriate email. Please, use your Innopolis email")
+    @Size(max = 32)
     private String email;
 
     @NotNull
-    @Size(min = 6, message = "Password should be at least 6 characters")
+    @Size(max = 32)
     private String password;
 
     @NotNull
-    @OneToOne(cascade = CascadeType.DETACH)
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "role_id")
     private Role role;
 
     @NotNull
-    @Size(min = 2, message = "Your name is too short")
+    @Size(max = 32)
     private String name;
 
     @NotNull
-    @Size(min = 2, message = "Your surname is too short")
+    @Size(max = 32)
     private String surname;
 
     @NotNull
-    @Past(message = "Date should be valid")
     @Temporal(TemporalType.DATE)
     private Date birthday;
 
