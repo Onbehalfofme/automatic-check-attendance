@@ -1,6 +1,8 @@
 package ru.innopolis.attendance.models;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import ru.innopolis.attendance.converters.DateConverter;
 
 import javax.persistence.*;
@@ -11,6 +13,8 @@ import java.util.Collection;
 
 @Data
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserProfile {
 
     public enum Role {
@@ -31,7 +35,6 @@ public class UserProfile {
     private String email;
 
     @NotNull
-    @Size(max = 32)
     private String password;
 
     @NotNull
@@ -53,17 +56,6 @@ public class UserProfile {
 
     @OneToMany(mappedBy = "id.student")
     private Collection<LessonStudent> lessonStudents;
-
-    public UserProfile(UserProfile userProfile) {
-        this.id = userProfile.id;
-        this.name = userProfile.name;
-        this.email = userProfile.email;
-        this.birthday = userProfile.birthday;
-        this.password = userProfile.password;
-        this.role = userProfile.role;
-        this.surname = userProfile.surname;
-        this.lessonStudents = userProfile.lessonStudents;
-    }
 
     @Override
     public String toString() {

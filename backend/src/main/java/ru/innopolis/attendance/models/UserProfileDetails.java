@@ -9,21 +9,24 @@ import java.util.Collections;
 
 public class UserProfileDetails implements UserDetails {
 
+    private long id;
+
     private String email;
 
     private String password;
 
-    private UserProfile.Role role;
+    private Collection<? extends GrantedAuthority> roles;
 
     public UserProfileDetails(UserProfile userProfile) {
+        id = userProfile.getId();
         email = userProfile.getEmail();
         password = userProfile.getPassword();
-        role = userProfile.getRole();
+        roles = Collections.singletonList(new SimpleGrantedAuthority(userProfile.getRole().name()));
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(new SimpleGrantedAuthority(role.name()));
+        return roles;
     }
 
     @Override
@@ -34,6 +37,10 @@ public class UserProfileDetails implements UserDetails {
     @Override
     public String getUsername() {
         return email;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     @Override
