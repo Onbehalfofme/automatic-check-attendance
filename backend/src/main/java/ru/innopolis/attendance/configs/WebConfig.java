@@ -20,7 +20,7 @@ import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import ru.innopolis.attendance.services.UserProfileDetailsService;
 
-import static org.springframework.http.HttpStatus.FORBIDDEN;
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 @Log
 @Configuration
@@ -56,7 +56,7 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .exceptionHandling()
-                .authenticationEntryPoint(forbiddenEntryPoint())
+                .authenticationEntryPoint(authenticationEntryPoint())
                 .and()
                 .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
@@ -72,8 +72,8 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public AuthenticationEntryPoint forbiddenEntryPoint() {
-        return new HttpStatusEntryPoint(FORBIDDEN);
+    public AuthenticationEntryPoint authenticationEntryPoint() {
+        return new HttpStatusEntryPoint(UNAUTHORIZED);
     }
 
     @Bean
