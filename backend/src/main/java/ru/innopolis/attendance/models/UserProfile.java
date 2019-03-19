@@ -18,14 +18,6 @@ import java.util.Collection;
 @AllArgsConstructor
 public class UserProfile {
 
-    public enum Role {
-        ROLE_ADMIN,
-        ROLE_DOE,
-        ROLE_PROFESSOR,
-        ROLE_TA,
-        ROLE_STUDENT
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -41,7 +33,7 @@ public class UserProfile {
     @NotNull
     @Column(length = 32)
     @Enumerated(value = EnumType.STRING)
-    private UserProfile.Role role;
+    private Role role;
 
     @NotNull
     @Size(max = 32)
@@ -59,8 +51,15 @@ public class UserProfile {
     @OneToMany(mappedBy = "id.student")
     private Collection<LessonStudent> lessonStudents;
 
+    @ManyToMany(mappedBy = "participants")
+    private Collection<Course> enrolledCourses;
+
     @Override
     public String toString() {
         return "Email " + email + ", role " + role.name();
+    }
+
+    public boolean containsCourseId(long courseId) {
+        return enrolledCourses.stream().anyMatch(course -> course.getId() == courseId);
     }
 }

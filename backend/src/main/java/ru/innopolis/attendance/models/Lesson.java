@@ -22,6 +22,11 @@ public class Lesson {
     private long id;
 
     @NotNull
+    @Column(length = 32)
+    @Enumerated(value = EnumType.STRING)
+    private LessonType type;
+
+    @NotNull
     @Convert(converter = DateTimeConverter.class)
     private LocalDateTime dateTime;
 
