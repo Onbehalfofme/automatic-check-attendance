@@ -1,0 +1,401 @@
+@import url('https://fonts.googleapis.com/css?family=Quicksand:300');
+@import url('https://fonts.googleapis.com/css?family=Cinzel|Quattrocento+Sans');
+
+body {
+    max-height: 100%;
+    max-width: 100%;
+    outline: 0;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-weight: lighter;
+    background:url("1.jpg") no-repeat center center fixed;
+
+  /*  background: -webkit-linear-gradient(right, #f2f2f2, #f2f2f2);
+    background: -moz-linear-gradient(right, #f2f2f2, #f2f2f2);
+    background: -o-linear-gradient(right, #f2f2f2, #f2f2f2);
+    background: linear-gradient(to left, #f2f2f2, #f2f2f2);
+    background: #f2f2f2;*/
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-size: 18px;
+}
+
+div {
+    display: block;
+}
+
+a:link, a:hover a:active, a:visited{
+    color: #43425D;
+    text-decoration: none;
+}
+/*
+    Control panel for each page.
+ */
+table, th, td {
+    border-bottom: 1.5px solid  #23C664;
+    font-size: 20px;
+    font-weight: bolder;
+    font-family: "Quicksand", sans-serif;
+    height: 50px;
+    text-align: center;
+}
+.table_panel {
+    margin: auto;
+    width: 100%;
+}
+.checkbox {
+    height: 40px;
+    background: rgba(255, 255, 255, 0.47);
+}
+.main-panel input {
+    border: none;
+    font-family: "Quicksand", sans-serif;
+    background: rgb(255, 255, 255);
+}
+.main-panel {
+    overflow: hidden;
+    position: relative;
+
+    background: rgb(255, 255, 255);
+    width: 70%;
+
+
+    border-radius: 2px;
+    outline: 0;
+    margin: 0 auto 15px;
+    box-shadow: 0 0 6px 0 rgba(25,25,34,.16);
+}
+
+.cont h1 {
+    font-family: "Quicksand", sans-serif;
+    font-size: 19px;
+    color: black;
+    font-weight: lighter;
+    margin: 10px 0 10px 11px;
+}
+
+.background-panel{
+    position: fixed;
+    float: left;
+    height: 100%;
+    width: 60%;
+    background:url("illustration.jpg");
+    background-size: 150%;
+}
+
+.login-panel{
+    display: block;
+    position: relative;
+    z-index: 1;
+    float: right;
+    background: rgb(255, 255, 255);
+    width: 40%;
+    height: 100vh;
+    font-family: "Quicksand", serif;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 5px 5px 2px rgba(0, 0, 0, 0.14);
+
+
+}
+
+.logo-panel{
+    display: block;
+    margin: auto;
+    padding: 20% 0 0;
+    width: 70%;
+}
+
+.working-panel{
+    position: fixed;
+    display: block;
+    margin: auto;
+    padding: 5% 9%;
+    font-size: 25px;
+}
+.message-panel{
+    width: 100%;
+    padding: 0 27% 0;
+    font-size: 20px;
+    font-family: "Baskerville Old Face", sans-serif;
+}
+
+.authentication-panel{
+    position: fixed;
+    display: block;
+    margin: auto;
+    padding: 2% 5% 0;
+    font-size: 35px;
+}
+.button-panel{
+    display: block;
+    padding: 15% 30% 0;
+}
+.login-panel button {
+    background: #23C664;
+    width: 90px;
+    height: 30px;
+    font-size: 15px;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    color: #FFFFFF;
+    border-radius: 5px;
+    border: 0;
+    outline: 0;
+    padding: 6px 0 10px;
+    margin: 15px 0 30px;
+    float: right;
+}
+
+.field__input{
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #000000;
+
+    font-size: 15px;
+}
+
+
+
+
+.control-panel {
+    display: block;
+    position: fixed;
+    z-index: 1;
+    float: left;
+    background: rgba(255, 255, 255, .70);
+    height: 100%;
+    width: 280px;
+    padding: 5px 20px 0;
+    font-family: "Quicksand", sans-serif;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 5px 5px 2px rgba(0, 0, 0, 0.14);
+}
+
+.list-option div {
+    display: block;
+    width: 240px;
+    height: 20px;
+    margin: 0;
+    padding: 6px 0 0px;
+}
+
+.list-option .headline {
+    margin: 0 0 10px;
+    display: block;
+    width: 220px;
+    height: 30px;
+    padding: 6px 0 6px;
+}
+
+.list-option  {
+    display: block;
+    width: 240px;
+    height: 30px;
+    margin: 0;
+    padding: 6px 0 6px;
+}
+
+.list-option h2 {
+    margin: 0 0 10px 0;
+    color: black;
+    font-family: "Quicksand", sans-serif;
+    font-size: 17px;
+    letter-spacing: 0.02em;
+    font-weight: normal;
+}
+
+.list-option h3 {
+    margin: 0;
+    color: black;
+    font-family: "Quicksand", sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    font-weight: normal;
+}
+
+.list-option select {
+    margin: 0 0 12px;
+    background: rgba(255, 255, 255, .00);
+    width: 235px;
+    padding: 2px 0 0;
+    font-size: 13px;
+    border: 0 solid #ccc;
+    border-bottom: 1px solid #ccc;
+    height: 28px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.date {
+    margin: 5px 0 12px;
+    background: rgba(255, 255, 255, .00);
+    width: 235px;
+    border: 0 solid #ccc;
+    border-bottom: 1px solid #ccc;
+    font-family: "Quicksand", sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.02em;
+}
+
+.time {
+    margin: 5px 0 12px;
+    background: rgba(255, 255, 255, .00);
+    border: 0 solid #ccc;
+    border-bottom: 1px solid #ccc;
+    width: 235px;
+    font-family: "Quicksand", sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.02em;
+}
+.time-sett div{
+    width: 100px;
+}
+.list-option button {
+    background: #23C664;
+    width: 90px;
+    height: 30px;
+    font-family: "Quicksand", sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    color: #FFFFFF;
+    border-radius: 5px;
+    border: 0;
+    outline: 0;
+    padding: 6px 0 10px;
+    margin: 15px 0 30px;
+    float: right;
+}
+
+
+
+/*.list-option div:hover {
+    background: #3C3B54;
+}
+
+.list-option .activ {
+    background: #3C3B54;
+    border-left: 4px solid #A3A0FB;
+    width: 246px;
+}
+
+.list-option .activ h2 {
+    margin: 15px 19px 15px;
+}*/
+
+/*
+    Main part of each page. Where we consider all information.
+ */
+
+.main-page{
+    /*background: #f2f2f2;*/
+    max-height: 100%;
+    max-width: 100%;
+    outline: 0;
+    position: relative;
+    margin: 0 0 0 0;
+}
+/*
+    Top panel.
+ */
+
+.top-panel {
+    background-color: #23C664;
+    overflow: hidden;
+    position: relative;
+    float: top;
+    height: 50px;
+    width: 100%;
+    font-family: "Quicksand", sans-serif;
+    box-shadow: 0 0 6px 0 rgba(25,25,34,.16);
+}
+
+.top-panel button{
+    background-color: rgb(0, 255, 0, .0);
+    width: 140px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.top-panel .top-name {
+    color:white;
+    display: block;
+    float: right;
+    width: 120px;
+    height: 50px;
+    padding: 0 5px 0 5px;
+    overflow: hidden;
+    text-align: center;
+}
+
+.top-panel .top-name:hover {
+    color:black;
+    display: block;
+    float: right;
+    background: rgba(255, 255, 255, .70);
+    width: 120px;
+    height: 50px;
+    padding: 0 5px 0 5px;
+    overflow: hidden;
+    text-align: center;
+}
+
+.top-panel h2 {
+    font-family: "Quicksand", sans-serif;
+    font-size: 15px;
+    padding: 15px 0 0;
+    margin: 0;
+}
+
+.top-panel .func-panel {
+    float: left;
+}
+
+.func-panel .top-name {
+    color:white;
+    display: block;
+    float: right;
+    width: 140px;
+    height: 50px;
+    padding: 0 5px 0 10px;
+    overflow: hidden;
+    text-align: center;
+}
+
+.func-panel .top-name:hover {
+    color:black;
+    display: block;
+    float: right;
+    background: rgba(255, 255, 255, .70);
+    width: 140px;
+    height: 50px;
+    padding: 0 5px 0 10px;
+    overflow: hidden;
+    text-align: center;
+}
+
+.top-panel .pers {
+    display: block;
+    float: left;
+    width: 200px;
+    height: 60px;
+    margin: 0;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.top-panel .conc {
+    display: block;
+    float: left;
+    box-sizing: border-box;
+    width: 200px;
+    height: 60px;
+    margin: 0;
+    text-align: center;
+}
+
+/*
+    Content of each page. Can have different settings.
+ */
+

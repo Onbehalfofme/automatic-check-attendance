@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=1"/>
+    <meta content='Connecting to Innopolis University'/>
+    <title id="ifEmpty"></title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <style>{
+        background-image: url("illustration.jpg")
+    ;
+    }</style>
+</head>
+
+
+<body dir="ltr" class="body">
+
+<div id="noScript" style="position:static; width:100%; height:100%; z-index:100">
+    <h1>Требуется поддержка JavaScript</h1>
+    <p>Требуется поддержка JavaScript. Этот веб-браузер не поддерживает JavaScript или в веб-браузере не включена
+        поддержка JavaScript.</p>
+    <p>Чтобы узнать, поддерживает ли веб-браузер JavaScript, или включить поддержку JavaScript, обратитесь к разделу
+        справки веб-браузера.</p>
+</div>
+
+<script type="text/javascript" language="JavaScript">
+    document.getElementById("noScript").style.display = "none";
+</script>
+
+<div class="background-panel"></div>
+<div id="contentWrapper" class="login-panel">
+    <div id="content">
+        <div id="header">
+            <img class='logo-panel' id='innopolisLogo' src='logo.png' alt='Innopolis University'/>
+        </div>
+
+        <div id="workArea" class="working-panel">
+            <div id="loginArea">
+                <div id="loginMessage" class="message-panel">Log in to your account</div>
+                <form method="post" id="loginForm" autocomplete="off" novalidate="novalidate"
+                      onKeyPress="if (event && event.keyCode == 13) submitLoginRequest();">
+                    <!action=>
+                    <div id="error">
+                        <span id="errorText"></span>
+                    </div>
+
+                    <div id="authenticationArea" class="authentication-panel">
+                        <div id="userNameArea" class="username-panel">
+                            <input id="userNameInput" name="UserName" type="email"  value="" tabindex="1"
+                                   class="field__input"
+                                   spellcheck="false" placeholder="Username" autocomplete="off"/>
+                        </div>
+
+                        <div id="passwordArea" class="password-panel">
+                            <input id="passwordInput" name="Password" type="password" tabindex="2"
+                                   class="field__input"
+                                   placeholder="Password" autocomplete="off"/>
+                        </div>
+                        <div id="submissionArea" class="button-panel">
+                            <button>Log in</button>
+                        </div>
+                    </div>
+                </form>
+
+                <script type="text/javascript">
+                    submitLoginRequest = function () {
+                        var userName = document.getElementById("userNameInput");
+                        var password = document.getElementById("passwordInput");
+
+                        if (!userName.value) {
+                            var element = document.getElementById("ifEmpty");
+                            element.value = "Enter your username and password or sign up to the site.";
+                            return false;
+                        }
+
+                        if (!password.value) {
+                            var element = document.getElementById("ifEmpty");
+                            element.value = "Enter your username and password or sign up to the site.";
+                            return false;
+                        }
+
+                        document.forms['loginForm'].submit();
+                        return false;
+                    };
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+
