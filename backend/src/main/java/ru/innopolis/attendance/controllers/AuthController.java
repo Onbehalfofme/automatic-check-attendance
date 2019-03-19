@@ -23,8 +23,6 @@ import ru.innopolis.attendance.payloads.LogInResponse;
 import ru.innopolis.attendance.payloads.SignUpRequest;
 import ru.innopolis.attendance.payloads.UserPayload;
 
-import javax.validation.Valid;
-
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
