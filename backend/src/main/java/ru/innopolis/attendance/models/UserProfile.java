@@ -60,6 +60,7 @@ public class UserProfile {
     }
 
     public boolean containsCourseId(long courseId) {
-        return enrolledCourses.stream().anyMatch(course -> course.getId() == courseId);
+        return enrolledCourses.stream()
+                .anyMatch(course -> course.getId() == courseId);
     }
 }

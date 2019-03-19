@@ -40,7 +40,8 @@ public class UsersController {
             "T(ru.innopolis.attendance.models.Role).ROLE_PROFESSOR.name()," +
             "T(ru.innopolis.attendance.models.Role).ROLE_TA.name())")
     public ResponseEntity getAll() {
-        return new ResponseEntity<>(userRepository.findAll().stream().map(UserPayload::new).toArray(), HttpStatus.OK);
+        return new ResponseEntity<>(userRepository.findAll().stream()
+                .map(UserPayload::new).toArray(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
@@ -76,6 +77,7 @@ public class UsersController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Course not found");
         }
 
-        return new ResponseEntity<>(course.get().getParticipants().stream().map(UserPayload::new).toArray(), HttpStatus.OK);
+        return new ResponseEntity<>(course.get().getParticipants().stream()
+                .map(UserPayload::new).toArray(), HttpStatus.OK);
     }
 }

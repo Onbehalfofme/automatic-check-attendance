@@ -12,6 +12,7 @@ import ru.innopolis.attendance.data.CourseRepository;
 import ru.innopolis.attendance.data.UserRepository;
 import ru.innopolis.attendance.models.UserProfile;
 import ru.innopolis.attendance.models.UserProfileDetails;
+import ru.innopolis.attendance.payloads.UserPayload;
 
 @RestController
 @RequestMapping("/courses")
@@ -38,6 +39,8 @@ public class CoursesController {
     @GetMapping("/enrolled")
     public ResponseEntity getEnrolledCourses(@AuthenticationPrincipal UserProfileDetails userDetails) {
         UserProfile user = userRepository.getById(userDetails.getId());
-        return new ResponseEntity<>(user.getEnrolledCourses(), HttpStatus.OK);
+        return new ResponseEntity<>(user.getEnrolledCourses().stream()
+                .map(course -> course.getParticipants().stream()
+                        .map(UserPayload::new)).toArray(), HttpStatus.OK);
     }
 }
