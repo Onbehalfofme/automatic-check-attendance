@@ -27,7 +27,7 @@ import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class WebConfig extends WebSecurityConfigurerAdapter {
+public class WebConfiguration extends WebSecurityConfigurerAdapter {
 
     private static final RequestMatcher PUBLIC_URLS = new OrRequestMatcher(
             new AntPathRequestMatcher("/auth/**"),
@@ -42,8 +42,8 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
     private final UserProfileDetailsService userProfileDetailsService;
 
     @Autowired
-    public WebConfig(TokenAuthenticationFilter tokenAuthenticationFilter,
-                     UserProfileDetailsService userProfileDetailsService) {
+    public WebConfiguration(TokenAuthenticationFilter tokenAuthenticationFilter,
+                            UserProfileDetailsService userProfileDetailsService) {
         this.tokenAuthenticationFilter = tokenAuthenticationFilter;
         this.userProfileDetailsService = userProfileDetailsService;
     }
