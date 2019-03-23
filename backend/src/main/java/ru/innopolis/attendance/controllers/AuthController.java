@@ -9,10 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import ru.innopolis.attendance.configs.TokenAuthenticationProvider;
 import ru.innopolis.attendance.data.UserRepository;
@@ -25,6 +22,7 @@ import ru.innopolis.attendance.payloads.UserPayload;
 
 @RestController
 @RequestMapping("/auth")
+@CrossOrigin(origins = {"*"})
 public class AuthController {
 
     private final UserRepository userRepository;
