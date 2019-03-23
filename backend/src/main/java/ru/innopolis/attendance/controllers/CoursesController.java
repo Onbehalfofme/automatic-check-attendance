@@ -17,7 +17,7 @@ import ru.innopolis.attendance.payloads.UserPayload;
 
 @RestController
 @RequestMapping("/courses")
-@CrossOrigin(origins = {"*"})
+@CrossOrigin(origins = "*")
 public class CoursesController {
 
     private final UserRepository userRepository;
