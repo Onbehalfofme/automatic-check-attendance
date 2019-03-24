@@ -3,12 +3,23 @@ pipeline{
     stages {
         stage('Checkout') {
             steps {
-            git credentialsId: 'jenkins-private', url: 'git@github.com:Onbehalfofme/automatic-check-attendance.git', branch: 'master'
+            git url: 'https://github.com/Onbehalfofme/automatic-check-attendance.git', branch: 'master'
             }
         }
-        stage('Build') {
+         stage('Build') {
             steps {
-                sh 'cd backend/ && ./gradlew bootJar && cd ../'
+                sh 'cd backend/ && ./gradlew build && cd ..'
+            }
+        }
+        stage('Docker image build') {
+            steps{
+                sh 'docker build -t onbehalfofme/attendance:server .'
+            }
+        }
+      stage("Docker push") {
+          steps {
+                sh "docker login -u onbehalfofme -p safujxUi7JJKxKm"
+                sh "docker push onbehalfofme/attendance:server"
             }
         }
     }
