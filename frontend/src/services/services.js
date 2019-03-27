@@ -1,22 +1,19 @@
 import axios from "axios";
 
 export function login(email, password) {
-  const instance = axios.create({
-    baseURL: "http://134.209.227.130",
+  const AXIOS = axios.create({
+    baseURL: "http://134.209.227.130:8080",
     headers: {
-      "Content-Type": "application/json; charset=UTF-8",
-      "Access-Control-Allow-Origin": "*"
+      "Content-Type": "application/json; charset=UTF-8"
     }
   });
 
-  instance
-    .post("/auth/login/", {
-      email: email,
-      password: password
-    })
-    .then(response => {
-      localStorage.setItem("token", response.data.token);
-    });
+  AXIOS.post("/auth/login/", {
+    email: email,
+    password: password
+  }).then(response => {
+    localStorage.setItem("token", response.data.token);
+  });
   return localStorage.getItem("token");
 }
 

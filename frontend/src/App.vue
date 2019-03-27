@@ -1,14 +1,16 @@
 <template>
   <div id="app">
-    <login />
+    <login v-if="false" />
+    <home v-if="true" />
   </div>
 </template>
 
 <script>
 import Login from "@/views/Login.vue";
+import Home from "@/views/Home.vue";
 
 export default {
-  components: { Login }
+  components: { Login, Home }
 };
 </script>
 
