@@ -10,6 +10,8 @@ node {
         app = docker.build("onbehalfofme/attendance")
     }
     stage("Push"){
+        sh 'ls'
+        sh 'pwd'
         docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
         app.push("${env.BUILD_NUMBER}")
         app.push("latest")
