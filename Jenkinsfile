@@ -4,7 +4,7 @@ node {
         git url: 'https://github.com/Onbehalfofme/automatic-check-attendance.git', branch: 'master'
     }
      stage('Build') {
-        sh 'cd backend/ && ./gradlew build --no-daemon && cd ..'
+        sh 'cd backend/ && ./gradlew build --no-daemon'
     }
     stage('Docker image build') {
         app = docker.build("onbehalfofme/attendance")
