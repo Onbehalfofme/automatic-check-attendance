@@ -26,7 +26,7 @@ services:
       - ${BACKEND_PORT_EXTERNAL}:${BACKEND_PORT_INTERNAL}
     build:
       context: ./
-      dockerfile: Dockerfile
+      dockerfile: backend/Dockerfile
    
 volumes:
   attendance_db:
