@@ -7,8 +7,7 @@ node {
         sh 'cd backend/ && ./gradlew build --no-daemon'
     }
     stage('Docker image build') {
-        sh 'cd backend'
-        app = docker.build("onbehalfofme/attendance")
+        app = docker.build("onbehalfofme/attendance", "./backend/Dockerfile")
     }
     stage("Push"){
         docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
