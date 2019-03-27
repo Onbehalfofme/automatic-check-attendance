@@ -7,8 +7,7 @@ node {
         sh 'cd backend/ && ./gradlew build --no-daemon'
     }
     stage('Docker image build') {
-        sh 'ls'
-        sh 'pwd'
+        sh 'cd backend'
         app = docker.build("onbehalfofme/attendance")
     }
     stage("Push"){
