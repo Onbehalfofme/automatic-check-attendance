@@ -1,8 +1,9 @@
-FROM openjdk:8-jre-alpine
-ADD backend/build/libs/backend-0.0.1-SNAPSHOT.jar /opt
+FROM openjdk:8-jdk-alpine
 
 EXPOSE 8080
-WORKDIR /opt
-VOLUME [ "/opt/images" ]
 
-CMD [ "java", "-jar", "backend-0.0.1-SNAPSHOT.jar" ]
+WORKDIR /opt
+COPY backend/build/libs/*.jar ./app.jar
+VOLUME /opt/images
+
+CMD [ "java", "-jar", "./app.jar" ]
