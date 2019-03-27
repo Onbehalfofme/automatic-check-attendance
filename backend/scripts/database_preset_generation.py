@@ -1,6 +1,12 @@
 import datetime
 import random
 import psycopg2
+import os
+from dotenv import load_dotenv
+from pathlib import Path
+
+env_path = Path('../..') / '.env'
+load_dotenv(dotenv_path=env_path)
 
 NUMBER_OF_LESSONS = 100
 
@@ -8,8 +14,8 @@ users = []
 courses = ["Software Project", "Introduction to AI", "Networks",
            "Data Modeling and Databases II", "Probability and Statistics"]
 
-conn = psycopg2.connect(dbname="attendance", user="postgres",
-                        password="password", host="localhost")
+conn = psycopg2.connect(dbname=os.getenv("POSTGRES_DB"), user=os.getenv("POSTGRES_USER"),
+                        password=os.getenv("POSTGRES_PASSWORD"), host="localhost")
 cursor = conn.cursor()
 
 f = open("users.txt", "r")
