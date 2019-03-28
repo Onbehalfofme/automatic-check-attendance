@@ -22,7 +22,6 @@ import ru.innopolis.attendance.payloads.UserPayload;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin(origins = "*")
 public class AuthController {
 
     private final UserRepository userRepository;

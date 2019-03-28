@@ -20,6 +20,7 @@ public class LessonStudent {
     @Data
     @Embeddable
     @EqualsAndHashCode
+    @NoArgsConstructor
     @AllArgsConstructor
     public class LessonStudentPK implements Serializable {
 

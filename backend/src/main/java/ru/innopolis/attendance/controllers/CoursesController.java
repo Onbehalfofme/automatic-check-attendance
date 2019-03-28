@@ -17,7 +17,6 @@ import ru.innopolis.attendance.payloads.UserPayload;
 
 @RestController
 @RequestMapping("/courses")
-@CrossOrigin(origins = "*")
 public class CoursesController {
 
     private final UserRepository userRepository;
@@ -35,7 +34,9 @@ public class CoursesController {
             "T(ru.innopolis.attendance.models.Role).ROLE_ADMIN.name()," +
             "T(ru.innopolis.attendance.models.Role).ROLE_DOE.name())")
     public ResponseEntity getAll() {
-        return new ResponseEntity<>(courseRepository.findAll(), HttpStatus.OK);
+        return new ResponseEntity<>(courseRepository.findAll().stream()
+                .map(course -> course.getParticipants().stream()
+                        .map(UserPayload::new).toArray()).toArray(), HttpStatus.OK);
     }
 
     @GetMapping("/enrolled")
@@ -43,6 +44,6 @@ public class CoursesController {
         UserProfile user = userRepository.getById(userDetails.getId());
         return new ResponseEntity<>(user.getEnrolledCourses().stream()
                 .map(course -> course.getParticipants().stream()
-                        .map(UserPayload::new)).toArray(), HttpStatus.OK);
+                        .map(UserPayload::new).toArray()).toArray(), HttpStatus.OK);
     }
 }
