@@ -14,7 +14,9 @@ import ru.innopolis.attendance.models.UserProfile;
 import ru.innopolis.attendance.models.UserProfileDetails;
 import ru.innopolis.attendance.payloads.UserPayload;
 
+import java.util.Collection;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/users")
@@ -47,7 +49,7 @@ public class UsersController {
             "T(ru.innopolis.attendance.models.Role).ROLE_DOE.name()," +
             "T(ru.innopolis.attendance.models.Role).ROLE_PROFESSOR.name()," +
             "T(ru.innopolis.attendance.models.Role).ROLE_TA.name())")
-    public ResponseEntity getUser(@PathVariable long id) {
+    public ResponseEntity<UserPayload> getUser(@PathVariable long id) {
         Optional<UserProfile> user = userRepository.findById(id);
 
         if (!user.isPresent()) {
@@ -67,7 +69,8 @@ public class UsersController {
             "T(ru.innopolis.attendance.models.Role).ROLE_TA.name()) " +
             "and " +
             "@userRepository.getById(#userDetails.getId()).containsCourseId(#courseId))")
-    public ResponseEntity getCourseParticipants(@AuthenticationPrincipal UserProfileDetails userDetails, @PathVariable long courseId) {
+    public ResponseEntity<Collection<UserPayload>> getCourseParticipants(@AuthenticationPrincipal UserProfileDetails userDetails,
+                                                                         @PathVariable long courseId) {
         Optional<Course> course = courseRepository.findById(courseId);
 
         if (!course.isPresent()) {
@@ -75,6 +78,6 @@ public class UsersController {
         }
 
         return new ResponseEntity<>(course.get().getParticipants().stream()
-                .map(UserPayload::new).toArray(), HttpStatus.OK);
+                .map(UserPayload::new).collect(Collectors.toList()), HttpStatus.OK);
     }
 }
