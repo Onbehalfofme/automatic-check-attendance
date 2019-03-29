@@ -41,7 +41,7 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<UserPayload> signUp(@RequestBody SignUpRequest user) {
+    public UserPayload signUp(@RequestBody SignUpRequest user) {
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email address is already in use.");
         }
@@ -57,11 +57,11 @@ public class AuthController {
 
         userRepository.save(userProfile);
 
-        return new ResponseEntity<>(new UserPayload(userProfile), HttpStatus.OK);
+        return new UserPayload(userProfile);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LogInResponse> logIn(@RequestBody LogInRequest user) {
+    public LogInResponse logIn(@RequestBody LogInRequest user) {
         try {
             Authentication auth = authenticationManager
                     .authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
@@ -69,7 +69,7 @@ public class AuthController {
 
             String token = tokenProvider.createToken(auth);
 
-            return new ResponseEntity<>(new LogInResponse(token), HttpStatus.OK);
+            return new LogInResponse(token);
         } catch (AuthenticationException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid email or password");
         }

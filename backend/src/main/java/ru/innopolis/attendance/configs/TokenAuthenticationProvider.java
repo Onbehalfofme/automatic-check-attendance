@@ -33,16 +33,7 @@ public class TokenAuthenticationProvider {
                 .compact();
     }
 
-    public Long getIdFromToken(String token) {
-        Claims claims = Jwts.parser()
-                .setSigningKey(tokenSecret)
-                .parseClaimsJws(token)
-                .getBody();
-
-        return claims.get("id", Long.class);
-    }
-
-    public String getUsernameFromToken(String token) {
+    String getUsernameFromToken(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(tokenSecret)
                 .parseClaimsJws(token)
@@ -51,7 +42,7 @@ public class TokenAuthenticationProvider {
         return claims.getSubject();
     }
 
-    public boolean validateToken(String authToken) {
+    boolean validateToken(String authToken) {
         try {
             Jwts.parser().setSigningKey(tokenSecret).parseClaimsJws(authToken);
             return true;

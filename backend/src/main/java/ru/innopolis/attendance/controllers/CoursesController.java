@@ -38,15 +38,15 @@ public class CoursesController {
     @PreAuthorize("hasAnyRole(" +
             "T(ru.innopolis.attendance.models.Role).ROLE_ADMIN.name()," +
             "T(ru.innopolis.attendance.models.Role).ROLE_DOE.name())")
-    public ResponseEntity<Collection<CoursePayload>> getAll() {
-        return new ResponseEntity<>(courseRepository.findAll().stream()
-                .map(CoursePayload::new).collect(Collectors.toList()), HttpStatus.OK);
+    public Collection<CoursePayload> getAll() {
+        return courseRepository.findAll().stream()
+                .map(CoursePayload::new).collect(Collectors.toList());
     }
 
     @GetMapping("/enrolled")
-    public ResponseEntity<Collection<CoursePayload>> getEnrolledCourses(@AuthenticationPrincipal UserProfileDetails userDetails) {
+    public Collection<CoursePayload> getEnrolledCourses(@AuthenticationPrincipal UserProfileDetails userDetails) {
         UserProfile user = userRepository.getById(userDetails.getId());
-        return new ResponseEntity<>(user.getEnrolledCourses().stream()
-                .map(CoursePayload::new).collect(Collectors.toList()), HttpStatus.OK);
+        return user.getEnrolledCourses().stream()
+                .map(CoursePayload::new).collect(Collectors.toList());
     }
 }

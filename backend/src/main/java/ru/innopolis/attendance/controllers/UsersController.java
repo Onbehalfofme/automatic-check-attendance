@@ -38,9 +38,9 @@ public class UsersController {
             "T(ru.innopolis.attendance.models.Role).ROLE_DOE.name()," +
             "T(ru.innopolis.attendance.models.Role).ROLE_PROFESSOR.name()," +
             "T(ru.innopolis.attendance.models.Role).ROLE_TA.name())")
-    public ResponseEntity getAll() {
-        return new ResponseEntity<>(userRepository.findAll().stream()
-                .map(UserPayload::new).toArray(), HttpStatus.OK);
+    public Collection<UserPayload> getAll() {
+        return userRepository.findAll().stream()
+                .map(UserPayload::new).collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
@@ -49,14 +49,14 @@ public class UsersController {
             "T(ru.innopolis.attendance.models.Role).ROLE_DOE.name()," +
             "T(ru.innopolis.attendance.models.Role).ROLE_PROFESSOR.name()," +
             "T(ru.innopolis.attendance.models.Role).ROLE_TA.name())")
-    public ResponseEntity<UserPayload> getUser(@PathVariable long id) {
+    public UserPayload getUser(@PathVariable long id) {
         Optional<UserProfile> user = userRepository.findById(id);
 
         if (!user.isPresent()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
         }
 
-        return new ResponseEntity<>(new UserPayload(user.get()), HttpStatus.OK);
+        return new UserPayload(user.get());
     }
 
     @GetMapping("/course/{courseId}")
@@ -69,15 +69,15 @@ public class UsersController {
             "T(ru.innopolis.attendance.models.Role).ROLE_TA.name()) " +
             "and " +
             "@userRepository.getById(#userDetails.getId()).containsCourseId(#courseId))")
-    public ResponseEntity<Collection<UserPayload>> getCourseParticipants(@AuthenticationPrincipal UserProfileDetails userDetails,
-                                                                         @PathVariable long courseId) {
+    public Collection<UserPayload> getCourseParticipants(@AuthenticationPrincipal UserProfileDetails userDetails,
+                                                         @PathVariable long courseId) {
         Optional<Course> course = courseRepository.findById(courseId);
 
         if (!course.isPresent()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Course not found");
         }
 
-        return new ResponseEntity<>(course.get().getParticipants().stream()
-                .map(UserPayload::new).collect(Collectors.toList()), HttpStatus.OK);
+        return course.get().getParticipants().stream()
+                .map(UserPayload::new).collect(Collectors.toList());
     }
 }
