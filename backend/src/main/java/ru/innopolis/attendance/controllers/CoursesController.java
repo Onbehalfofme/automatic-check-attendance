@@ -13,7 +13,12 @@ import ru.innopolis.attendance.data.CourseRepository;
 import ru.innopolis.attendance.data.UserRepository;
 import ru.innopolis.attendance.models.UserProfile;
 import ru.innopolis.attendance.models.UserProfileDetails;
+import ru.innopolis.attendance.payloads.CoursePayload;
 import ru.innopolis.attendance.payloads.UserPayload;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/courses")
@@ -33,17 +38,15 @@ public class CoursesController {
     @PreAuthorize("hasAnyRole(" +
             "T(ru.innopolis.attendance.models.Role).ROLE_ADMIN.name()," +
             "T(ru.innopolis.attendance.models.Role).ROLE_DOE.name())")
-    public ResponseEntity getAll() {
+    public ResponseEntity<Collection<CoursePayload>> getAll() {
         return new ResponseEntity<>(courseRepository.findAll().stream()
-                .map(course -> course.getParticipants().stream()
-                        .map(UserPayload::new).toArray()).toArray(), HttpStatus.OK);
+                .map(CoursePayload::new).collect(Collectors.toList()), HttpStatus.OK);
     }
 
     @GetMapping("/enrolled")
-    public ResponseEntity getEnrolledCourses(@AuthenticationPrincipal UserProfileDetails userDetails) {
+    public ResponseEntity<Collection<CoursePayload>> getEnrolledCourses(@AuthenticationPrincipal UserProfileDetails userDetails) {
         UserProfile user = userRepository.getById(userDetails.getId());
         return new ResponseEntity<>(user.getEnrolledCourses().stream()
-                .map(course -> course.getParticipants().stream()
-                        .map(UserPayload::new).toArray()).toArray(), HttpStatus.OK);
+                .map(CoursePayload::new).collect(Collectors.toList()), HttpStatus.OK);
     }
 }
