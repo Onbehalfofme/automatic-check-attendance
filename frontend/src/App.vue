@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <login v-if="false" />
-    <home v-if="true" />
+    <login v-if="!token.length" @ChangeToken="token = $event" />
+    <home v-if="token.length" @ChangeToken="token = $event" />
   </div>
 </template>
 
@@ -10,11 +10,19 @@ import Login from "@/views/Login.vue";
 import Home from "@/views/Home.vue";
 
 export default {
+  data() {
+    return {
+      token:
+        localStorage.getItem("token") === null
+          ? ""
+          : localStorage.getItem("token")
+    };
+  },
   components: { Login, Home }
 };
 </script>
 
-<style lang="scss">
+<style lang="css">
 @import "assets/css/style.css";
 @import url("https://fonts.googleapis.com/css?family=Quicksand:300");
 </style>

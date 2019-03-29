@@ -30,6 +30,7 @@
           >
             Log in
           </button>
+          <p>{{ token }}</p>
         </div>
       </div>
     </div>
@@ -37,10 +38,10 @@
 </template>
 
 <script>
-import { login } from "../services/services";
+import { login } from "../services/loginService";
+import Vue from "vue";
 
 export default {
-  name: "login",
   data() {
     return {
       email: "",
@@ -49,8 +50,10 @@ export default {
     };
   },
   methods: {
-    sendData: function(email, password) {
-      return (this.token = login(email, password));
+    sendData(email, password) {
+      this.token = login(email, password);
+      this.$emit("ChangeToken", this.token);
+      return this.token;
     }
   }
 };

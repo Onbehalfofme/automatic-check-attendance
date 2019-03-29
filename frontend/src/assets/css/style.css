@@ -26,6 +26,7 @@ body {
 }
 
 .login-panel {
+    text-align: center;
     margin: 0 0 0 60%;
     width: 40%;
     height: 100%;
@@ -89,7 +90,7 @@ body {
     height: 50px;
     width: 100%;
     font-family: "Quicksand", sans-serif;
-    box-shadow: 0 0 6px 0 rgba(25,25,34,.16);
+    box-shadow: 0 0 6px 0 rgba(25, 25, 34, .16);
 }
 
 .top-panel button{
@@ -266,6 +267,7 @@ body {
     appearance: none;
     outline:none;
 }
+
 .list-option option {
     background: rgba(255, 255, 255, .00);
     border: 0;
