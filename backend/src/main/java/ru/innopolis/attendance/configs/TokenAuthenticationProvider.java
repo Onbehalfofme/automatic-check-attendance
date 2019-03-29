@@ -1,7 +1,7 @@
 package ru.innopolis.attendance.configs;
 
 import io.jsonwebtoken.*;
-import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -9,7 +9,7 @@ import ru.innopolis.attendance.models.UserProfileDetails;
 
 import java.util.Date;
 
-@Log
+@Slf4j
 @Service
 public class TokenAuthenticationProvider {
 
@@ -47,15 +47,15 @@ public class TokenAuthenticationProvider {
             Jwts.parser().setSigningKey(tokenSecret).parseClaimsJws(authToken);
             return true;
         } catch (SignatureException ex) {
-            log.warning("Invalid JWT signature");
+            log.warn("Invalid JWT signature", ex);
         } catch (MalformedJwtException ex) {
-            log.warning("Invalid JWT token");
+            log.warn("Invalid JWT token", ex);
         } catch (ExpiredJwtException ex) {
-            log.warning("Expired JWT token");
+            log.warn("Expired JWT token", ex);
         } catch (UnsupportedJwtException ex) {
-            log.warning("Unsupported JWT token");
+            log.warn("Unsupported JWT token", ex);
         } catch (IllegalArgumentException ex) {
-            log.warning("JWT claims string is empty.");
+            log.warn("JWT claims string is empty", ex);
         }
         return false;
     }
