@@ -1,6 +1,7 @@
 package ru.innopolis.attendance.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.logging.LogLevel;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,7 @@ import ru.innopolis.attendance.data.UserRepository;
 import ru.innopolis.attendance.models.UserProfile;
 import ru.innopolis.attendance.models.UserProfileDetails;
 import ru.innopolis.attendance.payloads.CoursePayload;
+import ru.tinkoff.eclair.annotation.Log;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -29,6 +31,7 @@ public class CoursesController {
         this.courseRepository = courseRepository;
     }
 
+    @Log(LogLevel.INFO)
     @GetMapping("/all")
     @PreAuthorize("hasAnyRole(" +
             "T(ru.innopolis.attendance.models.Role).ROLE_ADMIN.name()," +
@@ -38,6 +41,7 @@ public class CoursesController {
                 .map(CoursePayload::new).collect(Collectors.toList());
     }
 
+    @Log(LogLevel.INFO)
     @GetMapping("/enrolled")
     public Collection<CoursePayload> getEnrolledCourses(@AuthenticationPrincipal UserProfileDetails userDetails) {
         UserProfile user = userRepository.getById(userDetails.getId());

@@ -1,6 +1,7 @@
 package ru.innopolis.attendance.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.logging.LogLevel;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,6 +19,7 @@ import ru.innopolis.attendance.payloads.LogInRequest;
 import ru.innopolis.attendance.payloads.LogInResponse;
 import ru.innopolis.attendance.payloads.SignUpRequest;
 import ru.innopolis.attendance.payloads.UserPayload;
+import ru.tinkoff.eclair.annotation.Log;
 
 @RestController
 @RequestMapping("/auth")
@@ -39,6 +41,7 @@ public class AuthController {
         this.passwordEncoder = passwordEncoder;
     }
 
+    @Log(LogLevel.INFO)
     @PostMapping("/signup")
     public UserPayload signUp(@RequestBody SignUpRequest user) {
         if (userRepository.existsByEmail(user.getEmail())) {
@@ -59,6 +62,7 @@ public class AuthController {
         return new UserPayload(userProfile);
     }
 
+    @Log(LogLevel.INFO)
     @PostMapping("/login")
     public LogInResponse logIn(@RequestBody LogInRequest user) {
         try {
@@ -70,7 +74,7 @@ public class AuthController {
 
             return new LogInResponse(token);
         } catch (AuthenticationException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid email or password");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid email or password.");
         }
     }
 }

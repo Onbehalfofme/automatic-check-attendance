@@ -1,6 +1,7 @@
 package ru.innopolis.attendance.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.logging.LogLevel;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -12,6 +13,7 @@ import ru.innopolis.attendance.models.Course;
 import ru.innopolis.attendance.models.UserProfile;
 import ru.innopolis.attendance.models.UserProfileDetails;
 import ru.innopolis.attendance.payloads.UserPayload;
+import ru.tinkoff.eclair.annotation.Log;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -31,6 +33,7 @@ public class UsersController {
         this.courseRepository = courseRepository;
     }
 
+    @Log(LogLevel.INFO)
     @GetMapping("/all")
     @PreAuthorize("hasAnyRole(" +
             "T(ru.innopolis.attendance.models.Role).ROLE_ADMIN.name()," +
@@ -42,6 +45,7 @@ public class UsersController {
                 .map(UserPayload::new).collect(Collectors.toList());
     }
 
+    @Log(LogLevel.INFO)
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole(" +
             "T(ru.innopolis.attendance.models.Role).ROLE_ADMIN.name()," +
@@ -52,12 +56,13 @@ public class UsersController {
         Optional<UserProfile> user = userRepository.findById(id);
 
         if (!user.isPresent()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
         }
 
         return new UserPayload(user.get());
     }
 
+    @Log(LogLevel.INFO)
     @GetMapping("/course/{courseId}")
     @PreAuthorize("hasAnyRole(" +
             "T(ru.innopolis.attendance.models.Role).ROLE_ADMIN.name(), " +
@@ -73,7 +78,7 @@ public class UsersController {
         Optional<Course> course = courseRepository.findById(courseId);
 
         if (!course.isPresent()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Course not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Course not found.");
         }
 
         return course.get().getParticipants().stream()

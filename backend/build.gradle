@@ -23,6 +23,7 @@ dependencies {
     compile('com.google.guava:guava:27.0.1-jre')
     compile('io.springfox:springfox-swagger2:2.9.2')
     compile('io.springfox:springfox-swagger-ui:2.9.2')
+    compile('ru.tinkoff:eclair-spring-boot-starter:0.8.3')
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'org.postgresql:postgresql'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
