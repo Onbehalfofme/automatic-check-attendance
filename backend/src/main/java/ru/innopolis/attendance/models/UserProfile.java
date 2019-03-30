@@ -57,8 +57,8 @@ public class UserProfile {
         return "Email " + email + ", role " + role.name();
     }
 
-    public boolean containsCourseId(long courseId) {
+    public boolean notEnrolled(long courseId) {
         return enrolledCourses.stream()
-                .anyMatch(course -> course.getId() == courseId);
+                .noneMatch(course -> course.getId() == courseId);
     }
 }

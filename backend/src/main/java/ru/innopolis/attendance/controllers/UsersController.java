@@ -10,6 +10,7 @@ import org.springframework.web.server.ResponseStatusException;
 import ru.innopolis.attendance.data.CourseRepository;
 import ru.innopolis.attendance.data.UserRepository;
 import ru.innopolis.attendance.models.Course;
+import ru.innopolis.attendance.models.Role;
 import ru.innopolis.attendance.models.UserProfile;
 import ru.innopolis.attendance.models.UserProfileDetails;
 import ru.innopolis.attendance.payloads.UserPayload;
@@ -66,17 +67,18 @@ public class UsersController {
     @GetMapping("/course/{courseId}")
     @PreAuthorize("hasAnyRole(" +
             "T(ru.innopolis.attendance.models.Role).ROLE_ADMIN.name(), " +
-            "T(ru.innopolis.attendance.models.Role).ROLE_DOE.name()) " +
-            "or" +
-            "(hasAnyRole(" +
-            "T(ru.innopolis.attendance.models.Role).ROLE_PROFESSOR.name(), " +
-            "T(ru.innopolis.attendance.models.Role).ROLE_TA.name()) " +
-            "and " +
-            "@userRepository.getById(#userDetails.getId()).containsCourseId(#courseId))")
+            "T(ru.innopolis.attendance.models.Role).ROLE_DOE.name()," +
+            "T(ru.innopolis.attendance.models.Role).ROLE_PROFESSOR.name()," +
+            "T(ru.innopolis.attendance.models.Role).ROLE_TA.name())")
     public Collection<UserPayload> getCourseParticipants(@AuthenticationPrincipal UserProfileDetails userDetails,
                                                          @PathVariable long courseId) {
-        Optional<Course> course = courseRepository.findById(courseId);
+        UserProfile user = userRepository.getById(userDetails.getId());
+        if (user.notEnrolled(courseId) &&
+                !(user.getRole() == Role.ROLE_ADMIN || user.getRole() == Role.ROLE_DOE)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
 
+        Optional<Course> course = courseRepository.findById(courseId);
         if (!course.isPresent()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Course not found.");
         }
