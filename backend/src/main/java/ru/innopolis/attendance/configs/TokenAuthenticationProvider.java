@@ -1,5 +1,6 @@
 package ru.innopolis.attendance.configs;
 
+import com.google.common.collect.Iterables;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,6 +28,7 @@ public class TokenAuthenticationProvider {
         return Jwts.builder()
                 .claim("id", userPrincipal.getId())
                 .setSubject(userPrincipal.getUsername())
+                .claim("role", Iterables.getOnlyElement(userPrincipal.getAuthorities()).getAuthority())
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS512, tokenSecret)
