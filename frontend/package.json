@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "axios": "latest",
+    "moment": "^2.24.0",
     "vue": "^2.6.6",
     "vue-notif": "^1.1.10",
     "vue-router": "^3.0.1",
