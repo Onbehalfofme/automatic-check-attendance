@@ -31,7 +31,7 @@ public class LessonController {
     private final UserRepository userRepository;
 
     @Autowired
-    private LessonController(CourseRepository courseRepository,
+    public LessonController(CourseRepository courseRepository,
                              LessonRepository lessonRepository,
                              LessonStudentRepository lessonStudentRepository,
                              UserRepository userRepository) {
