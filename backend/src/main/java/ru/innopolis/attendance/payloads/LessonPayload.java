@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 @Data
 public class LessonPayload {
 
-    @NonNull
     private long id;
 
     @NonNull
