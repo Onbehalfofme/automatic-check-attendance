@@ -1,11 +1,11 @@
 package ru.innopolis.attendance.payloads;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NonNull;
 
 @Data
-@AllArgsConstructor
 public class LogInResponse {
 
+    @NonNull
     private String token;
 }

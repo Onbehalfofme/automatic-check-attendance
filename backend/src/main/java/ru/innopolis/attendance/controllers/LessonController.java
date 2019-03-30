@@ -5,6 +5,7 @@ import org.springframework.boot.logging.LogLevel;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import ru.innopolis.attendance.data.CourseRepository;
@@ -17,7 +18,9 @@ import ru.innopolis.attendance.payloads.LessonStudentPayload;
 import ru.innopolis.attendance.payloads.UserPayload;
 import ru.tinkoff.eclair.annotation.Log;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -32,9 +35,9 @@ public class LessonController {
 
     @Autowired
     public LessonController(CourseRepository courseRepository,
-                             LessonRepository lessonRepository,
-                             LessonStudentRepository lessonStudentRepository,
-                             UserRepository userRepository) {
+                            LessonRepository lessonRepository,
+                            LessonStudentRepository lessonStudentRepository,
+                            UserRepository userRepository) {
         this.courseRepository = courseRepository;
         this.lessonRepository = lessonRepository;
         this.lessonStudentRepository = lessonStudentRepository;
@@ -49,7 +52,7 @@ public class LessonController {
             "T(ru.innopolis.attendance.models.Role).ROLE_PROFESSOR.name()," +
             "T(ru.innopolis.attendance.models.Role).ROLE_TA.name())")
     public LessonPayload getLesson(@AuthenticationPrincipal UserProfileDetails userDetails,
-                                    @PathVariable long id) {
+                                   @PathVariable long id) {
         Optional<Lesson> lessonCheck = lessonRepository.findById(id);
         if (!lessonCheck.isPresent()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Lesson fon found.");
@@ -72,7 +75,7 @@ public class LessonController {
             "T(ru.innopolis.attendance.models.Role).ROLE_PROFESSOR.name()," +
             "T(ru.innopolis.attendance.models.Role).ROLE_TA.name())")
     public Collection<UserPayload> createLesson(@AuthenticationPrincipal UserProfileDetails userDetails,
-                                                 @RequestBody LessonPayload lessonPayload) {
+                                                @RequestBody LessonPayload lessonPayload) {
         Optional<Course> courseCheck = courseRepository.findById(lessonPayload.getCourseId());
         if (!courseCheck.isPresent()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Course doesn't exist.");
@@ -95,6 +98,7 @@ public class LessonController {
                 .map(UserPayload::new).collect(Collectors.toList());
     }
 
+    @Transactional
     @Log(LogLevel.INFO)
     @PatchMapping("/update/{lessonId}")
     @PreAuthorize("hasAnyRole(" +
@@ -107,8 +111,29 @@ public class LessonController {
         if (!lessonCheck.isPresent()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Lesson not found.");
         }
-
         Lesson lesson = lessonCheck.get();
+
+        List<LessonStudent> students = new ArrayList<>();
+
+        for (LessonStudentPayload studentPayload : studentsPayload) {
+            Optional<UserProfile> userCheck = userRepository.findById(studentPayload.getStudentId());
+            if (!userCheck.isPresent()) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User doesn't exist.");
+            }
+            UserProfile user = userCheck.get();
+
+            LessonStudent lessonStudent = new LessonStudent();
+            lessonStudent.setId(new LessonStudent.LessonStudentPK(lesson, user));
+            lessonStudent.setAttendance(studentPayload.getAttendance());
+            lessonStudent.setCheckInTime(studentPayload.getCheckIn());
+            lessonStudent.setCheckOutTime(studentPayload.getCheckOut());
+            students.add(lessonStudentRepository.save(lessonStudent));
+        }
+
+        lesson.setLessonStudents(students);
+
+        lessonRepository.save(lesson);
+
         return new LessonPayload(lesson);
     }
 }
