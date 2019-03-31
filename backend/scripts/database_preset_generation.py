@@ -187,8 +187,8 @@ with conn.cursor() as cursor:
             _cstudents = random.randint(0, len(students) - number_of_attended - 1)
 
             for student in students[_cstudents:(_cstudents + number_of_attended)]:
-                cursor.execute("insert into lesson_student (student_id, lesson_id, check_in_time, check_out_time)"
-                               "values (%s, %s, %s, %s)",
+                cursor.execute("insert into lesson_student (student_id, lesson_id, check_in_time, check_out_time, attendance, reason)"
+                               "values (%s, %s, %s, %s, %s, %s)",
                                [student[0], lesson_id,
-                                lesson_date_time, lesson_date_time.replace(hour=11, minute=0)])
+                                lesson_date_time, lesson_date_time.replace(hour=11, minute=0), 'PRESENT', ''])
     conn.commit()
