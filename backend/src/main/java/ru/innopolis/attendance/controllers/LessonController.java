@@ -93,6 +93,7 @@ public class LessonController {
         lesson.setDateTime(lessonDTO.getDateTime());
         lesson.setRoom(lessonDTO.getRoom());
         lesson.setType(lessonDTO.getType());
+        lesson.setTeacher(user);
         lessonRepository.save(lesson);
 
         return course.getParticipants().stream()
