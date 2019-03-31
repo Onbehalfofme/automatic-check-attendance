@@ -46,7 +46,7 @@ public class UserProfile {
     @Convert(converter = DateConverter.class)
     private LocalDate birthday;
 
-    private int group;
+    private int groupNumber;
 
     @OneToMany(mappedBy = "id.student")
     private Collection<LessonStudent> lessonStudents;
