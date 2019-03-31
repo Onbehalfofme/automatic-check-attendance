@@ -20,6 +20,8 @@ public class UserDTO {
 
     private Role role;
 
+    private int group;
+
     @JsonFormat(pattern = "dd.MM.yyyy")
     private LocalDate birthday;
 
@@ -29,6 +31,7 @@ public class UserDTO {
         name = userProfile.getName();
         surname = userProfile.getSurname();
         role = userProfile.getRole();
+        group = userProfile.getGroup();
         birthday = userProfile.getBirthday();
     }
 }
