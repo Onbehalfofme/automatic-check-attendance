@@ -36,6 +36,8 @@ public class LessonStudent {
     }
 
     @EmbeddedId
+    @Column(length = 32)
+    @Enumerated(value = EnumType.STRING)
     private LessonStudentPK id;
 
     @NotNull
