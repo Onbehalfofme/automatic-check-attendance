@@ -97,9 +97,9 @@ with conn.cursor() as cursor:
         name = users[i][3]
 
         cursor.execute(
-            "insert into user_profile (id, birthday, email, surname, password, role, name) "
-            "values (%s, %s, %s, %s, %s, %s, %s)",
-            [user_id, birthday, email, surname, password, role, name])
+            "insert into user_profile (id, birthday, email, surname, password, role, name, group_number) "
+            "values (%s, %s, %s, %s, %s, %s, %s, %s)",
+            [user_id, birthday, email, surname, password, role, name, 0])
     conn.commit()
 
     for i in range(len(courses)):
