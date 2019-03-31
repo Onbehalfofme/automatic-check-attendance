@@ -13,11 +13,6 @@ NUMBER_OF_LESSONS = 100
 courses = ["Software Project", "Introduction to AI", "Networks",
            "Data Modeling and Databases II", "Probability and Statistics"]
 
-users = []
-professors = [["n.shilov@innopolis.ru", None, "Shilov", "Nikolai", None]]
-admins = [["salo@innopolis.ru", None, "Salo", "Maxim", None]]
-does = [["a.dolgoborodov@innopolis.ru", None, "Dolgoborodov", "Aleksandr", None]]
-tas = [["n.bogomazov@innopolis.ru", None, "Bogomazov", "Nikita", None]]
 
 with open("users.txt", "r") as f:
     for line in f:
