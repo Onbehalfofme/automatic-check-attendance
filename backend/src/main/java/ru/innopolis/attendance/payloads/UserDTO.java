@@ -31,7 +31,7 @@ public class UserDTO {
         name = userProfile.getName();
         surname = userProfile.getSurname();
         role = userProfile.getRole();
-        group = userProfile.getGroup();
+        group = userProfile.getGroupNumber();
         birthday = userProfile.getBirthday();
     }
 }
