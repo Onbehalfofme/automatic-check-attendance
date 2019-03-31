@@ -1,19 +1,16 @@
 package ru.innopolis.attendance.payloads;
 
 import lombok.Data;
-import lombok.NonNull;
 import ru.innopolis.attendance.models.Course;
 
 @Data
-public class CoursePayload {
+public class CourseDTO {
 
-    @NonNull
     private long id;
 
-    @NonNull
     private String name;
 
-    public CoursePayload(Course course) {
+    public CourseDTO(Course course) {
         this.id = course.getId();
         this.name = course.getName();
     }

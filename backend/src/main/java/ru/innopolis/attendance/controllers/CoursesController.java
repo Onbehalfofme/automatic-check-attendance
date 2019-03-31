@@ -11,7 +11,7 @@ import ru.innopolis.attendance.data.CourseRepository;
 import ru.innopolis.attendance.data.UserRepository;
 import ru.innopolis.attendance.models.UserProfile;
 import ru.innopolis.attendance.models.UserProfileDetails;
-import ru.innopolis.attendance.payloads.CoursePayload;
+import ru.innopolis.attendance.payloads.CourseDTO;
 import ru.tinkoff.eclair.annotation.Log;
 
 import java.util.Collection;
@@ -36,16 +36,16 @@ public class CoursesController {
     @PreAuthorize("hasAnyRole(" +
             "T(ru.innopolis.attendance.models.Role).ROLE_ADMIN.name()," +
             "T(ru.innopolis.attendance.models.Role).ROLE_DOE.name())")
-    public Collection<CoursePayload> getAll() {
+    public Collection<CourseDTO> getAll() {
         return courseRepository.findAll().stream()
-                .map(CoursePayload::new).collect(Collectors.toList());
+                .map(CourseDTO::new).collect(Collectors.toList());
     }
 
     @Log(LogLevel.INFO)
     @GetMapping("/enrolled")
-    public Collection<CoursePayload> getEnrolledCourses(@AuthenticationPrincipal UserProfileDetails userDetails) {
+    public Collection<CourseDTO> getEnrolledCourses(@AuthenticationPrincipal UserProfileDetails userDetails) {
         UserProfile user = userRepository.getById(userDetails.getId());
         return user.getEnrolledCourses().stream()
-                .map(CoursePayload::new).collect(Collectors.toList());
+                .map(CourseDTO::new).collect(Collectors.toList());
     }
 }

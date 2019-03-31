@@ -13,7 +13,7 @@ import ru.innopolis.attendance.models.Course;
 import ru.innopolis.attendance.models.Role;
 import ru.innopolis.attendance.models.UserProfile;
 import ru.innopolis.attendance.models.UserProfileDetails;
-import ru.innopolis.attendance.payloads.UserPayload;
+import ru.innopolis.attendance.payloads.UserDTO;
 import ru.tinkoff.eclair.annotation.Log;
 
 import java.util.Collection;
@@ -41,9 +41,9 @@ public class UsersController {
             "T(ru.innopolis.attendance.models.Role).ROLE_DOE.name()," +
             "T(ru.innopolis.attendance.models.Role).ROLE_PROFESSOR.name()," +
             "T(ru.innopolis.attendance.models.Role).ROLE_TA.name())")
-    public Collection<UserPayload> getAll() {
+    public Collection<UserDTO> getAll() {
         return userRepository.findAll().stream()
-                .map(UserPayload::new).collect(Collectors.toList());
+                .map(UserDTO::new).collect(Collectors.toList());
     }
 
     @Log(LogLevel.INFO)
@@ -53,14 +53,14 @@ public class UsersController {
             "T(ru.innopolis.attendance.models.Role).ROLE_DOE.name()," +
             "T(ru.innopolis.attendance.models.Role).ROLE_PROFESSOR.name()," +
             "T(ru.innopolis.attendance.models.Role).ROLE_TA.name())")
-    public UserPayload getUser(@PathVariable long id) {
+    public UserDTO getUser(@PathVariable long id) {
         Optional<UserProfile> user = userRepository.findById(id);
 
         if (!user.isPresent()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
         }
 
-        return new UserPayload(user.get());
+        return new UserDTO(user.get());
     }
 
     @Log(LogLevel.INFO)
@@ -70,8 +70,8 @@ public class UsersController {
             "T(ru.innopolis.attendance.models.Role).ROLE_DOE.name()," +
             "T(ru.innopolis.attendance.models.Role).ROLE_PROFESSOR.name()," +
             "T(ru.innopolis.attendance.models.Role).ROLE_TA.name())")
-    public Collection<UserPayload> getCourseParticipants(@AuthenticationPrincipal UserProfileDetails userDetails,
-                                                         @PathVariable long courseId) {
+    public Collection<UserDTO> getCourseParticipants(@AuthenticationPrincipal UserProfileDetails userDetails,
+                                                     @PathVariable long courseId) {
         UserProfile user = userRepository.getById(userDetails.getId());
         if (user.notEnrolled(courseId) &&
                 !(user.getRole() == Role.ROLE_ADMIN || user.getRole() == Role.ROLE_DOE)) {
@@ -84,6 +84,6 @@ public class UsersController {
         }
 
         return course.get().getParticipants().stream()
-                .map(UserPayload::new).collect(Collectors.toList());
+                .map(UserDTO::new).collect(Collectors.toList());
     }
 }

@@ -15,10 +15,10 @@ import ru.innopolis.attendance.configs.TokenAuthenticationProvider;
 import ru.innopolis.attendance.data.UserRepository;
 import ru.innopolis.attendance.models.Role;
 import ru.innopolis.attendance.models.UserProfile;
-import ru.innopolis.attendance.payloads.LogInRequest;
-import ru.innopolis.attendance.payloads.LogInResponse;
-import ru.innopolis.attendance.payloads.SignUpRequest;
-import ru.innopolis.attendance.payloads.UserPayload;
+import ru.innopolis.attendance.payloads.LogInRequestDTO;
+import ru.innopolis.attendance.payloads.LogInResponseDTO;
+import ru.innopolis.attendance.payloads.SignUpRequestDTO;
+import ru.innopolis.attendance.payloads.UserDTO;
 import ru.tinkoff.eclair.annotation.Log;
 
 @RestController
@@ -43,7 +43,7 @@ public class AuthController {
 
     @Log(LogLevel.INFO)
     @PostMapping("/signup")
-    public UserPayload signUp(@RequestBody SignUpRequest user) {
+    public UserDTO signUp(@RequestBody SignUpRequestDTO user) {
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email address is already in use.");
         }
@@ -59,12 +59,12 @@ public class AuthController {
 
         userRepository.save(userProfile);
 
-        return new UserPayload(userProfile);
+        return new UserDTO(userProfile);
     }
 
     @Log(LogLevel.INFO)
     @PostMapping("/login")
-    public LogInResponse logIn(@RequestBody LogInRequest user) {
+    public LogInResponseDTO logIn(@RequestBody LogInRequestDTO user) {
         try {
             Authentication auth = authenticationManager
                     .authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
@@ -72,7 +72,7 @@ public class AuthController {
 
             String token = tokenProvider.createToken(auth);
 
-            return new LogInResponse(token);
+            return new LogInResponseDTO(token);
         } catch (AuthenticationException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid email or password.");
         }

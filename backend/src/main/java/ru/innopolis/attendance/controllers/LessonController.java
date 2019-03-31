@@ -13,9 +13,10 @@ import ru.innopolis.attendance.data.LessonRepository;
 import ru.innopolis.attendance.data.LessonStudentRepository;
 import ru.innopolis.attendance.data.UserRepository;
 import ru.innopolis.attendance.models.*;
-import ru.innopolis.attendance.payloads.LessonPayload;
-import ru.innopolis.attendance.payloads.LessonStudentPayload;
-import ru.innopolis.attendance.payloads.UserPayload;
+import ru.innopolis.attendance.payloads.LessonCreationDTO;
+import ru.innopolis.attendance.payloads.LessonDTO;
+import ru.innopolis.attendance.payloads.LessonStudentDTO;
+import ru.innopolis.attendance.payloads.UserDTO;
 import ru.tinkoff.eclair.annotation.Log;
 
 import java.util.ArrayList;
@@ -45,15 +46,15 @@ public class LessonController {
     }
 
     @Log(LogLevel.INFO)
-    @GetMapping("/{id}")
+    @GetMapping("/{lessonId}")
     @PreAuthorize("hasAnyRole(" +
             "T(ru.innopolis.attendance.models.Role).ROLE_ADMIN.name(), " +
             "T(ru.innopolis.attendance.models.Role).ROLE_DOE.name()," +
             "T(ru.innopolis.attendance.models.Role).ROLE_PROFESSOR.name()," +
             "T(ru.innopolis.attendance.models.Role).ROLE_TA.name())")
-    public LessonPayload getLesson(@AuthenticationPrincipal UserProfileDetails userDetails,
-                                   @PathVariable long id) {
-        Optional<Lesson> lessonCheck = lessonRepository.findById(id);
+    public LessonDTO getLesson(@AuthenticationPrincipal UserProfileDetails userDetails,
+                               @PathVariable long lessonId) {
+        Optional<Lesson> lessonCheck = lessonRepository.findById(lessonId);
         if (!lessonCheck.isPresent()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Lesson fon found.");
         }
@@ -66,7 +67,7 @@ public class LessonController {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
 
-        return new LessonPayload(lesson);
+        return new LessonDTO(lesson);
     }
 
     @Log(LogLevel.INFO)
@@ -74,9 +75,9 @@ public class LessonController {
     @PreAuthorize("hasAnyRole(" +
             "T(ru.innopolis.attendance.models.Role).ROLE_PROFESSOR.name()," +
             "T(ru.innopolis.attendance.models.Role).ROLE_TA.name())")
-    public Collection<UserPayload> createLesson(@AuthenticationPrincipal UserProfileDetails userDetails,
-                                                @RequestBody LessonPayload lessonPayload) {
-        Optional<Course> courseCheck = courseRepository.findById(lessonPayload.getCourseId());
+    public Collection<UserDTO> createLesson(@AuthenticationPrincipal UserProfileDetails userDetails,
+                                            @RequestBody LessonCreationDTO lessonDTO) {
+        Optional<Course> courseCheck = courseRepository.findById(lessonDTO.getCourseId());
         if (!courseCheck.isPresent()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Course doesn't exist.");
         }
@@ -89,13 +90,13 @@ public class LessonController {
 
         Lesson lesson = new Lesson();
         lesson.setCourse(course);
-        lesson.setDateTime(lessonPayload.getDateTime());
-        lesson.setRoom(lessonPayload.getRoom());
-        lesson.setType(lessonPayload.getType());
+        lesson.setDateTime(lessonDTO.getDateTime());
+        lesson.setRoom(lessonDTO.getRoom());
+        lesson.setType(lessonDTO.getType());
         lessonRepository.save(lesson);
 
         return course.getParticipants().stream()
-                .map(UserPayload::new).collect(Collectors.toList());
+                .map(UserDTO::new).collect(Collectors.toList());
     }
 
     @Transactional
@@ -105,28 +106,30 @@ public class LessonController {
             "T(ru.innopolis.attendance.models.Role).ROLE_ADMIN.name(), " +
             "T(ru.innopolis.attendance.models.Role).ROLE_PROFESSOR.name()," +
             "T(ru.innopolis.attendance.models.Role).ROLE_TA.name())")
-    public LessonPayload updateStudents(@PathVariable long lessonId,
-                                        Collection<LessonStudentPayload> studentsPayload) {
+    public LessonDTO updateStudents(@PathVariable long lessonId,
+                                    @RequestBody Collection<LessonStudentDTO> studentDTOs) {
         Optional<Lesson> lessonCheck = lessonRepository.findById(lessonId);
         if (!lessonCheck.isPresent()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Lesson not found.");
         }
+
         Lesson lesson = lessonCheck.get();
 
-        List<LessonStudent> students = new ArrayList<>();
+        List<LessonStudent> students = new ArrayList<>(studentDTOs.size());
 
-        for (LessonStudentPayload studentPayload : studentsPayload) {
-            Optional<UserProfile> userCheck = userRepository.findById(studentPayload.getStudentId());
+        for (LessonStudentDTO studentDTO : studentDTOs) {
+            Optional<UserProfile> userCheck = userRepository.findById(studentDTO.getStudentId());
             if (!userCheck.isPresent()) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User doesn't exist.");
             }
+
             UserProfile user = userCheck.get();
 
             LessonStudent lessonStudent = new LessonStudent();
             lessonStudent.setId(new LessonStudent.LessonStudentPK(lesson, user));
-            lessonStudent.setAttendance(studentPayload.getAttendance());
-            lessonStudent.setCheckInTime(studentPayload.getCheckIn());
-            lessonStudent.setCheckOutTime(studentPayload.getCheckOut());
+            lessonStudent.setAttendance(studentDTO.getAttendance());
+            lessonStudent.setCheckInTime(studentDTO.getCheckIn());
+            lessonStudent.setCheckOutTime(studentDTO.getCheckOut());
             students.add(lessonStudentRepository.save(lessonStudent));
         }
 
@@ -134,6 +137,6 @@ public class LessonController {
 
         lessonRepository.save(lesson);
 
-        return new LessonPayload(lesson);
+        return new LessonDTO(lesson);
     }
 }
