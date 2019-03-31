@@ -36,11 +36,11 @@ public class LessonStudent {
     }
 
     @EmbeddedId
-    @Column(length = 32)
-    @Enumerated(value = EnumType.STRING)
     private LessonStudentPK id;
 
     @NotNull
+    @Column(length = 32)
+    @Enumerated(value = EnumType.STRING)
     private AttendanceType attendance;
 
     @Convert(converter = DateTimeConverter.class)
