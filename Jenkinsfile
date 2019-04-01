@@ -18,7 +18,7 @@ node {
             frontend = docker.build("onbehalfofme/attendance", "./frontend")
              withDockerContainer(args: "-u root", image: "onbehalfofme/attendance") {
                         sh 'npm install --save axios vue-axios'
-                        sh 'npm install'
+
                         sh 'npm run build'
                     }
         }
