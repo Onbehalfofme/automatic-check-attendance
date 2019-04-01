@@ -7,13 +7,21 @@ node {
         sh 'cd backend/ && ./gradlew build --no-daemon'
     }
     stage('Backend image build') {
-        app = docker.build("onbehalfofme/attendance", "./backend")
+        backend = docker.build("onbehalfofme/attendance", "./backend")
     }
-    stage('Push'){
+    stage('Push backend image'){
         docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
-        app.push("backend")
+        backend.push("backend")
         }
     }
+     stage('Frontend image build') {
+            frontend = docker.build("onbehalfofme/attendance", "./frontend")
+        }
+        stage('Push frontend image'){
+            docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+            backend.push("frontend")
+            }
+        }
     stage('Deploy'){
         sh 'ssh project@134.209.227.130 "./deploy.sh"'
     }

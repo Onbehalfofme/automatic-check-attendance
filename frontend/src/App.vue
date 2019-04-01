@@ -31,9 +31,9 @@
     },
     methods: {
       getAllGoods: function(email, password) {
-        //maximisverypidor
+     
         const instance = axios.create({
-          baseURL: "http://134.209.227.130",
+          baseURL: "http://134.209.227.130:8080",
           headers: {
             "Content-Type": "application/json; charset=UTF-8",
             "Access-Control-Allow-Origin": "*",

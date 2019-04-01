@@ -2,7 +2,7 @@
 
 ## It's our private repo, which is public only for our stakeholder, so we don't give a damn in securing our data (though we do)
 
-### The project is developing by:
+### The project is being developed by:
 * Anastassiya Boiko
 * Anastasiia Gromova
 * Danila Kochan
