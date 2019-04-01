@@ -1,4 +1,4 @@
-package ru.innopolis.attendance.payloads;
+package ru.innopolis.attendance.DTOs;
 
 import lombok.Data;
 

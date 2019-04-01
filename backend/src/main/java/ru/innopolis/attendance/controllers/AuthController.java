@@ -9,16 +9,17 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import ru.innopolis.attendance.configs.TokenAuthenticationProvider;
 import ru.innopolis.attendance.data.UserRepository;
 import ru.innopolis.attendance.models.Role;
 import ru.innopolis.attendance.models.UserProfile;
-import ru.innopolis.attendance.payloads.LogInRequestDTO;
-import ru.innopolis.attendance.payloads.LogInResponseDTO;
-import ru.innopolis.attendance.payloads.SignUpRequestDTO;
-import ru.innopolis.attendance.payloads.UserDTO;
+import ru.innopolis.attendance.DTOs.LogInRequestDTO;
+import ru.innopolis.attendance.DTOs.LogInResponseDTO;
+import ru.innopolis.attendance.DTOs.SignUpRequestDTO;
+import ru.innopolis.attendance.DTOs.UserDTO;
 import ru.tinkoff.eclair.annotation.Log;
 
 @RestController
@@ -41,6 +42,7 @@ public class AuthController {
         this.passwordEncoder = passwordEncoder;
     }
 
+    @Transactional
     @Log(LogLevel.INFO)
     @PostMapping("/signup")
     public UserDTO signUp(@RequestBody SignUpRequestDTO user) {
@@ -62,6 +64,7 @@ public class AuthController {
         return new UserDTO(userProfile);
     }
 
+    @Transactional
     @Log(LogLevel.INFO)
     @PostMapping("/login")
     public LogInResponseDTO logIn(@RequestBody LogInRequestDTO user) {

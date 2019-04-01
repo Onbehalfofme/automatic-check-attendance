@@ -1,4 +1,4 @@
-package ru.innopolis.attendance.payloads;
+package ru.innopolis.attendance.DTOs;
 
 import lombok.Data;
 import ru.innopolis.attendance.models.Course;
@@ -6,7 +6,7 @@ import ru.innopolis.attendance.models.Course;
 @Data
 public class CourseDTO {
 
-    private long id;
+    private Long id;
 
     private String name;
 

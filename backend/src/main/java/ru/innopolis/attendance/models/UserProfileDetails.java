@@ -9,7 +9,7 @@ import java.util.Collections;
 
 public class UserProfileDetails implements UserDetails {
 
-    private long id;
+    private Long id;
 
     private String email;
 

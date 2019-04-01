@@ -13,7 +13,7 @@ import ru.innopolis.attendance.models.Course;
 import ru.innopolis.attendance.models.Role;
 import ru.innopolis.attendance.models.UserProfile;
 import ru.innopolis.attendance.models.UserProfileDetails;
-import ru.innopolis.attendance.payloads.UserDTO;
+import ru.innopolis.attendance.DTOs.UserDTO;
 import ru.tinkoff.eclair.annotation.Log;
 
 import java.util.Collection;

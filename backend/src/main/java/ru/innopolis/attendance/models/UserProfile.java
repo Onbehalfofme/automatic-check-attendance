@@ -19,7 +19,7 @@ public class UserProfile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
 
     @NotNull
     @Column(unique = true)
@@ -46,7 +46,7 @@ public class UserProfile {
     @Convert(converter = DateConverter.class)
     private LocalDate birthday;
 
-    private int groupNumber = 0;
+    private Short groupNumber = 0;
 
     @OneToMany(mappedBy = "id.student")
     private Collection<LessonStudent> lessonStudents;
