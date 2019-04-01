@@ -14,10 +14,10 @@ node {
         backend.push("backend")
         }
     }
-     stage('Backend image build') {
+     stage('Frontend image build') {
             frontend = docker.build("onbehalfofme/attendance", "./frontend")
         }
-        stage('Push backend image'){
+        stage('Push frontend image'){
             docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
             backend.push("frontend")
             }
