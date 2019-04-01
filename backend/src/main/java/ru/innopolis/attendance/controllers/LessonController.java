@@ -2,6 +2,9 @@ package ru.innopolis.attendance.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.logging.LogLevel;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -13,12 +16,12 @@ import ru.innopolis.attendance.data.LessonRepository;
 import ru.innopolis.attendance.data.LessonStudentRepository;
 import ru.innopolis.attendance.data.UserRepository;
 import ru.innopolis.attendance.models.*;
-import ru.innopolis.attendance.payloads.LessonCreationDTO;
-import ru.innopolis.attendance.payloads.LessonDTO;
-import ru.innopolis.attendance.payloads.LessonStudentDTO;
-import ru.innopolis.attendance.payloads.UserDTO;
+import ru.innopolis.attendance.DTOs.*;
+import ru.innopolis.attendance.specifications.LessonSpecifications;
 import ru.tinkoff.eclair.annotation.Log;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -70,13 +73,14 @@ public class LessonController {
         return new LessonDTO(lesson);
     }
 
+    @Transactional
     @Log(LogLevel.INFO)
     @PostMapping("/create")
     @PreAuthorize("hasAnyRole(" +
             "T(ru.innopolis.attendance.models.Role).ROLE_PROFESSOR.name()," +
             "T(ru.innopolis.attendance.models.Role).ROLE_TA.name())")
-    public Collection<UserDTO> createLesson(@AuthenticationPrincipal UserProfileDetails userDetails,
-                                            @RequestBody LessonCreationDTO lessonDTO) {
+    public LessonCreationResponseDTO createLesson(@AuthenticationPrincipal UserProfileDetails userDetails,
+                                                  @RequestBody LessonCreationRequestDTO lessonDTO) {
         Optional<Course> courseCheck = courseRepository.findById(lessonDTO.getCourseId());
         if (!courseCheck.isPresent()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Course doesn't exist.");
@@ -94,10 +98,11 @@ public class LessonController {
         lesson.setRoom(lessonDTO.getRoom());
         lesson.setType(lessonDTO.getType());
         lesson.setTeacher(user);
-        lessonRepository.save(lesson);
+        Long lessonId = lessonRepository.save(lesson).getId();
 
-        return course.getParticipants().stream()
-                .map(UserDTO::new).collect(Collectors.toList());
+        return new LessonCreationResponseDTO(lessonId,
+                course.getParticipants().stream()
+                        .map(UserDTO::new).collect(Collectors.toList()));
     }
 
     @Transactional
@@ -139,5 +144,44 @@ public class LessonController {
         lessonRepository.save(lesson);
 
         return new LessonDTO(lesson);
+    }
+
+    @Log(LogLevel.INFO)
+    @GetMapping("/search")
+    public Collection<LessonSearchDTO> getLessons(@AuthenticationPrincipal UserProfileDetails userProfile,
+                                                  @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm") @RequestParam(required = false) LocalDateTime after,
+                                                  @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm") @RequestParam(required = false) LocalDateTime before,
+                                                  @RequestParam(required = false) String teacher,
+                                                  @RequestParam(required = false) LessonType type,
+                                                  @RequestParam(required = false) String course,
+                                                  @RequestParam(required = false) String room) {
+        Specification<Lesson> specs = Specification.where(
+                LessonSpecifications.getLessonAfter(after)
+                        .and(LessonSpecifications.getLessonBefore(before))
+                        .and(LessonSpecifications.getLessonInRoom(room))
+                        .and(LessonSpecifications.getLessonWithCourseName(course))
+                        .and(LessonSpecifications.getLessonWithTeacher(teacher))
+                        .and(LessonSpecifications.getLessonWithType(type))
+        );
+        UserProfile user = userRepository.getById(userProfile.getId());
+        if (user.getRole() != Role.ROLE_ADMIN && user.getRole() != Role.ROLE_DOE) {
+            specs.and(LessonSpecifications.getLessonWithinCourses(user.getEnrolledCourses()));
+        }
+        return lessonRepository.findAll(specs, new Sort(Sort.Direction.ASC, Lesson_.dateTime.getName())).stream()
+                .map(LessonSearchDTO::new).collect(Collectors.toList());
+    }
+
+    @Log(LogLevel.INFO)
+    @GetMapping("/daily")
+    @PreAuthorize("hasRole(T(ru.innopolis.attendance.models.Role).ROLE_STUDENT.name())")
+    public Collection<LessonSearchStudentDTO> getStudentsLessons(@AuthenticationPrincipal UserProfileDetails userProfile,
+                                                                 @DateTimeFormat(pattern = "dd.MM.yyyy") @RequestParam LocalDate date) {
+        UserProfile user = userRepository.getById(userProfile.getId());
+        Specification<Lesson> specs = Specification.where(
+                LessonSpecifications.getLessonOnDate(date)
+                        .and(LessonSpecifications.getLessonWithinCourses(user.getEnrolledCourses()))
+        );
+        return lessonRepository.findAll(specs, new Sort(Sort.Direction.ASC, Lesson_.dateTime.getName())).stream()
+                .map(lesson -> new LessonSearchStudentDTO(lesson, user.getId())).collect(Collectors.toList());
     }
 }

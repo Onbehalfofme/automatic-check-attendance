@@ -1,4 +1,4 @@
-package ru.innopolis.attendance.payloads;
+package ru.innopolis.attendance.DTOs;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Data
 public class LessonStudentDTO {
 
-    private long studentId;
+    private Long studentId;
 
     private AttendanceType attendance;
 
@@ -22,6 +22,7 @@ public class LessonStudentDTO {
 
     LessonStudentDTO(LessonStudent lessonStudent) {
         studentId = lessonStudent.getId().getStudent().getId();
+        attendance = lessonStudent.getAttendance();
         checkIn = lessonStudent.getCheckInTime();
         checkOut = lessonStudent.getCheckOutTime();
     }

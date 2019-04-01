@@ -1,4 +1,4 @@
-package ru.innopolis.attendance.payloads;
+package ru.innopolis.attendance.DTOs;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
@@ -6,15 +6,15 @@ import ru.innopolis.attendance.models.Lesson;
 import ru.innopolis.attendance.models.LessonType;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.stream.Collectors;
 
 @Data
-public class LessonDTO {
+public class LessonSearchDTO {
 
-    private long id;
+    private Long id;
 
-    private long courseId;
+    private CourseDTO course;
+
+    private UserDTO teacher;
 
     private LessonType type;
 
@@ -23,16 +23,12 @@ public class LessonDTO {
 
     private String room;
 
-    private Collection<LessonStudentDTO> students;
-
-    public LessonDTO(Lesson lesson) {
+    public LessonSearchDTO(Lesson lesson) {
         id = lesson.getId();
-        courseId = lesson.getCourse().getId();
+        course = new CourseDTO(lesson.getCourse());
+        teacher = new UserDTO(lesson.getTeacher());
         type = lesson.getType();
         dateTime = lesson.getDateTime();
         room = lesson.getRoom();
-        students = lesson.getLessonStudents().stream()
-                .map(LessonStudentDTO::new)
-                .collect(Collectors.toList());
     }
 }
