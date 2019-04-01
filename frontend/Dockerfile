@@ -1,7 +1,10 @@
 FROM node:10
+ENV HOME .
 COPY ./ /app
 WORKDIR /app
+RUN npm install --save axios vue-axios
 RUN npm install
+RUN npm run build
 
 FROM nginx
 RUN mkdir /app
