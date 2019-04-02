@@ -20,7 +20,7 @@ public class LessonDTO {
 
     private LessonType type;
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "dd.MM.yyyy HH:mm")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime dateTime;
 
     private String room;

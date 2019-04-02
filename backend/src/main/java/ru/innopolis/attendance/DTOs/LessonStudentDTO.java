@@ -14,10 +14,10 @@ public class LessonStudentDTO {
 
     private AttendanceType attendance;
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "dd.MM.yyyy HH:mm")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime checkIn;
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "dd.MM.yyyy HH:mm")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime checkOut;
 
     public LessonStudentDTO(LessonStudent lessonStudent) {

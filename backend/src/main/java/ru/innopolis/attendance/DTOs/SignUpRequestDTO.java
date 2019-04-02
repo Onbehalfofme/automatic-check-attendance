@@ -16,7 +16,7 @@ public class SignUpRequestDTO {
 
     private String surname;
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "dd.MM.yyyy")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "yyyy-MM-dd")
     private LocalDate birthday;
 
 //    public SignUpRequestDTO(String email,
