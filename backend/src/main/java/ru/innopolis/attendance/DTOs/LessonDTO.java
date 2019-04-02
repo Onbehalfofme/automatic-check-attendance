@@ -1,6 +1,7 @@
 package ru.innopolis.attendance.DTOs;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import ru.innopolis.attendance.models.Lesson;
 import ru.innopolis.attendance.models.LessonType;
@@ -10,6 +11,7 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 
 @Data
+@AllArgsConstructor
 public class LessonDTO {
 
     private Long id;

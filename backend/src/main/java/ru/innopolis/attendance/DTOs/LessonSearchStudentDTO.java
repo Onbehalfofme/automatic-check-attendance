@@ -1,6 +1,7 @@
 package ru.innopolis.attendance.DTOs;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import ru.innopolis.attendance.models.*;
 
@@ -8,6 +9,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Data
+@AllArgsConstructor
 public class LessonSearchStudentDTO {
 
     private Long id;

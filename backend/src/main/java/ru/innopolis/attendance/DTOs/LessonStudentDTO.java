@@ -1,6 +1,7 @@
 package ru.innopolis.attendance.DTOs;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import ru.innopolis.attendance.models.AttendanceType;
 import ru.innopolis.attendance.models.LessonStudent;
@@ -8,6 +9,7 @@ import ru.innopolis.attendance.models.LessonStudent;
 import java.time.LocalDateTime;
 
 @Data
+@AllArgsConstructor
 public class LessonStudentDTO {
 
     private Long studentId;

@@ -1,6 +1,7 @@
 package ru.innopolis.attendance.DTOs;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import ru.innopolis.attendance.models.Role;
 import ru.innopolis.attendance.models.UserProfile;
@@ -8,6 +9,7 @@ import ru.innopolis.attendance.models.UserProfile;
 import java.time.LocalDate;
 
 @Data
+@AllArgsConstructor
 public class UserDTO {
 
     private Long id;

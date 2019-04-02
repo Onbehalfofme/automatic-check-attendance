@@ -1,9 +1,11 @@
 package ru.innopolis.attendance.DTOs;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import ru.innopolis.attendance.models.Course;
 
 @Data
+@AllArgsConstructor
 public class CourseDTO {
 
     private Long id;

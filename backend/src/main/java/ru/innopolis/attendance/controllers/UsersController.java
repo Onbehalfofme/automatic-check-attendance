@@ -66,7 +66,7 @@ public class UsersController {
     @Log(LogLevel.INFO)
     @GetMapping("/course/{courseId}")
     @PreAuthorize("hasAnyRole(" +
-            "T(ru.innopolis.attendance.models.Role).ROLE_ADMIN.name(), " +
+            "T(ru.innopolis.attendance.models.Role).ROLE_ADMIN.name()," +
             "T(ru.innopolis.attendance.models.Role).ROLE_DOE.name()," +
             "T(ru.innopolis.attendance.models.Role).ROLE_PROFESSOR.name()," +
             "T(ru.innopolis.attendance.models.Role).ROLE_TA.name())")

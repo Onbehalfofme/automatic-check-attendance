@@ -51,7 +51,7 @@ public class LessonController {
     @Log(LogLevel.INFO)
     @GetMapping("/{lessonId}")
     @PreAuthorize("hasAnyRole(" +
-            "T(ru.innopolis.attendance.models.Role).ROLE_ADMIN.name(), " +
+            "T(ru.innopolis.attendance.models.Role).ROLE_ADMIN.name()," +
             "T(ru.innopolis.attendance.models.Role).ROLE_DOE.name()," +
             "T(ru.innopolis.attendance.models.Role).ROLE_PROFESSOR.name()," +
             "T(ru.innopolis.attendance.models.Role).ROLE_TA.name())")
@@ -109,7 +109,7 @@ public class LessonController {
     @Log(LogLevel.INFO)
     @PatchMapping("/update/{lessonId}")
     @PreAuthorize("hasAnyRole(" +
-            "T(ru.innopolis.attendance.models.Role).ROLE_ADMIN.name(), " +
+            "T(ru.innopolis.attendance.models.Role).ROLE_ADMIN.name()," +
             "T(ru.innopolis.attendance.models.Role).ROLE_PROFESSOR.name()," +
             "T(ru.innopolis.attendance.models.Role).ROLE_TA.name())")
     public LessonDTO updateStudents(@PathVariable long lessonId,
