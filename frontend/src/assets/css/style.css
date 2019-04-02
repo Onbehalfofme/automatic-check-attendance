@@ -410,3 +410,39 @@ body {
     width: 96%;
     margin: 15px 30px 8px;
 }
+user-table {
+    float: top;
+
+    margin: 20px 30px 0;
+    box-shadow: 0 0 6px 0 rgba(25, 25, 34, .16);
+    border-radius: 4px;
+}
+
+.user-table button {
+    background: #23C664;
+    width: 90px;
+    height: 30px;
+    font-family: "Quicksand", sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    color: #FFFFFF;
+    border-radius: 5px;
+    border: 0;
+    outline: 0;
+    padding: 6px 0 10px;
+    margin: 7px 50px 20px 0;
+    float: right;
+}
+
+.user-table td {
+    padding: 0;
+    width: 150px;
+}
+
+.input-group {
+    width: 100%;
+    height: 100%;
+    margin: auto ;
+}
+

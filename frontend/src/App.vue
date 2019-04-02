@@ -1,4 +1,5 @@
-<template>
+
+<template lang="eng">
   <div id="app">
     <login v-if="!token.length" @ChangeToken="token = $event" />
     <home v-if="token.length" @ChangeToken="token = $event" />
@@ -24,6 +25,6 @@ export default {
 </script>
 
 <style lang="css">
-@import "assets/css/style.css";
-@import url('https://fonts.googleapis.com/css?family=Quicksand');
+  @import "assets/css/style.css";
+  @import url('https://fonts.googleapis.com/css?family=Quicksand');
 </style>

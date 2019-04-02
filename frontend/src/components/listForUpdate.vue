@@ -1,6 +1,7 @@
 <template>
   <div class="user-panel">
     <div class="header">Software project</div>
+    <br>
     <b-input-group>
       <b-form-input
         class="search"
