@@ -2,6 +2,7 @@ package ru.innopolis.attendance.DTOs;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import ru.innopolis.attendance.models.*;
 
@@ -9,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Data
+@NoArgsConstructor
 public class LessonSearchStudentDTO {
 
     private Long id;
@@ -39,21 +41,5 @@ public class LessonSearchStudentDTO {
                         lessonStudent.getId().getStudent().getId()
                                 .equals(studentId)).findFirst();
         attendance = userCheck.map(LessonStudent::getAttendance).orElse(null);
-    }
-
-    public LessonSearchStudentDTO(Long id,
-                                  CourseDTO course,
-                                  UserDTO teacher,
-                                  LessonType type,
-                                  @JsonFormat(pattern = "dd.MM.yyyy HH:mm") @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm") LocalDateTime dateTime,
-                                  String room,
-                                  AttendanceType attendance) {
-        this.id = id;
-        this.course = course;
-        this.teacher = teacher;
-        this.type = type;
-        this.dateTime = dateTime;
-        this.room = room;
-        this.attendance = attendance;
     }
 }

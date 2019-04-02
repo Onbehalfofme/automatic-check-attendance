@@ -2,6 +2,7 @@ package ru.innopolis.attendance.DTOs;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import ru.innopolis.attendance.models.Role;
 import ru.innopolis.attendance.models.UserProfile;
@@ -9,6 +10,7 @@ import ru.innopolis.attendance.models.UserProfile;
 import java.time.LocalDate;
 
 @Data
+@NoArgsConstructor
 public class UserDTO {
 
     private Long id;
@@ -35,21 +37,5 @@ public class UserDTO {
         role = userProfile.getRole();
         group = userProfile.getGroupNumber();
         birthday = userProfile.getBirthday();
-    }
-
-    public UserDTO(Long id,
-                   String email,
-                   String name,
-                   String surname,
-                   Role role,
-                   Short group,
-                   @JsonFormat(pattern = "dd.MM.yyyy") @DateTimeFormat(pattern = "dd.MM.yyyy") LocalDate birthday) {
-        this.id = id;
-        this.email = email;
-        this.name = name;
-        this.surname = surname;
-        this.role = role;
-        this.group = group;
-        this.birthday = birthday;
     }
 }

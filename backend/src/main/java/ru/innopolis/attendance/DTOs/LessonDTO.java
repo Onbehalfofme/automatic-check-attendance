@@ -2,6 +2,7 @@ package ru.innopolis.attendance.DTOs;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import ru.innopolis.attendance.models.Lesson;
 import ru.innopolis.attendance.models.LessonType;
@@ -11,6 +12,7 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 
 @Data
+@NoArgsConstructor
 public class LessonDTO {
 
     private Long id;
@@ -39,21 +41,5 @@ public class LessonDTO {
         students = lesson.getLessonStudents().stream()
                 .map(LessonStudentNameDTO::new)
                 .collect(Collectors.toList());
-    }
-
-    public LessonDTO(Long id,
-                     CourseDTO course,
-                     UserDTO teacher,
-                     LessonType type,
-                     @JsonFormat(pattern = "dd.MM.yyyy HH:mm") @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm") LocalDateTime dateTime,
-                     String room,
-                     Collection<LessonStudentNameDTO> students) {
-        this.id = id;
-        this.course = course;
-        this.teacher = teacher;
-        this.type = type;
-        this.dateTime = dateTime;
-        this.room = room;
-        this.students = students;
     }
 }
