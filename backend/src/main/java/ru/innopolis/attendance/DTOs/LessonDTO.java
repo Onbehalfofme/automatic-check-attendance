@@ -20,12 +20,12 @@ public class LessonDTO {
 
     private LessonType type;
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd'T'HH:mm")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "dd.MM.yyyy HH:mm")
     private LocalDateTime dateTime;
 
     private String room;
 
-    private Collection<LessonStudentDTO> students;
+    private Collection<LessonStudentNameDTO> students;
 
     public LessonDTO(Lesson lesson) {
         id = lesson.getId();
@@ -35,7 +35,7 @@ public class LessonDTO {
         dateTime = lesson.getDateTime();
         room = lesson.getRoom();
         students = lesson.getLessonStudents().stream()
-                .map(LessonStudentDTO::new)
+                .map(LessonStudentNameDTO::new)
                 .collect(Collectors.toList());
     }
 
@@ -45,7 +45,7 @@ public class LessonDTO {
 //                     LessonType type,
 //                     LocalDateTime dateTime,
 //                     String room,
-//                     Collection<LessonStudentDTO> students) {
+//                     Collection<LessonStudentNameDTO> students) {
 //        this.id = id;
 //        this.course = course;
 //        this.teacher = teacher;

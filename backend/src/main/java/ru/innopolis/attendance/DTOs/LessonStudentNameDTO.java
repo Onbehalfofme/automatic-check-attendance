@@ -8,9 +8,9 @@ import ru.innopolis.attendance.models.LessonStudent;
 import java.time.LocalDateTime;
 
 @Data
-public class LessonStudentDTO {
+public class LessonStudentNameDTO {
 
-    private Long studentId;
+    private UserDTO student;
 
     private AttendanceType attendance;
 
@@ -20,18 +20,18 @@ public class LessonStudentDTO {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "dd.MM.yyyy HH:mm")
     private LocalDateTime checkOut;
 
-    public LessonStudentDTO(LessonStudent lessonStudent) {
-        studentId = lessonStudent.getId().getStudent().getId();
+    public LessonStudentNameDTO(LessonStudent lessonStudent) {
+        student = new UserDTO(lessonStudent.getId().getStudent());
         attendance = lessonStudent.getAttendance();
         checkIn = lessonStudent.getCheckInTime();
         checkOut = lessonStudent.getCheckOutTime();
     }
 
-    public LessonStudentDTO(Long studentId,
-                            AttendanceType attendance,
-                            LocalDateTime checkIn,
-                            LocalDateTime checkOut) {
-        this.studentId = studentId;
+    public LessonStudentNameDTO(UserDTO student,
+                                AttendanceType attendance,
+                                LocalDateTime checkIn,
+                                LocalDateTime checkOut) {
+        this.student = student;
         this.attendance = attendance;
         this.checkIn = checkIn;
         this.checkOut = checkOut;
