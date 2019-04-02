@@ -60,6 +60,10 @@ export default {
         checkOut: {
           label: "Check-out",
           sortable: true
+        },
+        checkflag: {
+          label: "Check-flag",
+          sortable: true
         }
       },
       checkIn: Array,
@@ -73,11 +77,14 @@ export default {
 
   created: function() {
     this.getUsers(
-      this.info.courseId,
-      this.info.lectureDate,
-      this.info.lectureTime,
+      this.info.course,
+      this.info.bLectureDate,
+      this.info.bLectureTime,
+      this.info.aLectureDate,
+      this.info.aLectureTime,
       this.info.room,
-      this.info.type
+      this.info.type,
+      this.info.lectureTeacher
     );
   },
 
@@ -99,8 +106,14 @@ export default {
       let newVersion = [];
       let index;
       for (index = 0; index < items.length; ++index) {
-        let dateTime1 = moment(this.info.lectureDate).format("YYYY-MM-DD") + "T" + items[index].checkIn;
-        let dateTime2 = moment(this.info.lectureDate).format("YYYY-MM-DD") + "T" + items[index].checkOut;
+        let dateTime1 =
+          moment(this.info.lectureDate).format("MM.DD.YYYY") +
+          " " +
+          items[index].checkIn;
+        let dateTime2 =
+          moment(this.info.lectureDate).format("MM.DD.YYYY") +
+          " " +
+          items[index].checkOut;
         newVersion.push({
           attendance: "PRESENT",
           checkIn: dateTime1,
@@ -110,7 +123,16 @@ export default {
       }
       this.selected = newVersion;
     },
-    getUsers: function(courseId, lectureDate, lectureTime, room, type) {
+    getUsers: function(
+      course,
+      bLectureDate,
+      bLectureTime,
+      aLectureDate,
+      aLectureTime,
+      room,
+      type,
+      teacher
+    ) {
       const AXIOS = axios.create({
         baseURL: "http://134.209.227.130:8080",
         headers: {
@@ -119,13 +141,22 @@ export default {
           "Access-Control-Allow-Origin": "*"
         }
       });
-      let dateTime = moment(lectureDate).format("YYYY-MM-DD") + "T" + lectureTime;
-      AXIOS.post("/lesson/create", { courseId, dateTime, room, type }).then(
-        response => {
-          this.users = response.data.students;
-          this.lessonId = response.data.lessonId;
+      let after =
+        moment(aLectureDate).format("YYYY-MM-DD") + "T" + aLectureTime;
+      let before =
+        moment(bLectureDate).format("YYYY-MM-DD") + "T" + bLectureTime;
+      AXIOS.get("/lesson/search", {
+        params: {
+          course,
+          after,
+          before,
+          room,
+          type,
+          teacher
         }
-      );
+      }).then(response => {
+        this.lessonId = response.data.lessonId;
+      });
     }
   }
 };

@@ -38,7 +38,6 @@
 </template>
 
 <script>
-import moment from "moment";
 import axios from "axios";
 
 export default {
@@ -76,9 +75,10 @@ export default {
     },
 
     getUsers: function(courseId, type, room, lectureDate, lectureTime) {
-      let dateTime = moment(lectureDate).format("MM.DD.YYYY") + " " + lectureTime;
-      this.$emit("getLessInfo", {courseId, type, room, dateTime});
+      this.$emit("getLessInfo", {courseId, type, room, lectureDate, lectureTime});
       this.$emit("showContent", true);
+      this.$emit("closeTab", false);
+      this.$emit("closeToolBar", "");
     }
   }
 };

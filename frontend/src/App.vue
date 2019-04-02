@@ -25,5 +25,5 @@ export default {
 
 <style lang="css">
 @import "assets/css/style.css";
-@import url("https://fonts.googleapis.com/css?family=Quicksand:300");
+@import url('https://fonts.googleapis.com/css?family=Quicksand');
 </style>
