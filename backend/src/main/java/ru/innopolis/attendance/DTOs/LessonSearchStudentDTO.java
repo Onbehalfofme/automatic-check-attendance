@@ -19,7 +19,8 @@ public class LessonSearchStudentDTO {
 
     private LessonType type;
 
-//    @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm")
+    @JsonFormat(pattern = "dd.MM.yyyy HH:mm")
+    @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm")
     private LocalDateTime dateTime;
 
     private String room;
@@ -44,7 +45,7 @@ public class LessonSearchStudentDTO {
                                   CourseDTO course,
                                   UserDTO teacher,
                                   LessonType type,
-                                  @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm") LocalDateTime dateTime,
+                                  @JsonFormat(pattern = "dd.MM.yyyy HH:mm") @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm") LocalDateTime dateTime,
                                   String room,
                                   AttendanceType attendance) {
         this.id = id;

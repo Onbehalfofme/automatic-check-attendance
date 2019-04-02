@@ -17,14 +17,15 @@ public class SignUpRequestDTO {
 
     private String surname;
 
-//    @DateTimeFormat(pattern = "dd.MM.yyyy")
+    @JsonFormat(pattern = "dd.MM.yyyy")
+    @DateTimeFormat(pattern = "dd.MM.yyyy")
     private LocalDate birthday;
 
     public SignUpRequestDTO(String email,
                             String password,
                             String name,
                             String surname,
-                            @DateTimeFormat(pattern = "dd.MM.yyyy") LocalDate birthday) {
+                            @JsonFormat(pattern = "dd.MM.yyyy") @DateTimeFormat(pattern = "dd.MM.yyyy") LocalDate birthday) {
         this.email = email;
         this.password = password;
         this.name = name;

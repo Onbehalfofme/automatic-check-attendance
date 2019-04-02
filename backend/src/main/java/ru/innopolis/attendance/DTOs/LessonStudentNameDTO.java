@@ -15,10 +15,12 @@ public class LessonStudentNameDTO {
 
     private AttendanceType attendance;
 
-//    @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm")
+    @JsonFormat(pattern = "dd.MM.yyyy HH:mm")
+    @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm")
     private LocalDateTime checkIn;
 
-//    @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm")
+    @JsonFormat(pattern = "dd.MM.yyyy HH:mm")
+    @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm")
     private LocalDateTime checkOut;
 
     public LessonStudentNameDTO(LessonStudent lessonStudent) {
@@ -30,8 +32,8 @@ public class LessonStudentNameDTO {
 
     public LessonStudentNameDTO(UserDTO student,
                                 AttendanceType attendance,
-                                @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm") LocalDateTime checkIn,
-                                @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm") LocalDateTime checkOut) {
+                                @JsonFormat(pattern = "dd.MM.yyyy HH:mm") @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm") LocalDateTime checkIn,
+                                @JsonFormat(pattern = "dd.MM.yyyy HH:mm") @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm") LocalDateTime checkOut) {
         this.student = student;
         this.attendance = attendance;
         this.checkIn = checkIn;

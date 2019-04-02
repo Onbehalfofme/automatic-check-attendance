@@ -1,5 +1,6 @@
 package ru.innopolis.attendance.DTOs;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 import ru.innopolis.attendance.models.LessonType;
@@ -13,14 +14,15 @@ public class LessonCreationRequestDTO {
 
     private LessonType type;
 
-//    @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm")
+    @JsonFormat(pattern = "dd.MM.yyyy HH:mm")
+    @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm")
     private LocalDateTime dateTime;
 
     private String room;
 
     public LessonCreationRequestDTO(Long courseId,
                                     LessonType type,
-                                    @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm") LocalDateTime dateTime,
+                                    @JsonFormat(pattern = "dd.MM.yyyy HH:mm") @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm") LocalDateTime dateTime,
                                     String room) {
         this.courseId = courseId;
         this.type = type;

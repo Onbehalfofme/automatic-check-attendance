@@ -23,7 +23,8 @@ public class UserDTO {
 
     private Short group;
 
-//    @DateTimeFormat(pattern = "dd.MM.yyyy")
+    @JsonFormat(pattern = "dd.MM.yyyy")
+    @DateTimeFormat(pattern = "dd.MM.yyyy")
     private LocalDate birthday;
 
     public UserDTO(UserProfile userProfile) {
@@ -42,7 +43,7 @@ public class UserDTO {
                    String surname,
                    Role role,
                    Short group,
-                   @DateTimeFormat(pattern = "dd.MM.yyyy") LocalDate birthday) {
+                   @JsonFormat(pattern = "dd.MM.yyyy") @DateTimeFormat(pattern = "dd.MM.yyyy") LocalDate birthday) {
         this.id = id;
         this.email = email;
         this.name = name;
