@@ -1,5 +1,6 @@
 package ru.innopolis.attendance.controllers;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.logging.LogLevel;
 import org.springframework.data.domain.Sort;
@@ -149,8 +150,8 @@ public class LessonController {
     @Log(LogLevel.INFO)
     @GetMapping("/search")
     public Collection<LessonSearchDTO> getLessons(@AuthenticationPrincipal UserProfileDetails userProfile,
-                                                  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd'T'HH:mm") @RequestParam(required = false) LocalDateTime after,
-                                                  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd'T'HH:mm") @RequestParam(required = false) LocalDateTime before,
+                                                  @JsonFormat(pattern = "dd.MM.yyyy HH:mm") @RequestParam(required = false) LocalDateTime after,
+                                                  @JsonFormat(pattern = "dd.MM.yyyy HH:mm") @RequestParam(required = false) LocalDateTime before,
                                                   @RequestParam(required = false) String teacher,
                                                   @RequestParam(required = false) LessonType type,
                                                   @RequestParam(required = false) String course,
