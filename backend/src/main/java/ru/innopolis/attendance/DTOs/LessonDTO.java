@@ -2,7 +2,6 @@ package ru.innopolis.attendance.DTOs;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 import ru.innopolis.attendance.models.Lesson;
 import ru.innopolis.attendance.models.LessonType;
 
@@ -21,7 +20,7 @@ public class LessonDTO {
 
     private LessonType type;
 
-//    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd'T'HH:mm")
+    @JsonFormat(pattern = "dd.MM.yyyy HH:mm")
     private LocalDateTime dateTime;
 
     private String room;
@@ -40,29 +39,19 @@ public class LessonDTO {
                 .collect(Collectors.toList());
     }
 
-    @JsonFormat(pattern = "dd.MM.yyyy HH:mm")
-    public LocalDateTime getDateTime() {
-        return dateTime;
-    }
-
-    @JsonFormat(pattern = "dd.MM.yyyy HH:mm")
-    public void setDateTime(LocalDateTime dateTime) {
+    public LessonDTO(Long id,
+                     CourseDTO course,
+                     UserDTO teacher,
+                     LessonType type,
+                     LocalDateTime dateTime,
+                     String room,
+                     Collection<LessonStudentNameDTO> students) {
+        this.id = id;
+        this.course = course;
+        this.teacher = teacher;
+        this.type = type;
         this.dateTime = dateTime;
+        this.room = room;
+        this.students = students;
     }
-
-//    public LessonDTO(Long id,
-//                     CourseDTO course,
-//                     UserDTO teacher,
-//                     LessonType type,
-//                     LocalDateTime dateTime,
-//                     String room,
-//                     Collection<LessonStudentNameDTO> students) {
-//        this.id = id;
-//        this.course = course;
-//        this.teacher = teacher;
-//        this.type = type;
-//        this.dateTime = dateTime;
-//        this.room = room;
-//        this.students = students;
-//    }
 }

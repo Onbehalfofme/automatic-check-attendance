@@ -15,9 +15,9 @@ public class CourseDTO {
         this.name = course.getName();
     }
 
-//    public CourseDTO(Long id,
-//                     String name) {
-//        this.id = id;
-//        this.name = name;
-//    }
+    public CourseDTO(Long id,
+                     String name) {
+        this.id = id;
+        this.name = name;
+    }
 }
