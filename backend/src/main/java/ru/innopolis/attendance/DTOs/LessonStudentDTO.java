@@ -27,13 +27,13 @@ public class LessonStudentDTO {
         checkOut = lessonStudent.getCheckOutTime();
     }
 
-//    public LessonStudentDTO(Long studentId,
-//                            AttendanceType attendance,
-//                            LocalDateTime checkIn,
-//                            LocalDateTime checkOut) {
-//        this.studentId = studentId;
-//        this.attendance = attendance;
-//        this.checkIn = checkIn;
-//        this.checkOut = checkOut;
-//    }
+    public LessonStudentDTO(Long studentId,
+                            AttendanceType attendance,
+                            LocalDateTime checkIn,
+                            LocalDateTime checkOut) {
+        this.studentId = studentId;
+        this.attendance = attendance;
+        this.checkIn = checkIn;
+        this.checkOut = checkOut;
+    }
 }
