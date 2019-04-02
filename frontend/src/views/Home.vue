@@ -21,12 +21,20 @@
         <div class="top-name" v-on:click="sendLogoutReq()"><h2>Logout</h2></div>
         <div class="top-name"><h2>Settings</h2></div>
         <div class="top-name"><h2>Dashboard</h2></div>
-        <div class="top-name"><h2>Current lecture</h2></div>
       </div>
     </div>
 
     <div class="cont">
-      <ToolBar v-if="show" />
+      <listOfStudents
+        v-if="showCont"
+        :dataForCreate="paramOfCall"
+        @hideContent="showCont = $event"
+      />
+      <ToolBar
+        v-if="show"
+        @getLessInfo="paramOfCall = $event"
+        @showContent="showCont = $event"
+      />
     </div>
   </div>
 </template>
@@ -34,21 +42,23 @@
 <script>
 import ToolBar from "@/components/ToolBar.vue";
 import { logout } from "../services/loginService";
+import listOfStudents from "../components/listOfStudents";
 
 export default {
   data() {
     return {
       activeBtn: "",
-      show: false
+      show: false,
+      showCont: false,
+      paramOfCall: {}
     };
   },
-  components: { ToolBar },
+  components: { listOfStudents, ToolBar },
   methods: {
     sendLogoutReq() {
       let some = "";
       logout();
       this.$emit("ChangeToken", some);
-      return;
     },
     openTabAttendance: function(state) {
       if (state === "btn1") {

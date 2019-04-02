@@ -9,10 +9,13 @@
   },
   "dependencies": {
     "axios": "latest",
+    "bootstrap-vue": "^2.0.0-rc.16",
     "moment": "^2.24.0",
+    "smart-table-vue": "^0.1.1",
     "vue": "^2.6.6",
     "vue-notif": "^1.1.10",
     "vue-router": "^3.0.1",
+    "vuejs-smart-table": "latest",
     "vuex": "^3.0.1"
   },
   "devDependencies": {

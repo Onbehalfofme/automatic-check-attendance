@@ -38,42 +38,29 @@
 </template>
 
 <script>
-//import dataService from "../services/dataService.js";
-import axios from "axios";
 import moment from "moment";
+import axios from "axios";
 
 export default {
   data() {
     return {
       options: null,
-      options2: [{ text: "Lecture" }, { text: "Tutorial" }, { text: "Lab" }],
+      options2: [{ text: "LECTURE" }, { text: "TUTORIAL" }, { text: "LAB" }],
       courseId: null,
       lectureType: null,
       lectureDate: new Date(),
       lectureTime: null,
-      lectureRoom: null
+      lectureRoom: null,
+      users: null
     };
   },
 
   created: function() {
-    //dataService.getCourses();
-    //this.options = this.courses;
-    const AXIOS = axios.create({
-      baseURL: "http://134.209.227.130:8080",
-      headers: {
-        Authorization: "JWT " + localStorage.getItem("token"),
-        "Content-Type": "application/json; charset=UTF-8",
-        "Access-Control-Allow-Origin": "*"
-      }
-    });
-
-    AXIOS.get("/courses/enrolled").then(response => {
-      this.options = response.data;
-    });
+    this.getCourses();
   },
 
   methods: {
-    getUsers: function(courseId, type, room, lectureDate, lectureTime) {
+    getCourses: function() {
       const AXIOS = axios.create({
         baseURL: "http://134.209.227.130:8080",
         headers: {
@@ -82,9 +69,16 @@ export default {
           "Access-Control-Allow-Origin": "*"
         }
       });
-      let dateTime = moment(lectureDate).format("DD.MM.YYYY") + " " + lectureTime;
 
-      AXIOS.post("/lesson/create", { courseId, dateTime, room, type });
+      AXIOS.get("/courses/enrolled").then(response => {
+        this.options = response.data;
+      });
+    },
+
+    getUsers: function(courseId, type, room, lectureDate, lectureTime) {
+      let dateTime = moment(lectureDate).format("MM.DD.YYYY") + " " + lectureTime;
+      this.$emit("getLessInfo", {courseId, type, room, dateTime});
+      this.$emit("showContent", true);
     }
   }
 };

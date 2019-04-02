@@ -3,7 +3,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 
-    position: fixed;
+    //position: fixed;
     width: 100%;
     height: 100%;
     background: url("../illustration.jpg") no-repeat center center fixed;
@@ -15,7 +15,9 @@ img {
 
 body {
     margin: 0;
-    position: fixed;
+    background: #f2f2f2;
+    box-sizing: content-box;
+    //position: fixed;
 }
 
 .login-page {
@@ -77,15 +79,15 @@ body {
     background: rgba(255,255,255, .65);
     width: 100%;
     height: 100%;
-    position: fixed;
     outline: 0;
     margin: 0 0 0 0;
 }
 
 .top-panel {
+    z-index: 2;
     background-color: #23C664;
     overflow: hidden;
-    position: relative;
+    position: fixed;
     float: top;
     height: 50px;
     width: 100%;
@@ -198,14 +200,15 @@ body {
 }
 
 .control-panel {
+    z-index: 3;
     display: block;
     position: fixed;
-    z-index: 1;
     float: left;
     background: rgba(255, 255, 255, .70);
     height: 100%;
     width: 280px;
     padding: 5px 20px 0;
+    margin: 50px 0 0;
     font-family: "Quicksand", sans-serif;
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 5px 5px 2px rgba(0, 0, 0, 0.14);
 }
@@ -313,5 +316,51 @@ body {
     outline: 0;
     padding: 6px 0 10px;
     margin: 15px 0 30px;
+    float: right;
+}
+
+.user-panel {
+    z-index: 1;
+    background-color: white;
+    overflow: hidden;
+    position: absolute;
+    float: top;
+    min-height: 500px;
+    width: 96%;
+    margin: 70px 2% 20px;
+    box-shadow: 0 0 6px 0 rgba(25, 25, 34, .16);
+    border-radius: 4px;
+}
+
+.user-panel .header{
+    margin: 0 30px 0;
+    font-family: "Quicksand", sans-serif;
+    font-size: 17px;
+    padding: 15px 0 0;
+
+}
+
+.user-table {
+    float: top;
+
+    margin: 20px 30px 0;
+    box-shadow: 0 0 6px 0 rgba(25, 25, 34, .16);
+    border-radius: 4px;
+}
+
+.user-table button {
+    background: #23C664;
+    width: 90px;
+    height: 30px;
+    font-family: "Quicksand", sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    color: #FFFFFF;
+    border-radius: 5px;
+    border: 0;
+    outline: 0;
+    padding: 6px 0 10px;
+    margin: 5px 0 30px;
     float: right;
 }

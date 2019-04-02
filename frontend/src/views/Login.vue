@@ -53,7 +53,6 @@ export default {
     sendData(email, password) {
       this.token = login(email, password);
       this.$emit("ChangeToken", this.token);
-      return this.token;
     }
   }
 };
