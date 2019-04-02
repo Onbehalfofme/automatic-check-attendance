@@ -2,12 +2,13 @@
   <div id="app">
     <login v-if="!token.length" @ChangeToken="token = $event" />
     <home v-if="token.length" @ChangeToken="token = $event" />
+    <router-view />
   </div>
 </template>
 
 <script>
-import Login from "@/views/Login.vue";
-import Home from "@/views/Home.vue";
+import Login from "./views/Login.vue";
+import Home from "./views/Home.vue";
 
 export default {
   data() {

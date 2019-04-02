@@ -48,7 +48,7 @@ export default {
       options2: [{ text: "LECTURE" }, { text: "TUTORIAL" }, { text: "LAB" }],
       courseId: null,
       lectureType: null,
-      lectureDate: new Date(),
+      lectureDate: null,
       lectureTime: null,
       lectureRoom: null,
       users: null
