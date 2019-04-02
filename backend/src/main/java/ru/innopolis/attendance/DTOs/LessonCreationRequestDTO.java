@@ -13,7 +13,7 @@ import ru.innopolis.attendance.models.LessonType;
 import java.time.LocalDateTime;
 
 @Data
-@AllArgsConstructor
+//@AllArgsConstructor
 public class LessonCreationRequestDTO {
 
     private Long courseId;
@@ -21,9 +21,9 @@ public class LessonCreationRequestDTO {
     private LessonType type;
 
     @JsonFormat(pattern = "dd.MM.yyyy HH:mm")
-    @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm")
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
+//    @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm")
+//    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+//    @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime dateTime;
 
     private String room;
