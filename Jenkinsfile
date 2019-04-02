@@ -11,18 +11,18 @@ node {
     }
     stage('Push backend image'){
         docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
-        backend.push("backend")
+            backend.push("backend")
         }
     }
      stage('Frontend image build') {
-            frontend = docker.build("onbehalfofme/attendance", "./frontend")
-        }
-        stage('Push frontend image'){
-            docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
-            backend.push("frontend")
-            }
-        }
-    stage('Deploy'){
+         frontend = docker.build("onbehalfofme/attendance", "./frontend")
+     }
+     stage('Push frontend image'){
+         docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+            frontend.push("frontend")
+         }
+     }
+     stage('Deploy'){
         sh 'ssh project@134.209.227.130 "./deploy.sh"'
-    }
+     }
 }
