@@ -3,6 +3,7 @@ package ru.innopolis.attendance.DTOs;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 import ru.innopolis.attendance.models.AttendanceType;
 import ru.innopolis.attendance.models.LessonStudent;
 
@@ -17,9 +18,11 @@ public class LessonStudentDTO {
     private AttendanceType attendance;
 
     @JsonFormat(pattern = "dd.MM.yyyy HH:mm")
+    @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm")
     private LocalDateTime checkIn;
 
     @JsonFormat(pattern = "dd.MM.yyyy HH:mm")
+    @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm")
     private LocalDateTime checkOut;
 
     LessonStudentDTO(LessonStudent lessonStudent) {
