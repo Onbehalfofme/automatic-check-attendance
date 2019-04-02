@@ -149,8 +149,8 @@ public class LessonController {
     @Log(LogLevel.INFO)
     @GetMapping("/search")
     public Collection<LessonSearchDTO> getLessons(@AuthenticationPrincipal UserProfileDetails userProfile,
-                                                  @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm") @RequestParam(required = false) LocalDateTime after,
-                                                  @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm") @RequestParam(required = false) LocalDateTime before,
+                                                  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd'T'HH:mm") @RequestParam(required = false) LocalDateTime after,
+                                                  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "yyyy-MM-dd'T'HH:mm") @RequestParam(required = false) LocalDateTime before,
                                                   @RequestParam(required = false) String teacher,
                                                   @RequestParam(required = false) LessonType type,
                                                   @RequestParam(required = false) String course,
@@ -175,7 +175,7 @@ public class LessonController {
     @GetMapping("/daily")
     @PreAuthorize("hasRole(T(ru.innopolis.attendance.models.Role).ROLE_STUDENT.name())")
     public Collection<LessonSearchStudentDTO> getStudentsLessons(@AuthenticationPrincipal UserProfileDetails userProfile,
-                                                                 @DateTimeFormat(pattern = "dd.MM.yyyy") @RequestParam LocalDate date) {
+                                                                 @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "yyyy-MM-dd") @RequestParam LocalDate date) {
         UserProfile user = userRepository.getById(userProfile.getId());
         Specification<Lesson> specs = Specification.where(
                 LessonSpecifications.getLessonOnDate(date)
