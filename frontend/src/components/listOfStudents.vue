@@ -1,10 +1,20 @@
 <template>
   <div class="user-panel">
     <div class="header">Software project</div>
+
+    <b-input-group>
+      <b-form-input
+        class="search"
+        v-model="filter"
+        placeholder="Type to Search"
+      ></b-form-input>
+    </b-input-group>
+
     <div class="user-table">
       <b-table
         hover
         selectable
+        :filter="filter"
         :select-mode="selectMode"
         selectedVariant="success"
         :items="users"
@@ -35,6 +45,7 @@ export default {
   props: ["dataForCreate"],
   data() {
     return {
+      filter: "",
       info: this.dataForCreate,
       fields: {
         name: {
@@ -99,8 +110,14 @@ export default {
       let newVersion = [];
       let index;
       for (index = 0; index < items.length; ++index) {
-        let dateTime1 = moment(this.info.lectureDate).format("DD.MM.YYYY") + " " + items[index].checkIn;
-        let dateTime2 = moment(this.info.lectureDate).format("DD.MM.YYYY") + " " + items[index].checkOut;
+        let dateTime1 =
+          moment(this.info.lectureDate).format("DD.MM.YYYY") +
+          " " +
+          items[index].checkIn;
+        let dateTime2 =
+          moment(this.info.lectureDate).format("DD.MM.YYYY") +
+          " " +
+          items[index].checkOut;
         newVersion.push({
           attendance: "PRESENT",
           checkIn: dateTime1,
@@ -119,7 +136,8 @@ export default {
           "Access-Control-Allow-Origin": "*"
         }
       });
-      let dateTime = moment(lectureDate).format("DD.MM.YYYY") + " " + lectureTime;
+      let dateTime =
+        moment(lectureDate).format("DD.MM.YYYY") + " " + lectureTime;
       AXIOS.post("/lesson/create", { courseId, dateTime, room, type }).then(
         response => {
           this.users = response.data.students;

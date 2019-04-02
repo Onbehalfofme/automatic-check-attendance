@@ -1,8 +1,24 @@
 <template>
   <div class="user-panel">
-    <div class= "header">Statistics</div>
+    <div class="header">Statistics</div>
     <div class="user-table">
-      <b-table striped hover :items="data" :fields="fields"></b-table>
+      <b-form-group label-cols-sm="3" label="Filter" class="mb-0">
+        <b-input-group>
+          <b-form-input
+            v-model="filter"
+            placeholder="Type to Search"
+          ></b-form-input>
+        </b-input-group>
+      </b-form-group>
+
+      <b-table
+        @filtered="onFiltered"
+        :filter="filter"
+        striped
+        hover
+        :items="data"
+        :fields="fields"
+      ></b-table>
     </div>
   </div>
 </template>
@@ -14,6 +30,7 @@ export default {
   props: ["dataForCreate"],
   data() {
     return {
+      filter: "",
       fields: {
         time: {
           key: "dateTime",
@@ -42,15 +59,30 @@ export default {
         }
       },
       info: this.dataForCreate,
-      data: []
+      data: [],
+      currentPage: 1,
+      totalRows: 0
     };
   },
 
   created: function() {
     this.getStatistics(this.info);
   },
-
+  computed: {
+    sortOptions() {
+      // Create an options list from our fields
+      return this.fields
+        .filter(f => f.sortable)
+        .map(f => {
+          return { text: f.label, value: f.lesson };
+        });
+    }
+  },
   methods: {
+    onFiltered(filteredItems) {
+      this.totalRows = filteredItems.length;
+      this.currentPage = 1;
+    },
     getStatistics: function(date) {
       const AXIOS = axios.create({
         baseURL: "http://134.209.227.130:8080",
@@ -62,6 +94,7 @@ export default {
       });
       AXIOS.get("/lesson/daily", { params: { date } }).then(response => {
         this.data = response.data;
+        this.totalRows = this.data.length;
       });
     }
   }

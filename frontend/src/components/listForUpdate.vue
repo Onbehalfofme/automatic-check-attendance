@@ -1,10 +1,18 @@
 <template>
   <div class="user-panel">
     <div class="header">Software project</div>
+    <b-input-group>
+      <b-form-input
+        class="search"
+        v-model="filter"
+        placeholder="Type to Search"
+      ></b-form-input>
+    </b-input-group>
     <div class="user-table">
       <b-table
         hover
         selectable
+        :filter="filter"
         :select-mode="selectMode"
         selectedVariant="success"
         :items="users"
@@ -35,6 +43,7 @@ export default {
   props: ["dataForCreate"],
   data() {
     return {
+      filter: "",
       info: this.dataForCreate,
       fields: {
         name: {
