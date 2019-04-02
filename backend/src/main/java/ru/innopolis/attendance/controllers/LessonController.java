@@ -8,7 +8,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import ru.innopolis.attendance.data.CourseRepository;
@@ -20,6 +19,7 @@ import ru.innopolis.attendance.DTOs.*;
 import ru.innopolis.attendance.specifications.LessonSpecifications;
 import ru.tinkoff.eclair.annotation.Log;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;

@@ -1,6 +1,10 @@
 package ru.innopolis.attendance.DTOs;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -19,10 +23,14 @@ public class LessonStudentDTO {
 
     @JsonFormat(pattern = "dd.MM.yyyy HH:mm")
     @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm")
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime checkIn;
 
     @JsonFormat(pattern = "dd.MM.yyyy HH:mm")
     @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm")
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime checkOut;
 
     LessonStudentDTO(LessonStudent lessonStudent) {

@@ -9,7 +9,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import ru.innopolis.attendance.configs.TokenAuthenticationProvider;
@@ -21,6 +20,8 @@ import ru.innopolis.attendance.DTOs.LogInResponseDTO;
 import ru.innopolis.attendance.DTOs.SignUpRequestDTO;
 import ru.innopolis.attendance.DTOs.UserDTO;
 import ru.tinkoff.eclair.annotation.Log;
+
+import javax.transaction.Transactional;
 
 @RestController
 @RequestMapping("/auth")
