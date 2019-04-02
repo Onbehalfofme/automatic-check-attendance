@@ -176,7 +176,7 @@ public class LessonController {
     @GetMapping("/daily")
     @PreAuthorize("hasRole(T(ru.innopolis.attendance.models.Role).ROLE_STUDENT.name())")
     public Collection<LessonSearchStudentDTO> getStudentsLessons(@AuthenticationPrincipal UserProfileDetails userProfile,
-                                                                 @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "yyyy-MM-dd") @RequestParam LocalDate date) {
+                                                                 @JsonFormat(pattern = "dd.MM.yyyy") @RequestParam LocalDate date) {
         UserProfile user = userRepository.getById(userProfile.getId());
         Specification<Lesson> specs = Specification.where(
                 LessonSpecifications.getLessonOnDate(date)
