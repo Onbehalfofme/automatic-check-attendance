@@ -1,11 +1,11 @@
-package ru.innopolis.attendance.payloads;
+package ru.innopolis.attendance.DTOs;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class LogInResponse {
+public class LogInResponseDTO {
 
     private String token;
 }

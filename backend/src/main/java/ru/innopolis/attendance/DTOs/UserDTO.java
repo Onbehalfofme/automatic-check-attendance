@@ -1,16 +1,18 @@
-package ru.innopolis.attendance.payloads;
+package ru.innopolis.attendance.DTOs;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import ru.innopolis.attendance.models.Role;
 import ru.innopolis.attendance.models.UserProfile;
 
 import java.time.LocalDate;
 
 @Data
-public class UserPayload {
+@NoArgsConstructor
+public class UserDTO {
 
-    private long id;
+    private Long id;
 
     private String email;
 
@@ -20,15 +22,18 @@ public class UserPayload {
 
     private Role role;
 
+    private Short group;
+
     @JsonFormat(pattern = "dd.MM.yyyy")
     private LocalDate birthday;
 
-    public UserPayload(UserProfile userProfile) {
+    public UserDTO(UserProfile userProfile) {
         id = userProfile.getId();
         email = userProfile.getEmail();
         name = userProfile.getName();
         surname = userProfile.getSurname();
         role = userProfile.getRole();
+        group = userProfile.getGroupNumber();
         birthday = userProfile.getBirthday();
     }
 }

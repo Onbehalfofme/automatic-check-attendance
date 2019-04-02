@@ -1,6 +1,5 @@
 package ru.innopolis.attendance.configs;
 
-import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,7 +22,6 @@ import ru.innopolis.attendance.services.UserProfileDetailsService;
 
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
-@Log
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -74,7 +72,8 @@ public class WebConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin().disable()
                 .httpBasic().disable()
-                .logout().disable();
+                .logout().disable()
+                .cors();
     }
 
     @Bean

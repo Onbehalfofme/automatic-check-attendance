@@ -1,26 +1,28 @@
-pipeline{
-    agent any
-    stages {
-        stage('Checkout') {
-            steps {
-            git url: 'https://github.com/Onbehalfofme/automatic-check-attendance.git', branch: 'master'
-            }
+node {
+    def app
+    stage('Checkout') {
+        git credentials: 'github', url: 'https://github.com/Onbehalfofme/automatic-check-attendance.git', branch: 'master'
+    }
+    stage('Build') {
+        sh 'cd backend/ && ./gradlew build --no-daemon'
+    }
+    stage('Backend image build') {
+        backend = docker.build("onbehalfofme/attendance", "./backend")
+    }
+    stage('Push backend image'){
+        docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+            backend.push("backend")
         }
-         stage('Build') {
-            steps {
-                sh 'cd backend/ && ./gradlew build && cd ..'
-            }
+    }
+    stage('Frontend image build') {
+        frontend = docker.build("onbehalfofme/attendance", "./frontend")
+    }
+    stage('Push frontend image'){
+        docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+            frontend.push("frontend")
         }
-        stage('Docker image build') {
-            steps{
-                sh 'docker build -t onbehalfofme/attendance:server .'
-            }
-        }
-      stage("Docker push") {
-          steps {
-                sh "docker login -u onbehalfofme -p safujxUi7JJKxKm"
-                sh "docker push onbehalfofme/attendance:server"
-            }
-        }
+    }
+    stage('Deploy'){
+        sh 'ssh project@134.209.227.130 "./deploy.sh"'
     }
 }

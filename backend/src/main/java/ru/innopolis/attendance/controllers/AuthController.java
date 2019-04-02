@@ -1,8 +1,8 @@
 package ru.innopolis.attendance.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.logging.LogLevel;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -15,14 +15,16 @@ import ru.innopolis.attendance.configs.TokenAuthenticationProvider;
 import ru.innopolis.attendance.data.UserRepository;
 import ru.innopolis.attendance.models.Role;
 import ru.innopolis.attendance.models.UserProfile;
-import ru.innopolis.attendance.payloads.LogInRequest;
-import ru.innopolis.attendance.payloads.LogInResponse;
-import ru.innopolis.attendance.payloads.SignUpRequest;
-import ru.innopolis.attendance.payloads.UserPayload;
+import ru.innopolis.attendance.DTOs.LogInRequestDTO;
+import ru.innopolis.attendance.DTOs.LogInResponseDTO;
+import ru.innopolis.attendance.DTOs.SignUpRequestDTO;
+import ru.innopolis.attendance.DTOs.UserDTO;
+import ru.tinkoff.eclair.annotation.Log;
+
+import javax.transaction.Transactional;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin(origins = "*")
 public class AuthController {
 
     private final UserRepository userRepository;
@@ -41,8 +43,10 @@ public class AuthController {
         this.passwordEncoder = passwordEncoder;
     }
 
+    @Transactional
+    @Log(LogLevel.INFO)
     @PostMapping("/signup")
-    public ResponseEntity signUp(@RequestBody SignUpRequest user) {
+    public UserDTO signUp(@RequestBody SignUpRequestDTO user) {
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email address is already in use.");
         }
@@ -58,11 +62,13 @@ public class AuthController {
 
         userRepository.save(userProfile);
 
-        return new ResponseEntity<>(new UserPayload(userProfile), HttpStatus.OK);
+        return new UserDTO(userProfile);
     }
 
+    @Transactional
+    @Log(LogLevel.INFO)
     @PostMapping("/login")
-    public ResponseEntity logIn(@RequestBody LogInRequest user) {
+    public LogInResponseDTO logIn(@RequestBody LogInRequestDTO user) {
         try {
             Authentication auth = authenticationManager
                     .authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
@@ -70,9 +76,9 @@ public class AuthController {
 
             String token = tokenProvider.createToken(auth);
 
-            return new ResponseEntity<>(new LogInResponse(token), HttpStatus.OK);
+            return new LogInResponseDTO(token);
         } catch (AuthenticationException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid email or password");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid email or password.");
         }
     }
 }

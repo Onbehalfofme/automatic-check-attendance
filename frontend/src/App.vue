@@ -8,6 +8,7 @@
 </template>
 
 <script>
+
 import Login from "./views/Login.vue";
 import Home from "./views/Home.vue";
 
@@ -22,6 +23,7 @@ export default {
   },
   components: { Login, Home }
 };
+
 </script>
 
 <style lang="css">

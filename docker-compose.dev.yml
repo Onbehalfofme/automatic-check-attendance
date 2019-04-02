@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+
+  db:
+    image: postgres
+    restart: always
+    env_file: .env
+    ports:
+      - ${POSTGRES_PORT_EXTERNAL}:${POSTGRES_PORT_INTERNAL}
+    volumes:
+      - attendance_db:${PGDATA}
+    environment:
+          - POSTGRES_DB=${POSTGRES_DB}
+          - POSTGRES_USER=${POSTGRES_USER}
+          - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+          - PGDATA=${PGDATA}
+
+  backend:
+    image: backend
+    restart: always
+    env_file: .env
+    depends_on:
+      - db
+    ports:
+      - ${BACKEND_PORT_EXTERNAL}:${BACKEND_PORT_INTERNAL}
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+
+  frontend:
+    image: frontend
+    restart: always
+    env_file:
+      - .env
+    depends_on:
+      - backend
+    ports:
+      - ${FRONTEND_PORT_EXTERNAL}:${FRONTEND_PORT_INTERNAL}
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+   
+volumes:
+  attendance_db:

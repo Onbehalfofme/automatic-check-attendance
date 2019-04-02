@@ -1,12 +1,14 @@
-package ru.innopolis.attendance.payloads;
+package ru.innopolis.attendance.DTOs;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
 @Data
-public class SignUpRequest {
+@NoArgsConstructor
+public class SignUpRequestDTO {
 
     private String email;
 

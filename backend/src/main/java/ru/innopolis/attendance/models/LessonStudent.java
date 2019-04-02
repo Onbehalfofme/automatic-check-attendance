@@ -20,8 +20,9 @@ public class LessonStudent {
     @Data
     @Embeddable
     @EqualsAndHashCode
+    @NoArgsConstructor
     @AllArgsConstructor
-    public class LessonStudentPK implements Serializable {
+    public static class LessonStudentPK implements Serializable {
 
         @NotNull
         @ManyToOne(cascade = CascadeType.DETACH)
@@ -38,10 +39,15 @@ public class LessonStudent {
     private LessonStudentPK id;
 
     @NotNull
+    @Column(length = 32)
+    @Enumerated(value = EnumType.STRING)
+    private AttendanceType attendance;
+
     @Convert(converter = DateTimeConverter.class)
     private LocalDateTime checkInTime;
 
-    @NotNull
     @Convert(converter = DateTimeConverter.class)
     private LocalDateTime checkOutTime;
+
+    private String reason;
 }
