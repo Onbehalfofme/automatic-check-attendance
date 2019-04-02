@@ -17,11 +17,11 @@ public class LessonStudentNameDTO {
 
     private AttendanceType attendance;
 
-    @JsonFormat(pattern = "dd.MM.yyyy HH:mm")
+//    @JsonFormat(pattern = "dd.MM.yyyy HH:mm")
     @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm")
     private LocalDateTime checkIn;
 
-    @JsonFormat(pattern = "dd.MM.yyyy HH:mm")
+//    @JsonFormat(pattern = "dd.MM.yyyy HH:mm")
     @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm")
     private LocalDateTime checkOut;
 

@@ -19,7 +19,7 @@ public class SignUpRequestDTO {
 
     private String surname;
 
-    @JsonFormat(pattern = "dd.MM.yyyy")
+//    @JsonFormat(pattern = "dd.MM.yyyy")
     @DateTimeFormat(pattern = "dd.MM.yyyy")
     private LocalDate birthday;
 }
