@@ -21,10 +21,18 @@ public class LessonSpecifications {
                         criteriaBuilder.lessThanOrEqualTo(root.get(Lesson_.dateTime), dateTime);
     }
 
-    public static Specification<Lesson> getLessonWithTeacher(String teacherName) {
+    public static Specification<Lesson> getLessonWithTeacherFirstName(String teacherFirstName) {
         return (Specification<Lesson>) (root, query, criteriaBuilder) ->
-                teacherName == null ? null :
-                        criteriaBuilder.like(root.get(Lesson_.teacher).get(UserProfile_.name), "%" + teacherName + "%");
+                teacherFirstName == null ? null :
+                        criteriaBuilder.like(criteriaBuilder.lower(root.get(Lesson_.teacher).get(UserProfile_.name)),
+                                "%" + teacherFirstName.toLowerCase() + "%");
+    }
+
+    public static Specification<Lesson> getLessonWithTeacherLastName(String teacherLastName) {
+        return (Specification<Lesson>) (root, query, criteriaBuilder) ->
+                teacherLastName == null ? null :
+                        criteriaBuilder.like(criteriaBuilder.lower(root.get(Lesson_.teacher).get(UserProfile_.surname)),
+                                "%" + teacherLastName.toLowerCase() + "%");
     }
 
     public static Specification<Lesson> getLessonWithType(LessonType lessonType) {
@@ -36,13 +44,15 @@ public class LessonSpecifications {
     public static Specification<Lesson> getLessonWithCourseName(String courseName) {
         return (Specification<Lesson>) (root, query, criteriaBuilder) ->
                 courseName == null ? null :
-                        criteriaBuilder.like(root.get(Lesson_.course).get(Course_.name), "%" + courseName + "%");
+                        criteriaBuilder.like(criteriaBuilder.lower(root.get(Lesson_.course).get(Course_.name)),
+                                "%" + courseName.toLowerCase() + "%");
     }
 
     public static Specification<Lesson> getLessonInRoom(String room) {
         return (Specification<Lesson>) (root, query, criteriaBuilder) ->
                 room == null ? null :
-                        criteriaBuilder.like(root.get(Lesson_.room), room + "%");
+                        criteriaBuilder.like(criteriaBuilder.lower(root.get(Lesson_.room)),
+                                room.toLowerCase() + "%");
     }
 
     public static Specification<Lesson> getLessonWithinCourses(Collection<Course> courses) {

@@ -160,7 +160,10 @@ public class LessonController {
                         .and(LessonSpecifications.getLessonBefore(before))
                         .and(LessonSpecifications.getLessonInRoom(room))
                         .and(LessonSpecifications.getLessonWithCourseName(course))
-                        .and(LessonSpecifications.getLessonWithTeacher(teacher))
+                        .and(
+                                LessonSpecifications.getLessonWithTeacherFirstName(teacher).or(
+                                        LessonSpecifications.getLessonWithTeacherLastName(teacher))
+                        )
                         .and(LessonSpecifications.getLessonWithType(type))
         );
         UserProfile user = userRepository.getById(userProfile.getId());
