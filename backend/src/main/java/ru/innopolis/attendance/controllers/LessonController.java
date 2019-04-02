@@ -1,10 +1,10 @@
 package ru.innopolis.attendance.controllers;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.logging.LogLevel;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -149,8 +149,8 @@ public class LessonController {
     @Log(LogLevel.INFO)
     @GetMapping("/search")
     public Collection<LessonSearchDTO> getLessons(@AuthenticationPrincipal UserProfileDetails userProfile,
-                                                  @JsonFormat(pattern = "dd.MM.yyyy HH:mm") @RequestParam(required = false) LocalDateTime after,
-                                                  @JsonFormat(pattern = "dd.MM.yyyy HH:mm") @RequestParam(required = false) LocalDateTime before,
+                                                  @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm") @RequestParam(required = false) LocalDateTime after,
+                                                  @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm") @RequestParam(required = false) LocalDateTime before,
                                                   @RequestParam(required = false) String teacher,
                                                   @RequestParam(required = false) LessonType type,
                                                   @RequestParam(required = false) String course,
@@ -175,7 +175,7 @@ public class LessonController {
     @GetMapping("/daily")
     @PreAuthorize("hasRole(T(ru.innopolis.attendance.models.Role).ROLE_STUDENT.name())")
     public Collection<LessonSearchStudentDTO> getStudentsLessons(@AuthenticationPrincipal UserProfileDetails userProfile,
-                                                                 @JsonFormat(pattern = "dd.MM.yyyy") @RequestParam LocalDate date) {
+                                                                 @DateTimeFormat(pattern = "dd.MM.yyyy") @RequestParam LocalDate date) {
         UserProfile user = userRepository.getById(userProfile.getId());
         Specification<Lesson> specs = Specification.where(
                 LessonSpecifications.getLessonOnDate(date)
