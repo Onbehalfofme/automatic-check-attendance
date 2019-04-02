@@ -101,7 +101,7 @@ public class LessonController {
         Long lessonId = lessonRepository.save(lesson).getId();
 
         return new LessonCreationResponseDTO(lessonId,
-                course.getParticipants().stream()
+                course.getParticipants().stream().filter(userProfile -> userProfile.getRole() == Role.ROLE_STUDENT)
                         .map(UserDTO::new).collect(Collectors.toList()));
     }
 
@@ -181,6 +181,7 @@ public class LessonController {
                 LessonSpecifications.getLessonOnDate(date)
                         .and(LessonSpecifications.getLessonWithinCourses(user.getEnrolledCourses()))
         );
+
         return lessonRepository.findAll(specs, new Sort(Sort.Direction.ASC, Lesson_.dateTime.getName())).stream()
                 .map(lesson -> new LessonSearchStudentDTO(lesson, user.getId())).collect(Collectors.toList());
     }

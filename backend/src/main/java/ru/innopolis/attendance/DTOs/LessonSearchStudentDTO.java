@@ -2,11 +2,10 @@ package ru.innopolis.attendance.DTOs;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import ru.innopolis.attendance.models.AttendanceType;
-import ru.innopolis.attendance.models.Lesson;
-import ru.innopolis.attendance.models.LessonType;
+import ru.innopolis.attendance.models.*;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Data
 public class LessonSearchStudentDTO {
@@ -33,9 +32,10 @@ public class LessonSearchStudentDTO {
         type = lesson.getType();
         dateTime = lesson.getDateTime();
         room = lesson.getRoom();
-        attendance = lesson.getLessonStudents().stream()
+        Optional<LessonStudent> userCheck = lesson.getLessonStudents().stream()
                 .filter(lessonStudent ->
                         lessonStudent.getId().getStudent().getId()
-                                .equals(studentId)).findFirst().orElseThrow(IllegalArgumentException::new).getAttendance();
+                                .equals(studentId)).findFirst();
+        attendance = userCheck.map(LessonStudent::getAttendance).orElse(null);
     }
 }
