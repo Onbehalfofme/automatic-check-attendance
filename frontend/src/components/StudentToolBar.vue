@@ -22,7 +22,7 @@
     export default {
         data () {
             return {
-                date: new Date()
+                lectureDate: moment(new Date()).format("DD.MM.YYYY")
             }
         },
         methods: {

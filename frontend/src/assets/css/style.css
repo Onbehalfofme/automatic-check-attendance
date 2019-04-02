@@ -69,6 +69,11 @@ body {
     color: white;
 }
 
+.btn-success {
+    width: 60px;
+    font-size: 15px;
+}
+
 .login-field h1, h2 {
     margin: 20% 0 0;
     font-weight: normal;
