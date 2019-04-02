@@ -25,8 +25,8 @@ public class UserDTO {
 
     private Short group;
 
-//    @JsonFormat(pattern = "dd.MM.yyyy")
-    @DateTimeFormat(pattern = "dd.MM.yyyy")
+    @JsonFormat(pattern = "dd.MM.yyyy")
+//    @DateTimeFormat(pattern = "dd.MM.yyyy")
     private LocalDate birthday;
 
     public UserDTO(UserProfile userProfile) {

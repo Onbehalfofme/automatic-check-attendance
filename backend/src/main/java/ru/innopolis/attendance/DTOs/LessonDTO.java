@@ -23,8 +23,8 @@ public class LessonDTO {
 
     private LessonType type;
 
-//    @JsonFormat(pattern = "dd.MM.yyyy HH:mm")
-    @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm")
+    @JsonFormat(pattern = "dd.MM.yyyy HH:mm")
+//    @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm")
     private LocalDateTime dateTime;
 
     private String room;
