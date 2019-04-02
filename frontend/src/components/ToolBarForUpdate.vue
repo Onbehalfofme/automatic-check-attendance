@@ -111,7 +111,7 @@ export default {
   },
 
   methods: {
-    getCourses: function() {
+    getCourses: async function() {
       const AXIOS = axios.create({
         baseURL: "http://134.209.227.130:8080",
         headers: {

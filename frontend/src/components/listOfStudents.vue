@@ -99,8 +99,8 @@ export default {
       let newVersion = [];
       let index;
       for (index = 0; index < items.length; ++index) {
-        let dateTime1 = moment(this.info.lectureDate).format("YYYY-MM-DD") + "T" + items[index].checkIn;
-        let dateTime2 = moment(this.info.lectureDate).format("YYYY-MM-DD") + "T" + items[index].checkOut;
+        let dateTime1 = moment(this.info.lectureDate).format("DD.MM.YYYY") + " " + items[index].checkIn;
+        let dateTime2 = moment(this.info.lectureDate).format("DD.MM.YYYY") + " " + items[index].checkOut;
         newVersion.push({
           attendance: "PRESENT",
           checkIn: dateTime1,
@@ -119,7 +119,7 @@ export default {
           "Access-Control-Allow-Origin": "*"
         }
       });
-      let dateTime = moment(lectureDate).format("YYYY-MM-DD") + "T" + lectureTime;
+      let dateTime = moment(lectureDate).format("DD.MM.YYYY") + " " + lectureTime;
       AXIOS.post("/lesson/create", { courseId, dateTime, room, type }).then(
         response => {
           this.users = response.data.students;
