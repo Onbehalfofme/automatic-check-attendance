@@ -1,7 +1,7 @@
 package ru.innopolis.attendance.DTOs;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
@@ -16,7 +16,7 @@ public class SignUpRequestDTO {
 
     private String surname;
 
-    @JsonFormat(pattern = "dd.MM.yyyy")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "yyyy-MM-dd")
     private LocalDate birthday;
 
 //    public SignUpRequestDTO(String email,
