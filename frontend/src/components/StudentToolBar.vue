@@ -3,9 +3,8 @@
         <div class="list-option">
             <div class="headline"><h2>My attendance statistics</h2></div>
             <div><h3>Date</h3></div>
-            <input class="date" type="date" lang="en" name="calendar" v-model="lectureDate"/>
-
-            <button v-on:click="getStatistics(lectureDate)">Go</button>
+            <input class="date" type="date" lang="en" name="calendar" v-model="new_date"/>
+            <button v-on:click="getStatistics(new_date)">Go</button>
         </div>
     </div>
 </template>
@@ -18,32 +17,19 @@
     import datePicker from 'vue-bootstrap-datetimepicker';
     import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
 
-    let attendance;
     export default {
-        data () {
+        data() {
             return {
-                lectureDate: moment(new Date()).format("DD.MM.YYYY")
+                new_date: moment(new Date()).format("DD.MM.YYYY")
             }
         },
         methods: {
-            getStatistics: function (date) {
-                const AXIOS = axios.create({
-                    baseURL: "http://134.209.227.130:8080",
-                    headers: {
-                        Authorization: "JWT " + localStorage.getItem("token"),
-                        "Content-Type": "application/json; charset=UTF-8",
-                        "Access-Control-Allow-Origin": "*"
-                    }
-                });
-                let rightDate = moment(date).format("DD.MM.YYYY");
-                AXIOS.get("/lesson/daily", {
-                    params: {
-                        date: rightDate
-                    }
-                }).then(response => {
-                    attendance = response.data;
-                    console.log(attendance);
-                })
+            getStatistics: function (new_date) {
+                let date = moment(new_date).format("DD.MM.YYYY");
+                this.$emit("getLessInfo", date);
+                this.$emit("showContent", true);
+                this.$emit("closeTab", false);
+                this.$emit("closeToolBar", "");
             }
         }
     };

@@ -1,55 +1,81 @@
 <template>
-    <div class="container">
-        <table class="table">
-            <tbody>
-            <tr>
-                <td>Default</td>
-                <td>Defaultson</td>
-                <td>def@somemail.com</td>
-            </tr>
-            <tr class="success">
-                <td>Success</td>
-                <td>Doe</td>
-                <td>john@example.com</td>
-            </tr>
-            <tr class="danger">
-                <td>Danger</td>
-                <td>Moe</td>
-                <td>mary@example.com</td>
-            </tr>
-            <tr class="info">
-                <td>Info</td>
-                <td>Dooley</td>
-                <td>july@example.com</td>
-            </tr>
-            <tr class="warning">
-                <td>Warning</td>
-                <td>Refs</td>
-                <td>bo@example.com</td>
-            </tr>
-            <tr class="active">
-                <td>Active</td>
-                <td>Activeson</td>
-                <td>act@example.com</td>
-            </tr>
-            </tbody>
-        </table>
+    <div class="user-panel">
+        <div id="myTable"></div>
     </div>
+
 </template>
 
 <script>
+    import axios from "axios";
+
     export default {
-        name: "ListOfLessons"
+        props: ["dataForCreate"],
+        data() {
+            return {
+                info: this.dataForCreate,
+                data: []
+            };
+        },
+
+        created: function () {
+            this.getStatistics(
+                this.info
+            );
+            this.buildTable();
+        },
+
+        methods: {
+            buildTable() {
+                let table;
+                table = "<table class='table'><thead><tr>";
+                table += "<th>Time</th>";
+                table += "<th>Lesson</th>";
+                table += "<th>Teacher</th>";
+                table += "<th>Room</th>";
+                table += "<th>Attendance</th></tr></thead><tbody>";
+
+                for (let i = 0; i < this.data.length; i++) {
+                    if (this.data[i].attendance === null) {
+                        table += "<tr class=\"warning\">";
+                    } else if (this.data[i].attendance === "PRESENT")
+                        table += "<tr class=\"success\">";
+                    else table += "<tr class=\"danger\">";
+
+                    table += "<td>" + this.data[i].dateTime + "</td>";
+                    table += "<td>" + this.data[i].course.name + " (" + this.data[i].type.toLowerCase() + ")" + "</td>";
+                    table += "<td>" + this.data[i].teacher.name + " " + this.data[i].teacher.surname + "</td>";
+                    table += "<td>" + this.data[i].room + "</td>";
+
+                    if (this.data[i].attendance === null) {
+                        table += "<td>REASONABLE</td></tr>";
+                    } else if (this.data[i].attendance === "PRESENT")
+                        table += "<td>PRESENT</td></tr>";
+                    else table += "<td>ABSENT</td></tr>";
+                }
+
+                table += "</tbody></table>";
+                document.getElementById("myTable").innerText = table;
+            },
+            getStatistics: function (date) {
+                const AXIOS = axios.create({
+                    baseURL: "http://134.209.227.130:8080",
+                    headers: {
+                        Authorization: "JWT " + localStorage.getItem("token"),
+                        "Content-Type": "application/json; charset=UTF-8",
+                        "Access-Control-Allow-Origin": "*"
+                    }
+                });
+
+                console.log(date);
+                AXIOS.get("/lesson/daily", {
+                    params: {date}
+                }).then(
+                    response => {
+                        this.data = response.data;
+                    }
+                );
+            }
+        }
     };
-    for (var i = 0; i < table.length; i++) {
-        myTable += "<tr><td>" + table[i].name + " " + table[i].surname + "</td>";
-        myTable += "<td>" + "<input value='09:00' type='time' min='0:00' max='23:59'/>" + "</td>";
-        myTable += "<td>" + "<input value='10:30' type='time' min='0:00' max='23:59'/>" + "</td>";
-        myTable += "<td>"+ "<input class='checkbox' type='checkbox'/>" +"</td></tr>";
-    }
-    myTable += "</table>";
 </script>
 
-<style scoped>
-
-</style>
