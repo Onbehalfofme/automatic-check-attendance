@@ -39,19 +39,19 @@ public class LessonDTO {
                 .collect(Collectors.toList());
     }
 
-    public LessonDTO(Long id,
-                     CourseDTO course,
-                     UserDTO teacher,
-                     LessonType type,
-                     LocalDateTime dateTime,
-                     String room,
-                     Collection<LessonStudentDTO> students) {
-        this.id = id;
-        this.course = course;
-        this.teacher = teacher;
-        this.type = type;
-        this.dateTime = dateTime;
-        this.room = room;
-        this.students = students;
-    }
+//    public LessonDTO(Long id,
+//                     CourseDTO course,
+//                     UserDTO teacher,
+//                     LessonType type,
+//                     LocalDateTime dateTime,
+//                     String room,
+//                     Collection<LessonStudentDTO> students) {
+//        this.id = id;
+//        this.course = course;
+//        this.teacher = teacher;
+//        this.type = type;
+//        this.dateTime = dateTime;
+//        this.room = room;
+//        this.students = students;
+//    }
 }

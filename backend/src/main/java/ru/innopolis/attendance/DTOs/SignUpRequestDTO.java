@@ -19,15 +19,15 @@ public class SignUpRequestDTO {
     @JsonFormat(pattern = "dd.MM.yyyy")
     private LocalDate birthday;
 
-    public SignUpRequestDTO(String email,
-                            String password,
-                            String name,
-                            String surname,
-                            LocalDate birthday) {
-        this.email = email;
-        this.password = password;
-        this.name = name;
-        this.surname = surname;
-        this.birthday = birthday;
-    }
+//    public SignUpRequestDTO(String email,
+//                            String password,
+//                            String name,
+//                            String surname,
+//                            LocalDate birthday) {
+//        this.email = email;
+//        this.password = password;
+//        this.name = name;
+//        this.surname = surname;
+//        this.birthday = birthday;
+//    }
 }

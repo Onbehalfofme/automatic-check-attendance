@@ -32,17 +32,17 @@ public class LessonSearchDTO {
         room = lesson.getRoom();
     }
 
-    public LessonSearchDTO(Long id,
-                           CourseDTO course,
-                           UserDTO teacher,
-                           LessonType type,
-                           LocalDateTime dateTime,
-                           String room) {
-        this.id = id;
-        this.course = course;
-        this.teacher = teacher;
-        this.type = type;
-        this.dateTime = dateTime;
-        this.room = room;
-    }
+//    public LessonSearchDTO(Long id,
+//                           CourseDTO course,
+//                           UserDTO teacher,
+//                           LessonType type,
+//                           LocalDateTime dateTime,
+//                           String room) {
+//        this.id = id;
+//        this.course = course;
+//        this.teacher = teacher;
+//        this.type = type;
+//        this.dateTime = dateTime;
+//        this.room = room;
+//    }
 }

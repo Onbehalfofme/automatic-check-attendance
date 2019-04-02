@@ -39,19 +39,19 @@ public class LessonSearchStudentDTO {
         attendance = userCheck.map(LessonStudent::getAttendance).orElse(null);
     }
 
-    public LessonSearchStudentDTO(Long id,
-                                  CourseDTO course,
-                                  UserDTO teacher,
-                                  LessonType type,
-                                  LocalDateTime dateTime,
-                                  String room,
-                                  AttendanceType attendance) {
-        this.id = id;
-        this.course = course;
-        this.teacher = teacher;
-        this.type = type;
-        this.dateTime = dateTime;
-        this.room = room;
-        this.attendance = attendance;
-    }
+//    public LessonSearchStudentDTO(Long id,
+//                                  CourseDTO course,
+//                                  UserDTO teacher,
+//                                  LessonType type,
+//                                  LocalDateTime dateTime,
+//                                  String room,
+//                                  AttendanceType attendance) {
+//        this.id = id;
+//        this.course = course;
+//        this.teacher = teacher;
+//        this.type = type;
+//        this.dateTime = dateTime;
+//        this.room = room;
+//        this.attendance = attendance;
+//    }
 }

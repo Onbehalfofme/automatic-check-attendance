@@ -18,13 +18,13 @@ public class LessonCreationRequestDTO {
 
     private String room;
 
-    public LessonCreationRequestDTO(Long courseId,
-                                    LessonType type,
-                                    LocalDateTime dateTime,
-                                    String room) {
-        this.courseId = courseId;
-        this.type = type;
-        this.dateTime = dateTime;
-        this.room = room;
-    }
+//    public LessonCreationRequestDTO(Long courseId,
+//                                    LessonType type,
+//                                    LocalDateTime dateTime,
+//                                    String room) {
+//        this.courseId = courseId;
+//        this.type = type;
+//        this.dateTime = dateTime;
+//        this.room = room;
+//    }
 }
