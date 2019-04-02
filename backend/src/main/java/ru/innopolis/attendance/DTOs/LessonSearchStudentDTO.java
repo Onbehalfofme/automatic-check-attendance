@@ -1,20 +1,13 @@
 package ru.innopolis.attendance.DTOs;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 import ru.innopolis.attendance.models.*;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Data
-@AllArgsConstructor
 public class LessonSearchStudentDTO {
 
     private Long id;
@@ -26,9 +19,6 @@ public class LessonSearchStudentDTO {
     private LessonType type;
 
     @JsonFormat(pattern = "dd.MM.yyyy HH:mm")
-    @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm")
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime dateTime;
 
     private String room;
@@ -47,5 +37,21 @@ public class LessonSearchStudentDTO {
                         lessonStudent.getId().getStudent().getId()
                                 .equals(studentId)).findFirst();
         attendance = userCheck.map(LessonStudent::getAttendance).orElse(null);
+    }
+
+    public LessonSearchStudentDTO(Long id,
+                                  CourseDTO course,
+                                  UserDTO teacher,
+                                  LessonType type,
+                                  LocalDateTime dateTime,
+                                  String room,
+                                  AttendanceType attendance) {
+        this.id = id;
+        this.course = course;
+        this.teacher = teacher;
+        this.type = type;
+        this.dateTime = dateTime;
+        this.room = room;
+        this.attendance = attendance;
     }
 }

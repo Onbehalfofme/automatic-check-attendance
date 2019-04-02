@@ -1,13 +1,7 @@
 package ru.innopolis.attendance.DTOs;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 import ru.innopolis.attendance.models.Lesson;
 import ru.innopolis.attendance.models.LessonType;
 
@@ -16,7 +10,6 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 
 @Data
-@AllArgsConstructor
 public class LessonDTO {
 
     private Long id;
@@ -28,9 +21,6 @@ public class LessonDTO {
     private LessonType type;
 
     @JsonFormat(pattern = "dd.MM.yyyy HH:mm")
-    @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm")
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime dateTime;
 
     private String room;
@@ -47,5 +37,21 @@ public class LessonDTO {
         students = lesson.getLessonStudents().stream()
                 .map(LessonStudentDTO::new)
                 .collect(Collectors.toList());
+    }
+
+    public LessonDTO(Long id,
+                     CourseDTO course,
+                     UserDTO teacher,
+                     LessonType type,
+                     LocalDateTime dateTime,
+                     String room,
+                     Collection<LessonStudentDTO> students) {
+        this.id = id;
+        this.course = course;
+        this.teacher = teacher;
+        this.type = type;
+        this.dateTime = dateTime;
+        this.room = room;
+        this.students = students;
     }
 }
