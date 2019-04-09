@@ -89,6 +89,15 @@ body {
     margin: 0 0 0 0;
 }
 
+#tool-bar{
+    margin: 40% 0 0 0;
+}
+
+.chart{
+    width: 40%;
+    margin: 5% 30% 5% 30%
+}
+
 .top-panel {
     z-index: 2;
     background-color: #23C664;

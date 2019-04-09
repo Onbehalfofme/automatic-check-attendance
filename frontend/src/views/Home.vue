@@ -39,9 +39,15 @@
         <div class="cont">
             <StudentToolBar v-if="isStudent && show"
                             @getLessInfo="paramOfCall = $event"
-                            @showContent="showCont1 = $event"
+                            @showContent1="showCont1 = $event"
+                            @showContent2="showCont2 = $event"
                             @closeTab="show = $event"
                             @closeToolBar="activeBtn = $event"
+            />
+            <StudentChart v-else-if="isStudent && showCont2"
+                          @showContent="showCont2 = $event"
+                          :dataForCreateChart="paramOfCall"
+                          @hideContent="showCont2 = $event"
             />
             <ListOfLessons v-else-if="isStudent && showCont1"
                            @showContent="showCont1 = $event"
@@ -87,6 +93,7 @@
     import listOfStudents from "../components/listOfStudents";
     import ListOfLessons from "../components/ListOfLessons";
     import listForUpdate from "../components/listForUpdate";
+    import StudentChart from "../components/StudentChart";
 
     function getUserID() {
         let role = JSON.parse(
@@ -106,11 +113,12 @@
                 isStudent: getUserID(),
                 showCont: false,
                 showCont1: false,
+                showCont2: false,
                 showContUpd: false,
                 paramOfCall: {}
             };
         },
-        components: {listOfStudents, listForUpdate, ToolBar, StudentToolBar, ToolBarForUpdate, ListOfLessons},
+        components: {listOfStudents, listForUpdate, ToolBar, StudentToolBar, ToolBarForUpdate, ListOfLessons, StudentChart},
         methods: {
             sendLogoutReq() {
                 let some = "";
@@ -135,6 +143,7 @@
                     } else {
                         this.showCont = false;
                         this.showCont1 = false;
+                        this.showCont2 = false;
                         this.show = true;
                         this.activeBtn = "btn2";
                     }
