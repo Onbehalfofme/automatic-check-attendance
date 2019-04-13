@@ -19,7 +19,7 @@ node {
             frontend.push("frontend")
         }
     }
-    stage('Build') {
+    stage('Remove local images') {
         sh 'docker rmi -f $(docker images -q)'
     }
     stage('Deploy'){
