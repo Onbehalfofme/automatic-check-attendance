@@ -1,7 +1,6 @@
 FROM gradle:jdk8
 
-COPY . /home/gradle/src
-RUN chmod 777 /home/gradle/src
+COPY --chown=gradle:gradle . /home/gradle/src
 WORKDIR /home/gradle/src
 RUN ./gradlew build --no-daemon
 
