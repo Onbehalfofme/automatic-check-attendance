@@ -27,7 +27,7 @@ public class LessonSearchStudentDTO {
 
     private AttendanceType attendance;
 
-    public LessonSearchStudentDTO(Lesson lesson, Long studentId) throws IllegalArgumentException {
+    public LessonSearchStudentDTO(Lesson lesson, Long studentId) {
         id = lesson.getId();
         course = new CourseDTO(lesson.getCourse());
         teacher = new UserDTO(lesson.getTeacher());

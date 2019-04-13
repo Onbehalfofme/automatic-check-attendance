@@ -50,4 +50,6 @@ public class LessonStudent {
     private LocalDateTime checkOutTime;
 
     private String reason;
+
+    private String reasonMessage;
 }
