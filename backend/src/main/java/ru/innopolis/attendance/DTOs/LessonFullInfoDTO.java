@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
-public class LessonDTO {
+public class LessonFullInfoDTO {
 
     private Long id;
 
@@ -29,7 +29,7 @@ public class LessonDTO {
 
     private Collection<LessonStudentNameDTO> students;
 
-    public LessonDTO(Lesson lesson) {
+    public LessonFullInfoDTO(Lesson lesson) {
         id = lesson.getId();
         course = new CourseDTO(lesson.getCourse());
         teacher = new UserDTO(lesson.getTeacher());
@@ -37,7 +37,7 @@ public class LessonDTO {
         dateTime = lesson.getDateTime();
         room = lesson.getRoom();
         students = lesson.getLessonStudents().stream()
-                .map(LessonStudentNameDTO::new)
+                .map(LessonStudentNameDTO::new).sorted((o1, o2) -> o1.getStudent().getEmail().compareToIgnoreCase(o2.getStudent().getEmail()))
                 .collect(Collectors.toList());
     }
 }

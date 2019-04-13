@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
-public class LessonStudentDTO {
+public class LessonStudentIdDTO {
 
     private Long studentId;
 
@@ -22,7 +22,7 @@ public class LessonStudentDTO {
     @JsonFormat(pattern = "dd.MM.yyyy HH:mm")
     private LocalDateTime checkOut;
 
-    public LessonStudentDTO(LessonStudent lessonStudent) {
+    public LessonStudentIdDTO(LessonStudent lessonStudent) {
         studentId = lessonStudent.getId().getStudent().getId();
         attendance = lessonStudent.getAttendance();
         checkIn = lessonStudent.getCheckInTime();

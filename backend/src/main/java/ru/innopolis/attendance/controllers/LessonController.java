@@ -55,11 +55,11 @@ public class LessonController {
             "T(ru.innopolis.attendance.models.Role).ROLE_DOE.name()," +
             "T(ru.innopolis.attendance.models.Role).ROLE_PROFESSOR.name()," +
             "T(ru.innopolis.attendance.models.Role).ROLE_TA.name())")
-    public LessonDTO getLesson(@AuthenticationPrincipal UserProfileDetails userDetails,
-                               @PathVariable long lessonId) {
+    public LessonFullInfoDTO getLesson(@AuthenticationPrincipal UserProfileDetails userDetails,
+                                       @PathVariable long lessonId) {
         Optional<Lesson> lessonCheck = lessonRepository.findById(lessonId);
         if (!lessonCheck.isPresent()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Lesson fon found.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Lesson not found.");
         }
 
         Lesson lesson = lessonCheck.get();
@@ -70,7 +70,7 @@ public class LessonController {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
 
-        return new LessonDTO(lesson);
+        return new LessonFullInfoDTO(lesson);
     }
 
     @Transactional
@@ -102,7 +102,8 @@ public class LessonController {
 
         return new LessonCreationResponseDTO(lessonId,
                 course.getParticipants().stream().filter(userProfile -> userProfile.getRole() == Role.ROLE_STUDENT)
-                        .map(UserDTO::new).collect(Collectors.toList()));
+                        .map(UserDTO::new)
+                        .collect(Collectors.toList()));
     }
 
     @Transactional
@@ -112,8 +113,8 @@ public class LessonController {
             "T(ru.innopolis.attendance.models.Role).ROLE_ADMIN.name()," +
             "T(ru.innopolis.attendance.models.Role).ROLE_PROFESSOR.name()," +
             "T(ru.innopolis.attendance.models.Role).ROLE_TA.name())")
-    public LessonDTO updateStudents(@PathVariable long lessonId,
-                                    @RequestBody Collection<LessonStudentDTO> studentDTOs) {
+    public LessonFullInfoDTO updateStudents(@PathVariable long lessonId,
+                                            @RequestBody Collection<LessonStudentIdDTO> studentDTOs) {
         Optional<Lesson> lessonCheck = lessonRepository.findById(lessonId);
         if (!lessonCheck.isPresent()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Lesson not found.");
@@ -123,7 +124,7 @@ public class LessonController {
 
         List<LessonStudent> students = new ArrayList<>(studentDTOs.size());
 
-        for (LessonStudentDTO studentDTO : studentDTOs) {
+        for (LessonStudentIdDTO studentDTO : studentDTOs) {
             Optional<UserProfile> userCheck = userRepository.findById(studentDTO.getStudentId());
             if (!userCheck.isPresent()) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User doesn't exist.");
@@ -143,7 +144,7 @@ public class LessonController {
 
         lessonRepository.save(lesson);
 
-        return new LessonDTO(lesson);
+        return new LessonFullInfoDTO(lesson);
     }
 
     @Log(LogLevel.INFO)
@@ -171,7 +172,8 @@ public class LessonController {
             specs.and(LessonSpecifications.getLessonWithinCourses(user.getEnrolledCourses()));
         }
         return lessonRepository.findAll(specs, new Sort(Sort.Direction.ASC, Lesson_.dateTime.getName())).stream()
-                .map(LessonSearchDTO::new).collect(Collectors.toList());
+                .map(LessonSearchDTO::new)
+                .collect(Collectors.toList());
     }
 
     @Log(LogLevel.INFO)
@@ -186,6 +188,7 @@ public class LessonController {
         );
 
         return lessonRepository.findAll(specs, new Sort(Sort.Direction.ASC, Lesson_.dateTime.getName())).stream()
-                .map(lesson -> new LessonSearchStudentDTO(lesson, user.getId())).collect(Collectors.toList());
+                .map(lesson -> new LessonSearchStudentDTO(lesson, user.getId()))
+                .collect(Collectors.toList());
     }
 }

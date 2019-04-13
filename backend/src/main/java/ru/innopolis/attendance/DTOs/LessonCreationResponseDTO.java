@@ -3,6 +3,7 @@ package ru.innopolis.attendance.DTOs;
 import lombok.Data;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 @Data
 public class LessonCreationResponseDTO {
@@ -14,6 +15,8 @@ public class LessonCreationResponseDTO {
     public LessonCreationResponseDTO(Long lessonId,
                                      Collection<UserDTO> students) {
         this.lessonId = lessonId;
-        this.students = students;
+        this.students = students.stream()
+                .sorted((o1, o2) -> o1.getEmail().compareToIgnoreCase(o2.getEmail()))
+                .collect(Collectors.toList());
     }
 }
