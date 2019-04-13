@@ -1,4 +1,9 @@
-FROM openjdk:8-jdk-alpine
+FROM gradle:jdk8
+
+COPY --chown=gradle:gradle . /home/gradle/src
+WORKDIR /home/gradle/src
+RUN ./gradlew build --no-daemon
+
 
 EXPOSE 8080
 
