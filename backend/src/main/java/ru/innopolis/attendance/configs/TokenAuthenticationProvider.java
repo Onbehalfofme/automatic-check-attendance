@@ -49,15 +49,15 @@ public class TokenAuthenticationProvider {
             Jwts.parser().setSigningKey(tokenSecret).parseClaimsJws(authToken);
             return true;
         } catch (SignatureException ex) {
-            log.warn("Invalid JWT signature", ex);
+            log.warn("Invalid JWT signature.", ex);
         } catch (MalformedJwtException ex) {
-            log.warn("Invalid JWT token", ex);
+            log.warn("Invalid JWT token.", ex);
         } catch (ExpiredJwtException ex) {
-            log.warn("Expired JWT token", ex);
+            log.warn("Expired JWT token.", ex);
         } catch (UnsupportedJwtException ex) {
-            log.warn("Unsupported JWT token", ex);
+            log.warn("Unsupported JWT token.", ex);
         } catch (IllegalArgumentException ex) {
-            log.warn("JWT claims string is empty", ex);
+            log.warn("JWT claims string is empty.", ex);
         }
         return false;
     }

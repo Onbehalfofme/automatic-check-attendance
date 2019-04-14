@@ -15,18 +15,19 @@ import ru.innopolis.attendance.DTOs.CourseDTO;
 import ru.tinkoff.eclair.annotation.Log;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/courses")
-public class CoursesController {
+@RequestMapping("/course")
+public class CourseController {
 
     private final UserRepository userRepository;
     private final CourseRepository courseRepository;
 
     @Autowired
-    public CoursesController(UserRepository userRepository,
-                             CourseRepository courseRepository) {
+    public CourseController(UserRepository userRepository,
+                            CourseRepository courseRepository) {
         this.userRepository = userRepository;
         this.courseRepository = courseRepository;
     }
@@ -45,7 +46,8 @@ public class CoursesController {
     @GetMapping("/enrolled")
     public Collection<CourseDTO> getEnrolledCourses(@AuthenticationPrincipal UserProfileDetails userDetails) {
         UserProfile user = userRepository.getById(userDetails.getId());
-        return user.getEnrolledCourses().stream()
-                .map(CourseDTO::new).collect(Collectors.toList());
+        return Collections.singletonList(new CourseDTO());
+//        return user.getEnrolledCourses().stream()
+//                .map(CourseDTO::new).collect(Collectors.toList());
     }
 }

@@ -1,13 +1,14 @@
-FROM gradle:jdk8
+FROM openjdk:8-jdk-alpine as builder
 
-COPY --chown=gradle:gradle . /home/gradle/src
-WORKDIR /home/gradle/src
-RUN ./gradlew build --no-daemon
+COPY build.gradle gradlew /app/
+COPY gradle /app/gradle
+COPY src /app/src
+WORKDIR /app/
+RUN ./gradlew build
 
+FROM openjdk:8-jdk-alpine
 
 EXPOSE 8080
-
-COPY build/libs/*.jar ./app.jar
-VOLUME /images
-
-CMD [ "java", "-jar", "./app.jar" ]
+VOLUME /tmp
+COPY --from=builder /app/build/libs/*.jar /app/app.jar
+CMD [ "java", "-jar", "/app/app.jar" ]

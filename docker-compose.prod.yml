@@ -18,6 +18,8 @@ services:
 
   backend:
     image: onbehalfofme/attendance:backend
+    volumes:
+      - ./backend/reasons:/app/reasons
     restart: always
     env_file: .env
     depends_on: 
@@ -28,8 +30,7 @@ services:
   frontend:
     image: onbehalfofme/attendance:frontend
     restart: always
-    env_file:
-      - .env
+    env_file: .env
     depends_on:
       - backend
     ports:

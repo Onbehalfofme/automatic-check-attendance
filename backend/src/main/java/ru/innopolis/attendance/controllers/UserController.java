@@ -2,6 +2,9 @@ package ru.innopolis.attendance.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.logging.LogLevel;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -9,27 +12,26 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import ru.innopolis.attendance.data.CourseRepository;
 import ru.innopolis.attendance.data.UserRepository;
-import ru.innopolis.attendance.models.Course;
-import ru.innopolis.attendance.models.Role;
-import ru.innopolis.attendance.models.UserProfile;
-import ru.innopolis.attendance.models.UserProfileDetails;
+import ru.innopolis.attendance.models.*;
 import ru.innopolis.attendance.DTOs.UserDTO;
+import ru.innopolis.attendance.specifications.UserProfileSpecifications;
 import ru.tinkoff.eclair.annotation.Log;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/users")
-public class UsersController {
+@RequestMapping("/user")
+public class UserController {
 
     private final UserRepository userRepository;
     private final CourseRepository courseRepository;
 
     @Autowired
-    public UsersController(UserRepository userRepository,
-                           CourseRepository courseRepository) {
+    public UserController(UserRepository userRepository,
+                          CourseRepository courseRepository) {
         this.userRepository = userRepository;
         this.courseRepository = courseRepository;
     }
@@ -85,5 +87,33 @@ public class UsersController {
 
         return course.get().getParticipants().stream()
                 .map(UserDTO::new).collect(Collectors.toList());
+    }
+
+    @Log(LogLevel.INFO)
+    @GetMapping("/search")
+    @PreAuthorize("hasAnyRole(" +
+            "T(ru.innopolis.attendance.models.Role).ROLE_ADMIN.name()," +
+            "T(ru.innopolis.attendance.models.Role).ROLE_DOE.name()," +
+            "T(ru.innopolis.attendance.models.Role).ROLE_PROFESSOR.name()," +
+            "T(ru.innopolis.attendance.models.Role).ROLE_TA.name())")
+    public Collection<UserDTO> getUsers(@RequestParam(required = false) @DateTimeFormat(pattern = "dd.MM.yyyy") LocalDate birthdayAfter,
+                                        @RequestParam(required = false) @DateTimeFormat(pattern = "dd.MM.yyyy") LocalDate birthdayBefore,
+                                        @RequestParam(required = false, value = "role") Collection<Role> roles,
+                                        @RequestParam(required = false, value = "groupNumber") Collection<Short> groupNumbers,
+                                        @RequestParam(required = false) String name) {
+        Specification<UserProfile> specs = Specification.where(
+                UserProfileSpecifications.getUserWithBirthdayAfter(birthdayAfter)
+                        .and(UserProfileSpecifications.getUserWithBirthdayBefore(birthdayBefore))
+                        .and(UserProfileSpecifications.getUserWithRoles(roles))
+                        .and(UserProfileSpecifications.getUserWithGroupNumbers(groupNumbers))
+                        .and(
+                                UserProfileSpecifications.getUserWithFirstName(name)
+                                        .or(UserProfileSpecifications.getUserWithLastName(name))
+                        )
+        );
+
+        return userRepository.findAll(specs, new Sort(Sort.Direction.ASC, UserProfile_.name.getName())).stream()
+                .map(UserDTO::new)
+                .collect(Collectors.toList());
     }
 }

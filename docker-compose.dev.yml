@@ -18,6 +18,8 @@ services:
 
   backend:
     image: backend
+    volumes:
+      - ./backend/reasons:/app/reasons
     restart: always
     env_file: .env
     depends_on:
@@ -31,8 +33,7 @@ services:
   frontend:
     image: frontend
     restart: always
-    env_file:
-      - .env
+    env_file: .env
     depends_on:
       - backend
     ports:

@@ -28,7 +28,7 @@ public class UserProfileDetailsService implements UserDetailsService {
         Optional<UserProfile> user = userRepository.findByEmail(email);
 
         if (!user.isPresent()) {
-            throw new UsernameNotFoundException("Email: " + email + " not found");
+            throw new UsernameNotFoundException("Email: " + email + " not found.");
         }
 
         return new UserProfileDetails(user.get());
