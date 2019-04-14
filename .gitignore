@@ -171,3 +171,4 @@ gradle-app.setting
 # End of https://www.gitignore.io/api/java,macos,gradle,java-web,code-java,jetbrains+all
 
 .env
+backend/reasons

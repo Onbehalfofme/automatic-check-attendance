@@ -150,8 +150,8 @@ public class LessonController {
     @Log(LogLevel.INFO)
     @GetMapping("/search")
     public Collection<LessonSearchDTO> getLessons(@AuthenticationPrincipal UserProfileDetails userProfile,
-                                                  @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm") @RequestParam(required = false) LocalDateTime after,
-                                                  @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm") @RequestParam(required = false) LocalDateTime before,
+                                                  @RequestParam(required = false) @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm") LocalDateTime after,
+                                                  @RequestParam(required = false) @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm") LocalDateTime before,
                                                   @RequestParam(required = false) String teacher,
                                                   @RequestParam(required = false) LessonType type,
                                                   @RequestParam(required = false) String course,
@@ -161,11 +161,11 @@ public class LessonController {
                         .and(LessonSpecifications.getLessonBefore(before))
                         .and(LessonSpecifications.getLessonInRoom(room))
                         .and(LessonSpecifications.getLessonWithCourseName(course))
-                        .and(
-                                LessonSpecifications.getLessonWithTeacherFirstName(teacher).or(
-                                        LessonSpecifications.getLessonWithTeacherLastName(teacher))
-                        )
                         .and(LessonSpecifications.getLessonWithType(type))
+                        .and(
+                                LessonSpecifications.getLessonWithTeacherFirstName(teacher)
+                                        .or(LessonSpecifications.getLessonWithTeacherLastName(teacher))
+                        )
         );
         UserProfile user = userRepository.getById(userProfile.getId());
         if (user.getRole() != Role.ROLE_ADMIN && user.getRole() != Role.ROLE_DOE) {

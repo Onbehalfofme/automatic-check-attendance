@@ -37,7 +37,8 @@ public class LessonFullInfoDTO {
         dateTime = lesson.getDateTime();
         room = lesson.getRoom();
         students = lesson.getLessonStudents().stream()
-                .map(LessonStudentNameDTO::new).sorted((o1, o2) -> o1.getStudent().getEmail().compareToIgnoreCase(o2.getStudent().getEmail()))
+                .map(LessonStudentNameDTO::new)
+                .sorted((o1, o2) -> o1.getStudent().getEmail().compareToIgnoreCase(o2.getStudent().getEmail()))
                 .collect(Collectors.toList());
     }
 }

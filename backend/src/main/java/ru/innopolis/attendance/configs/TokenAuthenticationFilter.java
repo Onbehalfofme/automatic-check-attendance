@@ -23,9 +23,9 @@ import java.io.IOException;
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
     @Value("${jwt.prefix}")
-    private String PREFIX;
+    private String prefix;
     @Value("${jwt.requestHeader}")
-    private String AUTH;
+    private String auth;
 
     private final TokenAuthenticationProvider tokenAuthenticationProvider;
     private final UserProfileDetailsService userDetailsService;
@@ -54,16 +54,16 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(token);
             }
         } catch (Exception e) {
-            log.warn("Could not set user authentication in security context", e);
+            log.warn("Could not set user authentication in security context.", e);
         }
 
         filterChain.doFilter(request, response);
     }
 
     private String getJwtFromRequest(HttpServletRequest request) {
-        String bearerToken = request.getHeader(AUTH);
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(PREFIX)) {
-            return bearerToken.substring(PREFIX.length() + 1);
+        String bearerToken = request.getHeader(auth);
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(prefix)) {
+            return bearerToken.substring(prefix.length() + 1);
         }
         return null;
     }
