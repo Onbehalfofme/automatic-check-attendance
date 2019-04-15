@@ -67,8 +67,13 @@ body {
     color: white;
 }
 
+.btn {
+    width: 90px;
+    font-size: 15px;
+}
+
 .btn-success {
-    width: 60px;
+    width: 90px;
     font-size: 15px;
 }
 
@@ -379,12 +384,40 @@ body {
     border-radius: 4px;
 }
 
+.lesson-panel {
+    z-index: 1;
+    background-color: white;
+    overflow: hidden;
+    position: absolute;
+    float: top;
+    width: 96%;
+    margin: 70px 2% 20px;
+    box-shadow: 0 0 6px 0 rgba(25, 25, 34, .16);
+    border-radius: 4px;
+}
+
+.lesson-panel .header{
+    margin: 0 30px 0;
+    font-family: "Quicksand", sans-serif;
+    font-size: 17px;
+    padding: 15px 0 0;
+
+}
+
 .user-panel .header{
     margin: 0 30px 0;
     font-family: "Quicksand", sans-serif;
     font-size: 17px;
     padding: 15px 0 0;
 
+}
+
+.lessons-table {
+    float: top;
+
+    margin: 20px 30px 0;
+    box-shadow: 0 0 6px 0 rgba(25, 25, 34, .16);
+    border-radius: 4px;
 }
 
 .user-table {

@@ -31,8 +31,16 @@
       </div>
       <div class="info-panel">
         <div class="top-name" v-on:click="sendLogoutReq()"><h2>Logout</h2></div>
-        <div class="top-name"><h2>Settings</h2></div>
-        <div class="top-name"><h2>Dashboard</h2></div>
+        <div
+          class="top-name"
+          v-on:click="
+            show = false;
+            activeBtn = '';
+            showCont = false;
+          "
+        >
+          <h2>Dashboard</h2>
+        </div>
       </div>
     </div>
 
@@ -65,7 +73,7 @@
         @closeTab="activeBtn = $event"
         @showContent="showCont = $event"
       />
-      <listOfStudents
+      <ListOfLessonsForUpdate
         v-else-if="!isStudent && showCont"
         :dataForCreate="paramOfCall"
         @hideContent="showCont = $event"
@@ -78,7 +86,8 @@
 import StudentToolBar from "../components/StudentToolBar.vue";
 import ToolBar from "../components/ToolBar.vue";
 import jwt_decode from "jwt-decode";
-import listOfStudents from "../components/listOfStudents";
+//import listOfStudents from "../components/listOfStudents";
+import ListOfLessonsForUpdate from "../components/ListOfLessonsForUpdate";
 import ListOfLessons from "../components/ListOfLessons";
 import StudentChart from "../components/StudentChart";
 
@@ -97,7 +106,8 @@ export default {
     };
   },
   components: {
-    listOfStudents,
+    ListOfLessonsForUpdate,
+    //listOfStudents,
     ToolBar,
     StudentToolBar,
     ListOfLessons,

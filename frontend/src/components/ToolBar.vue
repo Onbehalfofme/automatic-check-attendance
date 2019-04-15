@@ -163,12 +163,13 @@ export default {
   },
 
   created: function() {
+    console.log(localStorage.getItem("token"));
     this.getCourses();
   },
 
   methods: {
     getCourses: function() {
-      AXIOS.get("/courses/enrolled").then(response => {
+      AXIOS.get("/course/enrolled").then(response => {
         this.options = response.data;
       });
     },

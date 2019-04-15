@@ -124,39 +124,15 @@ export default {
       }
 
       if (info.status === "update") {
-        let after = null;
-        let before = null;
-
-        if (info.aLectureTime != null)
-          after =
-            moment(info.aLectureDate).format("DD.MM.YYYY") +
-            " " +
-            info.aLectureTime;
-        if (info.bLectureTime != null)
-          before =
-            moment(info.bLectureDate).format("DD.MM.YYYY") +
-            " " +
-            info.bLectureTime;
-
-        await AXIOS.get("/lesson/search", {
-          params: {
-            course: info.courseId,
-            after: after,
-            before: before,
-            room: info.room,
-            type: info.type,
-            teacher: info.teacher
-          }
-        }).then(response => {
-          this.lessonId = response.data[0].id;
-        });
-
+        this.lessonId = this.info.lessonId;
         await AXIOS.get("/lesson/" + this.lessonId).then(response => {
+          console.log("users");
+          console.log(response.data);
           this.users = this.reformatData("update", response.data.students);
         });
       }
 
-      for (let i = 0; i <= this.users.length; i++) {
+      for (let i = 0; i < this.users.length; i++) {
         let dateTime1 =
           moment(this.users[i].date).format("DD.MM.YYYY") +
           " " +
@@ -204,7 +180,6 @@ export default {
             Math.floor((parseInt(time[1]) + 90) / 60) +
             ":" +
             ((parseInt(time[1]) + 90) % 60);
-          console.log(checkOut);
           newVersion.push({
             attendance: "ABSENT",
             checkIn: this.info.lectureTime,
@@ -266,8 +241,6 @@ export default {
             };
           }
       }
-      console.log(item);
-      console.log(this.selected);
     }
   }
 };

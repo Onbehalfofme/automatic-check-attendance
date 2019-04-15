@@ -25,6 +25,7 @@
         </div>
         <div class="button-panel">
           <button
+            type="button"
             class="btn btn-success"
             v-on:click="sendData(email, password)"
           >
@@ -63,6 +64,7 @@ export default {
         password: password
       }).then(response => {
         localStorage.setItem("token", response.data.token);
+        console.log(localStorage.getItem("token", response.data.token));
         this.token = response.data.token;
         this.$emit("ChangeToken", true);
       });
