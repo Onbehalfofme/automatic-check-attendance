@@ -90,13 +90,13 @@
             />
             <TeacherChart
                     v-else-if="isDoe && showCont2"
-                    :dataForCreateChart="paramOfCall"
+                    :dataForCreateTeacherChart="paramOfCall"
                     @showContent="showCont2 = $event"
                     @hideContent="showCont2 = $event"
             />
             <CourseChart
                     v-else-if="isDoe && showCont1"
-                    :dataForCreate="paramOfCall"
+                    :dataForCreateCourseChart="paramOfCall"
                     @showContent="showCont1 = $event"
                     @hideContent="showCont1 = $event"
             />
@@ -105,74 +105,9 @@
 </template>
 
 <script>
-import StudentToolBar from "../components/StudentToolBar.vue";
-import ToolBar from "../components/ToolBar.vue";
-import jwt_decode from "jwt-decode";
-import listOfStudents from "../components/listOfStudents";
-import ListOfLessons from "../components/ListOfLessons";
-import StudentChart from "../components/StudentChart";
-
-export default {
-  name: "home",
-  data() {
-    return {
-      statusToolBar: "",
-      activeBtn: "",
-      show: false,
-      showCont: false,
-      showCont1: false,
-      showCont2: false,
-      isStudent: false,
-      paramOfCall: null
-    };
-  },
-  components: {
-    listOfStudents,
-    ToolBar,
-    StudentToolBar,
-    ListOfLessons,
-    StudentChart
-  },
-  created() {
-    let role = JSON.parse(
-      JSON.stringify(jwt_decode(localStorage.getItem("token")))
-    ).role;
-
-    this.isStudent = role === "ROLE_STUDENT";
-  },
-  methods: {
-    sendLogoutReq() {
-      localStorage.removeItem("token");
-      this.$emit("ChangeToken", false);
-    },
-    openTabAttendance: function(state) {
-      if (state === "btn1") {
-        if (this.activeBtn === "btn1") {
-          this.show = false;
-          this.activeBtn = "";
-        } else {
-          this.statusToolBar = "update";
-          this.show = true;
-          this.activeBtn = "btn1";
-        }
-      } else {
-        this.show = false;
-        if (this.activeBtn === "btn2") {
-          this.show = false;
-          this.activeBtn = "";
-        } else {
-          this.statusToolBar = "create";
-          this.show = true;
-          this.activeBtn = "btn2";
-        }
-      }
-    }
-  }
-};
     import StudentToolBar from "../components/StudentToolBar.vue";
     import ToolBar from "../components/ToolBar.vue";
     import jwt_decode from "jwt-decode";
-    import {logout} from "../services/loginService";
     import listOfStudents from "../components/listOfStudents";
     import ListOfLessons from "../components/ListOfLessons";
     import StudentChart from "../components/StudentChart";
@@ -184,7 +119,6 @@ export default {
         name: "home",
         data() {
             return {
-                //userID: "",
                 statusToolBar: "",
                 activeBtn: "",
                 show: false,
@@ -199,16 +133,16 @@ export default {
             };
         },
         components: {
+
             listOfStudents,
-            //listForUpdate,
             ToolBar,
             StudentToolBar,
-            //ToolBarForUpdate
             ListOfLessons,
             StudentChart,
             DoeToolBar,
             CourseChart,
-            TeacherChart
+            TeacherChart,
+
         },
         created: function () {
             let role = JSON.parse(
@@ -230,9 +164,8 @@ export default {
         },
         methods: {
             sendLogoutReq() {
-                let some = "";
-                logout();
-                this.$emit("ChangeToken", some);
+                localStorage.removeItem("token");
+                this.$emit("ChangeToken", false);
             },
             openTabAttendance: function (state) {
                 if (state === "btn1") {
@@ -261,4 +194,5 @@ export default {
             }
         }
     };
+
 </script>
