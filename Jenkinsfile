@@ -20,8 +20,7 @@ node {
         }
     }
     stage('Remove local images') {
-        sh 'docker kill $(docker ps -q)'
-        sh 'docker rmi $(docker images -q) -f'
+        sh 'ddocker image prune -a -f'
     }
     stage('Deploy'){
         sh 'ssh project@134.209.227.130 "./deploy.sh"'
