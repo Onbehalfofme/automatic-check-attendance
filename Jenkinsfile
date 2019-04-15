@@ -20,6 +20,7 @@ node {
         }
     }
     stage('Remove local images') {
+        sh 'docker kill $(docker ps -q)'
         sh 'docker rmi $(docker images -q) -f'
     }
     stage('Deploy'){
