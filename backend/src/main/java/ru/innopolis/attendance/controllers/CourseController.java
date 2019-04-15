@@ -46,8 +46,7 @@ public class CourseController {
     @GetMapping("/enrolled")
     public Collection<CourseDTO> getEnrolledCourses(@AuthenticationPrincipal UserProfileDetails userDetails) {
         UserProfile user = userRepository.getById(userDetails.getId());
-        return Collections.singletonList(new CourseDTO());
-//        return user.getEnrolledCourses().stream()
-//                .map(CourseDTO::new).collect(Collectors.toList());
+        return user.getEnrolledCourses().stream()
+                .map(CourseDTO::new).collect(Collectors.toList());
     }
 }
