@@ -78,46 +78,42 @@
 import StudentToolBar from "../components/StudentToolBar.vue";
 import ToolBar from "../components/ToolBar.vue";
 import jwt_decode from "jwt-decode";
-import { logout } from "../services/loginService";
 import listOfStudents from "../components/listOfStudents";
 import ListOfLessons from "../components/ListOfLessons";
 import StudentChart from "../components/StudentChart";
-
-function getUserID() {
-  let role = JSON.parse(
-    JSON.stringify(jwt_decode(localStorage.getItem("token")))
-  ).role;
-  return role === "ROLE_STUDENT";
-}
 
 export default {
   name: "home",
   data() {
     return {
-      //userID: "",
       statusToolBar: "",
       activeBtn: "",
       show: false,
       showCont: false,
-      statusProf: false,
-      isStudent: getUserID(),
+      showCont1: false,
+      showCont2: false,
+      isStudent: false,
       paramOfCall: null
     };
   },
   components: {
     listOfStudents,
-    //listForUpdate,
     ToolBar,
     StudentToolBar,
-    //ToolBarForUpdate
     ListOfLessons,
     StudentChart
   },
+  created() {
+    let role = JSON.parse(
+      JSON.stringify(jwt_decode(localStorage.getItem("token")))
+    ).role;
+
+    this.isStudent = role === "ROLE_STUDENT";
+  },
   methods: {
     sendLogoutReq() {
-      let some = "";
-      logout();
-      this.$emit("ChangeToken", some);
+      localStorage.removeItem("token");
+      this.$emit("ChangeToken", false);
     },
     openTabAttendance: function(state) {
       if (state === "btn1") {
