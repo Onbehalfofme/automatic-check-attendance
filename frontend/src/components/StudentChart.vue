@@ -1,6 +1,6 @@
 <template>
     <div class="user-panel">
-        <div class="chart">
+        <div class="chart" v-if="ready">
             <mdb-container>
                 <mdb-bar-chart :data="barChartData" :options="barChartOptions"></mdb-bar-chart>
             </mdb-container>
@@ -23,13 +23,14 @@
         },
         data() {
             return {
+                ready: false,
                 array: [],
                 daily: [],
                 barChartData: {
                     labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
                     datasets: [{
                         label: '% of attendance',
-                        data: [0, 100, 0, 0, 0],
+                        data: [],
                         backgroundColor: 'rgba(35, 198, 100, 0.5)',
                         borderColor: '#23c664',
                         borderWidth: 1,
@@ -57,26 +58,32 @@
                 }
             };
         },
-        created: function () {
-            this.getWeekStatistics();
+        created: async function () {
+            await this.getWeekStatistics();
+            console.log(this.barChartData.datasets[0].data);
+            console.log(this.barChartData.datasets[0].data.length);
+            this.ready = true;
+
+            // this.barChartData.datasets[0].data = this.array;
+            // console.log(this.barChartData.datasets[0].data);
+
         },
         methods: {
-            getWeekStatistics: function () {
+            getWeekStatistics: async function () {
                 this.info = new Date(this.info);
                 let number = this.info.getDay();
                 let date = new Date();
-                date.setDate(this.info.getDate() - (number - 1));
+                if (number === 0) date.setDate(this.info.getDate() - 6);
+                else date.setDate(this.info.getDate() - (number - 1));
                 for (let i = 0; i < 5; i++) {
                     let new_date = moment(date).format("DD.MM.YYYY");
-                    this.getChart(new_date, i);
-
+                    await this.getChart(new_date, i);
                     date.setDate(date.getDate() + 1);
                 }
-                console.log(this.barChartData.datasets[0].data);
-
+                await new Promise((resolve, reject) => setTimeout(resolve, 1000));
             },
-            getChart: function (date, i) {
-                const AXIOS = axios.create({
+            getChart: async function (date, i) {
+                const AXIOS = await axios.create({
                     baseURL: "http://134.209.227.130:8080",
                     headers: {
                         Authorization: "JWT " + localStorage.getItem("token"),
@@ -84,8 +91,8 @@
                         "Access-Control-Allow-Origin": "*"
                     }
                 });
-                AXIOS.get("/lesson/daily", {params: {date}}).then(response => {
-                    this.daily = response.data;
+                await AXIOS.get("/lesson/daily", {params: {date}}).then(async response => {
+                    this.daily = await response.data;
                     let present = 0;
                     let all = 0;
 
