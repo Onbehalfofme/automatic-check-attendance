@@ -30,7 +30,6 @@
           >
             Log in
           </button>
-          <p>{{ token }}</p>
         </div>
       </div>
     </div>
@@ -38,8 +37,8 @@
 </template>
 
 <script>
-import { login } from "../services/loginService";
 import Vue from "vue";
+import axios from "axios";
 
 export default {
   name: "login",
@@ -52,8 +51,21 @@ export default {
   },
   methods: {
     sendData(email, password) {
-      this.token = login(email, password);
-      this.$emit("ChangeToken", this.token);
+      const AXIOS = axios.create({
+        baseURL: "http://134.209.227.130:8080",
+        headers: {
+          "Content-Type": "application/json; charset=UTF-8"
+        }
+      });
+
+      AXIOS.post("/auth/login/", {
+        email: email,
+        password: password
+      }).then(response => {
+        localStorage.setItem("token", response.data.token);
+        this.token = response.data.token;
+        this.$emit("ChangeToken", true);
+      });
     }
   }
 };

@@ -105,6 +105,70 @@
 </template>
 
 <script>
+import StudentToolBar from "../components/StudentToolBar.vue";
+import ToolBar from "../components/ToolBar.vue";
+import jwt_decode from "jwt-decode";
+import listOfStudents from "../components/listOfStudents";
+import ListOfLessons from "../components/ListOfLessons";
+import StudentChart from "../components/StudentChart";
+
+export default {
+  name: "home",
+  data() {
+    return {
+      statusToolBar: "",
+      activeBtn: "",
+      show: false,
+      showCont: false,
+      showCont1: false,
+      showCont2: false,
+      isStudent: false,
+      paramOfCall: null
+    };
+  },
+  components: {
+    listOfStudents,
+    ToolBar,
+    StudentToolBar,
+    ListOfLessons,
+    StudentChart
+  },
+  created() {
+    let role = JSON.parse(
+      JSON.stringify(jwt_decode(localStorage.getItem("token")))
+    ).role;
+
+    this.isStudent = role === "ROLE_STUDENT";
+  },
+  methods: {
+    sendLogoutReq() {
+      localStorage.removeItem("token");
+      this.$emit("ChangeToken", false);
+    },
+    openTabAttendance: function(state) {
+      if (state === "btn1") {
+        if (this.activeBtn === "btn1") {
+          this.show = false;
+          this.activeBtn = "";
+        } else {
+          this.statusToolBar = "update";
+          this.show = true;
+          this.activeBtn = "btn1";
+        }
+      } else {
+        this.show = false;
+        if (this.activeBtn === "btn2") {
+          this.show = false;
+          this.activeBtn = "";
+        } else {
+          this.statusToolBar = "create";
+          this.show = true;
+          this.activeBtn = "btn2";
+        }
+      }
+    }
+  }
+};
     import StudentToolBar from "../components/StudentToolBar.vue";
     import ToolBar from "../components/ToolBar.vue";
     import jwt_decode from "jwt-decode";

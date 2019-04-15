@@ -25,5 +25,4 @@ export function login(email, password) {
 
 export function logout() {
   localStorage.removeItem("token");
-  //location.reload(true);
 }

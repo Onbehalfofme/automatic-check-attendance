@@ -1,7 +1,7 @@
 <template lang="eng">
   <div id="app">
-    <login v-if="!token.length" @ChangeToken="token = $event" />
-    <home v-if="token.length" @ChangeToken="token = $event" />
+    <login v-if="!token" @ChangeToken="token = $event" />
+    <home v-if="token" @ChangeToken="token = $event" />
     <router-view />
   </div>
 </template>
@@ -13,18 +13,13 @@ import Home from "./views/Home.vue";
 export default {
   data() {
     return {
-      //login: false,
-      token:
-        localStorage.getItem("token") === null
-          ? ""
-          : localStorage.getItem("token")
+      token: false
     };
   },
-  components: { Login, Home }
-  /*beforeUpdate() {
-    this.token = localStorage.getItem("token");
-    this.login = !!this.token.length;
-  }*/
+  components: { Login, Home },
+  created() {
+    this.token = localStorage.getItem("token") != null;
+  }
 };
 </script>
 
