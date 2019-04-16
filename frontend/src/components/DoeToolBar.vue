@@ -10,7 +10,7 @@
                     type="date"
                     lang="en"
                     name="calendar"
-                    v-model="date"
+                    v-model="new_date"
             />
             <div id="tool-bar1">
                 <div><h3>Course:</h3></div>
@@ -19,7 +19,7 @@
                         {{ option.name }}
                     </option>
                 </select>
-                <button style="width: 55%" v-on:click="getCourseStatistics(new_date)">Course statistics</button>
+                <button style="width: 55%" v-on:click="getCourseStatistics()">Course statistics</button>
             </div>
             <div id="tool-bar2">
                 <div><h3>Professor/TA:</h3></div>
@@ -28,7 +28,7 @@
                         {{ option.name + " " + option.surname }}
                     </option>
                 </select>
-                <button style="width: 55%" v-on:click="getTeacherStatistics(new_date)">Teacher statistics</button>
+                <button style="width: 55%" v-on:click="getTeacherStatistics()">Teacher statistics</button>
 
             </div>
         </div>
@@ -56,14 +56,12 @@
             return {
                 // startDate: moment(new Date()).format("DD.MM.YYYY"),
                 // endDate: moment(new Date()).format("DD.MM.YYYY"),
-                date: moment(new Date()).format("DD.MM.YYYY"),
+                new_date: moment(new Date()).format("DD.MM.YYYY"),
                 teacherOptions: [],
                 taOptions: [],
                 courseOptions: [],
                 course: "",
                 teacher: "",
-                new_date: moment(new Date()).format("DD.MM.YYYY"),
-                new_week: moment(new Date()).format("DD.MM.YYYY")
             };
         },
         created: async function () {
@@ -88,11 +86,10 @@
 
 
             getCourseStatistics: function () {
-                let start_date = moment(this.date).format("DD.MM.YYYY");
-                let end_date = moment(this.date).format("DD.MM.YYYY");
+                let date = moment(this.new_date).format("DD.MM.YYYY");
                 this.$emit("getLessInfo", {
-                    after: start_date,
-                    before: end_date,
+                    after: date,
+                    before: date,
                     course: this.course
                 });
                 this.$emit("showContent1", true);
@@ -100,11 +97,10 @@
                 this.$emit("closeToolBar", "");
             },
             getTeacherStatistics: function () {
-                let start_date = moment(this.date).format("DD.MM.YYYY");
-                let end_date = moment(this.date).format("DD.MM.YYYY");
+                let date = moment(this.date).format("DD.MM.YYYY");
                 this.$emit("getLessInfo", {
-                    after: start_date,
-                    before: end_date,
+                    after: date,
+                    before: date,
                     teacher: this.teacher
                 });
                 this.$emit("showContent2", true);

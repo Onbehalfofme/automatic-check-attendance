@@ -23,6 +23,8 @@
         },
         data() {
             return {
+                after: moment(new Date()).format("DD.MM.YYYY"),
+                before: moment(new Date()).format("DD.MM.YYYY"),
                 ready: false,
                 array: [],
                 daily: [],
@@ -66,10 +68,7 @@
         },
         methods: {
             getWeekStatistics: async function (info) {
-                info.after = info.after+ " 07:00";
-                info.before = info.before + " 23:00";
-
-                let date = new Date(info.after);
+                let date = new Date(this.info.after);
 
                 let number = date.getDay();
 
@@ -77,13 +76,15 @@
                 else date.setDate(date.getDate() - (number - 1));
 
                 for (let i = 0; i < 5; i++) {
-                    let new_date = moment(date).format("DD.MM.YYYY");
-                    await this.getChart(new_date, i);
+                    console.log(date);
+                    let after = moment(date).format("MM.DD.YYYY") + " 07:00";
+                    let before = moment(date).format("MM.DD.YYYY") + " 23:00";
+                    await this.getChart(after, before, i);
                     date.setDate(date.getDate() + 1);
                 }
                 await new Promise((resolve, reject) => setTimeout(resolve, 1000));
             },
-            getChart: async function (date, i) {
+            getChart: async function (after, before, i) {
                 const AXIOS = await axios.create({
                     baseURL: "http://134.209.227.130:8080",
                     headers: {
@@ -95,8 +96,8 @@
                 await AXIOS.get("/lesson/search", {
                     params: {
                         course: this.info.course,
-                        after: this.info.after,
-                        before: this.info.before,
+                        after: after,
+                        before: before,
                     }
                 }).then(response => {
                     console.log(response);
