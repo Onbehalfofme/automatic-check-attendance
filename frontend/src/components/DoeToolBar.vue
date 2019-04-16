@@ -67,7 +67,6 @@
         created: async function () {
             await this.getCourses();
             await this.getTeachers();
-            console.log(this.taOptions);
         },
         methods: {
             getCourses: async function () {
@@ -77,8 +76,8 @@
             },
             getTeachers: async function () {
                 await AXIOS.get("/user/search", {
-                    params: {role: ["ROLE_TA", "ROLE_PROFESSOR"] },
-                    paramsSerializer: (params) => queryString.stringify(params, { arrayFormat: 'repeat' })
+                    params: {role: ["ROLE_TA", "ROLE_PROFESSOR"]},
+                    paramsSerializer: (params) => queryString.stringify(params, {arrayFormat: 'repeat'})
                 }).then(response => {
                     this.teacherOptions = response.data;
                 });
@@ -97,7 +96,7 @@
                 this.$emit("closeToolBar", "");
             },
             getTeacherStatistics: function () {
-                let date = moment(this.date).format("DD.MM.YYYY");
+                let date = moment(this.new_date).format("DD.MM.YYYY");
                 this.$emit("getLessInfo", {
                     after: date,
                     before: date,

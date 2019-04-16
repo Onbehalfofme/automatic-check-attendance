@@ -65,25 +65,23 @@
             this.ready = true;
         },
         methods: {
-            getWeekStatistics: async function (info) {
-                info.after = moment(info.after).format("DD.MM.YYYY") + " 09:00";
-                info.before = moment(info.before).format("DD.MM.YYYY") + " 09:00";
-
-                let date = new Date(info.after);
-
+            getWeekStatistics: async function () {
+                let date = moment(this.info.after).format("DD.MM.YYYY");
+                date = new Date(date);
                 let number = date.getDay();
 
                 if (number === 0) date.setDate(date.getDate() - 6);
                 else date.setDate(date.getDate() - (number - 1));
 
                 for (let i = 0; i < 5; i++) {
-                    let new_date = moment(date).format("DD.MM.YYYY");
-                    await this.getChart(new_date, i);
+                    await this.getChart(date, i);
                     date.setDate(date.getDate() + 1);
                 }
                 await new Promise((resolve, reject) => setTimeout(resolve, 1000));
             },
             getChart: async function (date, i) {
+                let after = moment(date).format("DD.MM.YYYY") + " 01:00";
+                let before = moment(date).format("DD.MM.YYYY") + " 23:00";
                 const AXIOS = await axios.create({
                     baseURL: "http://134.209.227.130:8080",
                     headers: {
@@ -95,19 +93,17 @@
                 await AXIOS.get("/lesson/search", {
                     params: {
                         teacher: this.info.teacher,
-                        after: this.info.after,
-                        before: this.info.before,
+                        after: after,
+                        before: before,
                     }
                 }).then(response => {
-                    console.log(response);
-                    if (response.data.length === 0) this.lessonID = "";
+                    if (response.data.length === 0) this.lessonId = "";
                     else this.lessonId = response.data[0].id;
                 });
-
-                if (this.lessonID === "") this.barChartData.datasets[0].data[i] = 0;
+                if (this.lessonId === "") this.barChartData.datasets[0].data[i] = 0;
                 else {
                     await AXIOS.get("/lesson/" + this.lessonId).then(response => {
-                        this.students = this.reformatData("update", response.data.students);
+                        this.students = response.data.students;
 
                         let present = 0;
                         let all = 0;

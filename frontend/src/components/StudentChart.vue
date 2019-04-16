@@ -60,13 +60,7 @@
         },
         created: async function () {
             await this.getWeekStatistics();
-            console.log(this.barChartData.datasets[0].data);
-            console.log(this.barChartData.datasets[0].data.length);
             this.ready = true;
-
-            // this.barChartData.datasets[0].data = this.array;
-            // console.log(this.barChartData.datasets[0].data);
-
         },
         methods: {
             getWeekStatistics: async function () {

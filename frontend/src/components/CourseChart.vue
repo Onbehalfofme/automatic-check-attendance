@@ -23,8 +23,6 @@
         },
         data() {
             return {
-                after: moment(new Date()).format("DD.MM.YYYY"),
-                before: moment(new Date()).format("DD.MM.YYYY"),
                 ready: false,
                 array: [],
                 daily: [],
@@ -67,7 +65,7 @@
             this.ready = true;
         },
         methods: {
-            getWeekStatistics: async function (info) {
+            getWeekStatistics: async function () {
                 let date = moment(this.info.after).format("DD.MM.YYYY");
                 date = new Date(date);
                 let number = date.getDay();
@@ -99,10 +97,9 @@
                         before: before,
                     }
                 }).then(response => {
-                    if (response.data.length === 0) this.lessonId= "";
+                    if (response.data.length === 0) this.lessonId = "";
                     else this.lessonId = response.data[0].id;
                 });
-                console.log(this.lessonId);
                 if (this.lessonId === "") this.barChartData.datasets[0].data[i] = 0;
                 else {
                     await AXIOS.get("/lesson/" + this.lessonId).then(response => {
