@@ -99,15 +99,14 @@
                         before: before,
                     }
                 }).then(response => {
-                    console.log(response);
-                    if (response.data.length === 0) this.lessonID = "";
+                    if (response.data.length === 0) this.lessonId= "";
                     else this.lessonId = response.data[0].id;
                 });
-
-                if (this.lessonID === "") this.barChartData.datasets[0].data[i] = 0;
+                console.log(this.lessonId);
+                if (this.lessonId === "") this.barChartData.datasets[0].data[i] = 0;
                 else {
                     await AXIOS.get("/lesson/" + this.lessonId).then(response => {
-                        this.students = this.reformatData("update", response.data.students);
+                        this.students = response.data.students;
 
                         let present = 0;
                         let all = 0;
