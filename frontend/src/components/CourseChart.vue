@@ -66,8 +66,8 @@
         },
         methods: {
             getWeekStatistics: async function (info) {
-                info.after = moment(info.after).format("DD.MM.YYYY") + " 09:00";
-                info.before = moment(info.before).format("DD.MM.YYYY") + " 09:00";
+                info.after = moment(info.after).format("DD.MM.YYYY") + " 07:00";
+                info.before = moment(info.before).format("DD.MM.YYYY") + " 23:00";
 
                 let date = new Date(info.after);
 

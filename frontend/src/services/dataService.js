@@ -21,7 +21,7 @@ export const store = new Vuex.Store({
         }
       });
 
-      AXIOS.get("/courses/enrolled").then(response => {
+      AXIOS.get("/course/enrolled").then(response => {
         state.courses = response.data;
       });
     },

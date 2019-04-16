@@ -15,7 +15,7 @@
             <div id="tool-bar1">
                 <div><h3>Course:</h3></div>
                 <select class="course" v-model="course">
-                    <option v-for="option in courseOptions" v-bind:value="option.id">
+                    <option v-for="option in courseOptions" v-bind:value="option.name">
                         {{ option.name }}
                     </option>
                 </select>
@@ -24,7 +24,7 @@
             <div id="tool-bar2">
                 <div><h3>Professor/TA:</h3></div>
                 <select class="teacher" v-model="teacher">
-                    <option v-for="option in teacherOptions" v-bind:value="option.id">
+                    <option v-for="option in teacherOptions" v-bind:value="option.surname">
                         {{ option.name + " " + option.surname }}
                     </option>
                 </select>
@@ -40,6 +40,7 @@
     import "bootstrap/dist/css/bootstrap.css";
     import "pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css";
     import axios from "axios";
+    import * as queryString from "query-string";
 
     const AXIOS = axios.create({
         baseURL: "http://134.209.227.130:8080",
@@ -56,10 +57,9 @@
                 // startDate: moment(new Date()).format("DD.MM.YYYY"),
                 // endDate: moment(new Date()).format("DD.MM.YYYY"),
                 date: moment(new Date()).format("DD.MM.YYYY"),
-                courseOptions: [],
-                professorOptions: [],
                 teacherOptions: [],
                 taOptions: [],
+                courseOptions: [],
                 course: "",
                 teacher: "",
                 new_date: moment(new Date()).format("DD.MM.YYYY"),
@@ -68,10 +68,8 @@
         },
         created: async function () {
             await this.getCourses();
-            await this.getTas();
-            await this.getProfessors();
+            await this.getTeachers();
             console.log(this.taOptions);
-            this.teacherOptions = this.professorOptions.concat(this.taOptions);
         },
         methods: {
             getCourses: async function () {
@@ -79,16 +77,12 @@
                     this.courseOptions = response.data;
                 });
             },
-            getTas: async function () {
-                await AXIOS.get("/user/search", {params: {role: "ROLE_TA"}}).then(response => {
-                    this.taOptions = response.data;
-
-                });
-            },
-
-            getProfessors: function () {
-                AXIOS.get("/user/search", {params: {role: "ROLE_PROFESSOR"}}).then(response => {
-                    this.professorOptions = response.data;
+            getTeachers: async function () {
+                await AXIOS.get("/user/search", {
+                    params: {role: ["ROLE_TA", "ROLE_PROFESSOR"] },
+                    paramsSerializer: (params) => queryString.stringify(params, { arrayFormat: 'repeat' })
+                }).then(response => {
+                    this.teacherOptions = response.data;
                 });
             },
 

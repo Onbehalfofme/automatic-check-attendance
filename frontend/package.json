@@ -13,6 +13,8 @@
     "jwt-decode": "^2.2.0",
     "mdbvue": "^5.1.2",
     "moment": "^2.24.0",
+    "qs-stringify": "^1.1.0",
+    "query-string": "^6.4.2",
     "smart-table-vue": "^0.1.1",
     "vue": "^2.6.6",
     "vue-bootstrap-datetimepicker": "^5.0.1",
@@ -24,7 +26,7 @@
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.5.0",
     "@vue/cli-plugin-eslint": "^3.5.0",
-    "@vue/cli-service": "^3.5.0",
+    "@vue/cli-service": "^3.6.0",
     "@vue/eslint-config-prettier": "^4.0.1",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.8.0",

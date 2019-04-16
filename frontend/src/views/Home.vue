@@ -98,13 +98,13 @@
       />
       <TeacherChart
         v-else-if="isDoe && showCont2"
-        :dataForCreateChart="paramOfCall"
+        :dataForCreateTeacherChart="paramOfCall"
         @showContent="showCont2 = $event"
         @hideContent="showCont2 = $event"
       />
       <CourseChart
         v-else-if="isDoe && showCont1"
-        :dataForCreate="paramOfCall"
+        :dataForCreateCourseChart="paramOfCall"
         @showContent="showCont1 = $event"
         @hideContent="showCont1 = $event"
       />
