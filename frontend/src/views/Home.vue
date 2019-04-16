@@ -116,7 +116,6 @@
 import StudentToolBar from "../components/StudentToolBar.vue";
 import ToolBar from "../components/ToolBar.vue";
 import jwt_decode from "jwt-decode";
-import listOfStudents from "../components/listOfStudents";
 import ListOfLessons from "../components/ListOfLessons";
 import ListOfLessonsForUpdate from "../components/ListOfLessonsForUpdate";
 import StudentChart from "../components/StudentChart";
@@ -124,81 +123,85 @@ import DoeToolBar from "../components/DoeToolBar.vue";
 import CourseChart from "../components/CourseChart";
 import TeacherChart from "../components/TeacherChart";
 
-    export default {
-        name: "home",
-        data() {
-            return {
-                statusToolBar: "",
-                activeBtn: "",
-                show: false,
-                showCont: false,
-                showCont1: false,
-                showCont2: false,
-                statusProf: false,
-                isStudent: true,
-                isTeacher: false,
-                isDoe: false,
-                paramOfCall: null
-            };
-        },
-        components: {
-            ListOfLessonsForUpdate,
-            ToolBar,
-            StudentToolBar,
-            ListOfLessons,
-            StudentChart,
-            DoeToolBar,
-            CourseChart,
-            TeacherChart,
-        },
-        created: function () {
-            let role = JSON.parse(
-                JSON.stringify(jwt_decode(localStorage.getItem("token")))
-            ).role;
-            if (role === "ROLE_STUDENT") {
-                this.isStudent = true;
-                this.isTeacher = false;
-                this.isDoe = false;
-            } else if ((role === "ROLE_TA") || (role === "ROLE_PROFESSOR") || (role === "ROLE_ADMIN")) {
-                this.isStudent = false;
-                this.isTeacher = true;
-                this.isDoe = false;
-            } else if (role === "ROLE_DOE") {
-                this.isStudent = false;
-                this.isTeacher = false;
-                this.isDoe = true;
-            }
-        },
-        methods: {
-            sendLogoutReq() {
-                localStorage.removeItem("token");
-                this.$emit("ChangeToken", false);
-            },
-            openTabAttendance: function (state) {
-                if (state === "btn1") {
-                    if (this.activeBtn === "btn1") {
-                        this.show = false;
-                        this.activeBtn = "";
-                    } else {
-                        this.statusToolBar = "update";
-                        this.show = true;
-                        this.activeBtn = "btn1";
-                    }
-                } else {
-                    this.show = false;
-                    this.showCont = false;
-                    this.showCont1 = false;
-                    this.showCont2 = false;
-                    if (this.activeBtn === "btn2") {
-                        this.show = false;
-                        this.activeBtn = "";
-                    } else {
-                        this.statusToolBar = "create";
-                        this.show = true;
-                        this.activeBtn = "btn2";
-                    }
-                }
-            }
-        }
+export default {
+  name: "home",
+  data() {
+    return {
+      statusToolBar: "",
+      activeBtn: "",
+      show: false,
+      showCont: false,
+      showCont1: false,
+      showCont2: false,
+      statusProf: false,
+      isStudent: true,
+      isTeacher: false,
+      isDoe: false,
+      paramOfCall: null
     };
+  },
+  components: {
+    ListOfLessonsForUpdate,
+    ToolBar,
+    StudentToolBar,
+    ListOfLessons,
+    StudentChart,
+    DoeToolBar,
+    CourseChart,
+    TeacherChart
+  },
+  created: function() {
+    let role = JSON.parse(
+      JSON.stringify(jwt_decode(localStorage.getItem("token")))
+    ).role;
+    if (role === "ROLE_STUDENT") {
+      this.isStudent = true;
+      this.isTeacher = false;
+      this.isDoe = false;
+    } else if (
+      role === "ROLE_TA" ||
+      role === "ROLE_PROFESSOR" ||
+      role === "ROLE_ADMIN"
+    ) {
+      this.isStudent = false;
+      this.isTeacher = true;
+      this.isDoe = false;
+    } else if (role === "ROLE_DOE") {
+      this.isStudent = false;
+      this.isTeacher = false;
+      this.isDoe = true;
+    }
+  },
+  methods: {
+    sendLogoutReq() {
+      localStorage.removeItem("token");
+      this.$emit("ChangeToken", false);
+    },
+    openTabAttendance: function(state) {
+      if (state === "btn1") {
+        if (this.activeBtn === "btn1") {
+          this.show = false;
+          this.activeBtn = "";
+        } else {
+          this.statusToolBar = "update";
+          this.show = true;
+          this.activeBtn = "btn1";
+        }
+      } else {
+        this.show = false;
+        this.showCont = false;
+        this.showCont1 = false;
+        this.showCont2 = false;
+        if (this.activeBtn === "btn2") {
+          this.show = false;
+          this.activeBtn = "";
+        } else {
+          this.statusToolBar = "create";
+          this.show = true;
+          this.activeBtn = "btn2";
+        }
+      }
+    }
+  }
+};
 </script>
