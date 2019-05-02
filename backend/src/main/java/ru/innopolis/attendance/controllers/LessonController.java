@@ -204,8 +204,45 @@ public class LessonController {
                             .and(LessonSpecifications.getLessonWithinCourses(user.getEnrolledCourses()))
             );
             weekCollectionMap.put(weekDay, lessonRepository.findAll(specs, new Sort(Sort.Direction.ASC, Lesson_.dateTime.getName())).stream()
-                    .map(lesson -> new LessonSearchStudentDTO(lesson, user.getId())).collect(Collectors.toList()));
+                    .map(lesson -> new LessonSearchStudentDTO(lesson, user.getId()))
+                    .collect(Collectors.toList()));
         }
         return weekCollectionMap;
+    }
+
+    @Log(LogLevel.INFO)
+    @GetMapping("/courseAverage/{courseId}")
+    @PreAuthorize("hasAnyRole(" +
+            "T(ru.innopolis.attendance.models.Role).ROLE_ADMIN.name()," +
+            "T(ru.innopolis.attendance.models.Role).ROLE_DOE.name()," +
+            "T(ru.innopolis.attendance.models.Role).ROLE_PROFESSOR.name()," +
+            "T(ru.innopolis.attendance.models.Role).ROLE_TA.name())")
+    public double getAverageCourseAttendance(@PathVariable long courseId) {
+        Collection<Lesson> lessons = lessonRepository.findByCourse_IdAndTypeIn(courseId, LessonType.getShared());
+        return lessons.stream()
+                .mapToDouble(lesson -> (double) lesson.getLessonStudents().stream()
+                        .filter(lessonStudent -> lessonStudent.getAttendance() == AttendanceType.PRESENT)
+                        .count()
+                        /
+                        lesson.getLessonStudents().size())
+                .average().orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No lessons found."));
+    }
+
+    @Log(LogLevel.INFO)
+    @GetMapping("/average")
+    @PreAuthorize("hasAnyRole(" +
+            "T(ru.innopolis.attendance.models.Role).ROLE_ADMIN.name()," +
+            "T(ru.innopolis.attendance.models.Role).ROLE_DOE.name()," +
+            "T(ru.innopolis.attendance.models.Role).ROLE_PROFESSOR.name()," +
+            "T(ru.innopolis.attendance.models.Role).ROLE_TA.name())")
+    public double getAverageAttendance() {
+        Collection<Lesson> lessons = lessonRepository.findByTypeIn(LessonType.getShared());
+        return lessons.stream()
+                .mapToDouble(lesson -> (double) lesson.getLessonStudents().stream()
+                        .filter(lessonStudent -> lessonStudent.getAttendance() == AttendanceType.PRESENT)
+                        .count()
+                        /
+                        lesson.getLessonStudents().size())
+                .average().orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No lessons found."));
     }
 }
