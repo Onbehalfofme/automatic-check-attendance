@@ -1,16 +1,15 @@
 <template>
     <div class="user-panel">
         <div class="header">My attendance statistics</div>
-        <br>
-        <br>
-            <b-input-group>
-                <b-form-input
-                        v-model="filter"
-                        placeholder="Type to Search"
-                ></b-form-input>
-            </b-input-group>
+        <br/>
+        <br/>
+        <b-input-group>
+            <b-form-input
+                    v-model="filter"
+                    placeholder="Type to Search"
+            ></b-form-input>
+        </b-input-group>
         <div class="user-table">
-
             <b-table
                     @filtered="onFiltered"
                     :filter="filter"
@@ -19,10 +18,9 @@
                     :items="data"
                     :fields="fields"
             >
-
                 <template slot="actions" slot-scope="row">
                     <b-button size="m" @click="row.toggleDetails">
-                        {{ row.detailsShowing ? 'Hide' : 'Show' }} Details
+                        {{ row.detailsShowing ? "Hide" : "Show" }} Details
                     </b-button>
                 </template>
 
@@ -30,19 +28,30 @@
                     <b-card>
                         <ul>
                             <p>
-                                You can notify the professor in advance about your future absence.</p>
-                            <p>You can send an explanatory letter to your professor, if you did not attend the lesson
-                                for a good reason.</p>
-                            <p> You can dispute your attendance mark if it is unfair.
+                                You can notify the professor in advance about your future
+                                absence.
                             </p>
-                            <textarea type="text" class="input-group">Please write here your letter to the professor</textarea>
-                            <br>
+                            <p>
+                                You can send an explanatory letter to your professor, if you did
+                                not attend the lesson for a good reason.
+                            </p>
+                            <p>You can dispute your attendance mark if it is unfair.</p>
+                            <textarea type="text" class="input-group">
+Please write here your letter to the professor</textarea
+                            >
+                            <br/>
                             If necessary, you can upload the justification:
                             <div class="input-default-wrapper mt-3">
                                 <span class="input-group-text mb-3" id="input1">Upload</span>
-                                <input type="file" id="file-with-current" class="input-default-js">
-                                <label class="label-for-default-js rounded-right mb-3" for="file-with-current"><span class="span-choose-file">
-                                </span>
+                                <input
+                                        type="file"
+                                        id="file-with-current"
+                                        class="input-default-js"
+                                />
+                                <label
+                                        class="label-for-default-js rounded-right mb-3"
+                                        for="file-with-current"
+                                ><span class="span-choose-file"> </span>
                                     <div class="float-right span-browse"></div>
                                 </label>
                             </div>
@@ -54,8 +63,6 @@
                     {{ row.value ? "PRESENT" : "ABSENT" }}
                 </template>
             </b-table>
-
-
         </div>
     </div>
 </template>
@@ -94,7 +101,7 @@
                         label: "Attendance",
                         sortable: true
                     },
-                    buttons: {key: 'actions', label: ''}
+                    buttons: {key: "actions", label: ""}
                 },
                 info: this.dataForCreate,
                 data: [],
