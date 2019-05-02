@@ -194,20 +194,20 @@ public class LessonController {
     @Log(LogLevel.INFO)
     @GetMapping("/weekly")
     @PreAuthorize("hasRole(T(ru.innopolis.attendance.models.Role).ROLE_STUDENT.name())")
-    public Map<DayOfWeek, Collection<LessonSearchStudentDTO>> getStudentsLessonsWeek(@AuthenticationPrincipal UserProfileDetails userProfile,
-                                                                                     @DateTimeFormat(pattern = "dd.MM.yyyy") @RequestParam LocalDate date) {
+    public List<Collection<LessonSearchStudentDTO>> getStudentsLessonsWeek(@AuthenticationPrincipal UserProfileDetails userProfile,
+                                                                           @DateTimeFormat(pattern = "dd.MM.yyyy") @RequestParam LocalDate date) {
         UserProfile user = userRepository.getById(userProfile.getId());
-        Map<DayOfWeek, Collection<LessonSearchStudentDTO>> weekCollectionMap = new TreeMap<>();
+        List<Collection<LessonSearchStudentDTO>> weekCollection = new ArrayList<>(DayOfWeek.values().length);
         for (DayOfWeek weekDay : DayOfWeek.values()) {
             Specification<Lesson> specs = Specification.where(
                     LessonSpecifications.getLessonOnDate(date.with(WeekFields.of(Locale.FRANCE).dayOfWeek(), weekDay.getValue()))
                             .and(LessonSpecifications.getLessonWithinCourses(user.getEnrolledCourses()))
             );
-            weekCollectionMap.put(weekDay, lessonRepository.findAll(specs, new Sort(Sort.Direction.ASC, Lesson_.dateTime.getName())).stream()
+            weekCollection.add(lessonRepository.findAll(specs, new Sort(Sort.Direction.ASC, Lesson_.dateTime.getName())).stream()
                     .map(lesson -> new LessonSearchStudentDTO(lesson, user.getId()))
                     .collect(Collectors.toList()));
         }
-        return weekCollectionMap;
+        return weekCollection;
     }
 
     @Log(LogLevel.INFO)

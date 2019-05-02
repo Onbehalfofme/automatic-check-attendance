@@ -22,10 +22,16 @@ public class LessonStudentIdDTO {
     @JsonFormat(pattern = "dd.MM.yyyy HH:mm")
     private LocalDateTime checkOut;
 
+    private String reason;
+
+    private String reasonMessage;
+
     public LessonStudentIdDTO(LessonStudent lessonStudent) {
         studentId = lessonStudent.getId().getStudent().getId();
         attendance = lessonStudent.getAttendance();
         checkIn = lessonStudent.getCheckInTime();
         checkOut = lessonStudent.getCheckOutTime();
+        reason = lessonStudent.getReason();
+        reasonMessage = lessonStudent.getReasonMessage();
     }
 }
