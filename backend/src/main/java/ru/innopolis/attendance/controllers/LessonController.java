@@ -20,12 +20,11 @@ import ru.innopolis.attendance.specifications.LessonSpecifications;
 import ru.tinkoff.eclair.annotation.Log;
 
 import javax.transaction.Transactional;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.time.temporal.WeekFields;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -190,5 +189,23 @@ public class LessonController {
         return lessonRepository.findAll(specs, new Sort(Sort.Direction.ASC, Lesson_.dateTime.getName())).stream()
                 .map(lesson -> new LessonSearchStudentDTO(lesson, user.getId()))
                 .collect(Collectors.toList());
+    }
+
+    @Log(LogLevel.INFO)
+    @GetMapping("/weekly")
+    @PreAuthorize("hasRole(T(ru.innopolis.attendance.models.Role).ROLE_STUDENT.name())")
+    public Map<DayOfWeek, Collection<LessonSearchStudentDTO>> getStudentsLessonsWeek(@AuthenticationPrincipal UserProfileDetails userProfile,
+                                                                                     @DateTimeFormat(pattern = "dd.MM.yyyy") @RequestParam LocalDate date) {
+        UserProfile user = userRepository.getById(userProfile.getId());
+        Map<DayOfWeek, Collection<LessonSearchStudentDTO>> weekCollectionMap = new TreeMap<>();
+        for (DayOfWeek weekDay : DayOfWeek.values()) {
+            Specification<Lesson> specs = Specification.where(
+                    LessonSpecifications.getLessonOnDate(date.with(WeekFields.of(Locale.FRANCE).dayOfWeek(), weekDay.getValue()))
+                            .and(LessonSpecifications.getLessonWithinCourses(user.getEnrolledCourses()))
+            );
+            weekCollectionMap.put(weekDay, lessonRepository.findAll(specs, new Sort(Sort.Direction.ASC, Lesson_.dateTime.getName())).stream()
+                    .map(lesson -> new LessonSearchStudentDTO(lesson, user.getId())).collect(Collectors.toList()));
+        }
+        return weekCollectionMap;
     }
 }

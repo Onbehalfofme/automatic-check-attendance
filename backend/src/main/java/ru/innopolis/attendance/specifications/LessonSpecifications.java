@@ -57,7 +57,7 @@ public class LessonSpecifications {
 
     public static Specification<Lesson> getLessonWithinCourses(Collection<Course> courses) {
         return (Specification<Lesson>) (root, query, criteriaBuilder) ->
-                courses == null ? null :
+                courses == null || courses.isEmpty() ? null :
                         criteriaBuilder.isTrue(root.get(Lesson_.course).in(courses));
     }
 
