@@ -1,4 +1,4 @@
-package ru.innopolis.attendance.DTOs;
+package ru.innopolis.attendance.payloads;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;

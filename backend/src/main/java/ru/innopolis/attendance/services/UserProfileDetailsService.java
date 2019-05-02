@@ -24,7 +24,7 @@ public class UserProfileDetailsService implements UserDetailsService {
 
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String email) {
         Optional<UserProfile> user = userRepository.findByEmail(email);
 
         if (!user.isPresent()) {

@@ -27,7 +27,7 @@ public class ReasonStorageService {
         try {
             Files.createDirectories(this.reasonStorageLocation);
         } catch (IOException ex) {
-            throw new RuntimeException("Could not create the directory where the uploaded files will be stored.", ex);
+            throw new SecurityException("Could not create the directory where the uploaded files will be stored.", ex);
         }
     }
 

@@ -11,38 +11,38 @@ import java.util.Collection;
 public class UserProfileSpecifications {
 
     public static Specification<UserProfile> getUserWithRoles(Collection<Role> roles) {
-        return (Specification<UserProfile>) (root, query, criteriaBuilder) ->
+        return (root, query, criteriaBuilder) ->
                 roles == null ? null :
                         criteriaBuilder.isTrue(root.get(UserProfile_.role).in(roles));
     }
 
     public static Specification<UserProfile> getUserWithGroupNumbers(Collection<Short> groups) {
-        return (Specification<UserProfile>) (root, query, criteriaBuilder) ->
+        return (root, query, criteriaBuilder) ->
                 groups == null ? null :
                         criteriaBuilder.isTrue(root.get(UserProfile_.groupNumber).in(groups));
     }
 
     public static Specification<UserProfile> getUserWithBirthdayAfter(LocalDate birthday) {
-        return (Specification<UserProfile>) (root, query, criteriaBuilder) ->
+        return (root, query, criteriaBuilder) ->
                 birthday == null ? null :
                         criteriaBuilder.greaterThanOrEqualTo(root.get(UserProfile_.birthday), birthday);
     }
 
     public static Specification<UserProfile> getUserWithBirthdayBefore(LocalDate birthday) {
-        return (Specification<UserProfile>) (root, query, criteriaBuilder) ->
+        return (root, query, criteriaBuilder) ->
                 birthday == null ? null :
                         criteriaBuilder.lessThanOrEqualTo(root.get(UserProfile_.birthday), birthday);
     }
 
     public static Specification<UserProfile> getUserWithFirstName(String firstName) {
-        return (Specification<UserProfile>) (root, query, criteriaBuilder) ->
+        return (root, query, criteriaBuilder) ->
                 firstName == null ? null :
                         criteriaBuilder.like(root.get(UserProfile_.name),
                                 "%" + firstName.toLowerCase() + "%");
     }
 
     public static Specification<UserProfile> getUserWithLastName(String surname) {
-        return (Specification<UserProfile>) (root, query, criteriaBuilder) ->
+        return (root, query, criteriaBuilder) ->
                 surname == null ? null :
                         criteriaBuilder.like(root.get(UserProfile_.surname),
                                 "%" + surname.toLowerCase() + "%");

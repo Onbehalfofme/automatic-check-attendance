@@ -13,7 +13,7 @@ import org.springframework.web.server.ResponseStatusException;
 import ru.innopolis.attendance.data.CourseRepository;
 import ru.innopolis.attendance.data.UserRepository;
 import ru.innopolis.attendance.models.*;
-import ru.innopolis.attendance.DTOs.UserDTO;
+import ru.innopolis.attendance.payloads.UserDTO;
 import ru.innopolis.attendance.specifications.UserProfileSpecifications;
 import ru.tinkoff.eclair.annotation.Log;
 

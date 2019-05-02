@@ -1,16 +1,18 @@
-package ru.innopolis.attendance.DTOs;
+package ru.innopolis.attendance.payloads;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.innopolis.attendance.models.*;
+import ru.innopolis.attendance.models.Lesson;
+import ru.innopolis.attendance.models.LessonType;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
-public class LessonSearchStudentDTO {
+public class LessonFullInfoDTO {
 
     private Long id;
 
@@ -25,19 +27,18 @@ public class LessonSearchStudentDTO {
 
     private String room;
 
-    private AttendanceType attendance;
+    private Collection<LessonStudentNameDTO> students;
 
-    public LessonSearchStudentDTO(Lesson lesson, Long studentId) {
+    public LessonFullInfoDTO(Lesson lesson) {
         id = lesson.getId();
         course = new CourseDTO(lesson.getCourse());
         teacher = new UserDTO(lesson.getTeacher());
         type = lesson.getType();
         dateTime = lesson.getDateTime();
         room = lesson.getRoom();
-        Optional<LessonStudent> userCheck = lesson.getLessonStudents().stream()
-                .filter(lessonStudent ->
-                        lessonStudent.getId().getStudent().getId()
-                                .equals(studentId)).findFirst();
-        attendance = userCheck.map(LessonStudent::getAttendance).orElse(null);
+        students = lesson.getLessonStudents().stream()
+                .map(LessonStudentNameDTO::new)
+                .sorted((o1, o2) -> o1.getStudent().getEmail().compareToIgnoreCase(o2.getStudent().getEmail()))
+                .collect(Collectors.toList());
     }
 }

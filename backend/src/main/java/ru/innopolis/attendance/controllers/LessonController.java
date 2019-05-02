@@ -15,7 +15,7 @@ import ru.innopolis.attendance.data.LessonRepository;
 import ru.innopolis.attendance.data.LessonStudentRepository;
 import ru.innopolis.attendance.data.UserRepository;
 import ru.innopolis.attendance.models.*;
-import ru.innopolis.attendance.DTOs.*;
+import ru.innopolis.attendance.payloads.*;
 import ru.innopolis.attendance.specifications.LessonSpecifications;
 import ru.tinkoff.eclair.annotation.Log;
 

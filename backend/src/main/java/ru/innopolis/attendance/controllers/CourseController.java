@@ -11,11 +11,10 @@ import ru.innopolis.attendance.data.CourseRepository;
 import ru.innopolis.attendance.data.UserRepository;
 import ru.innopolis.attendance.models.UserProfile;
 import ru.innopolis.attendance.models.UserProfileDetails;
-import ru.innopolis.attendance.DTOs.CourseDTO;
+import ru.innopolis.attendance.payloads.CourseDTO;
 import ru.tinkoff.eclair.annotation.Log;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.stream.Collectors;
 
 @RestController

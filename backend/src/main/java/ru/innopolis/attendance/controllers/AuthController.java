@@ -15,10 +15,10 @@ import ru.innopolis.attendance.configs.TokenAuthenticationProvider;
 import ru.innopolis.attendance.data.UserRepository;
 import ru.innopolis.attendance.models.Role;
 import ru.innopolis.attendance.models.UserProfile;
-import ru.innopolis.attendance.DTOs.LogInRequestDTO;
-import ru.innopolis.attendance.DTOs.LogInResponseDTO;
-import ru.innopolis.attendance.DTOs.SignUpRequestDTO;
-import ru.innopolis.attendance.DTOs.UserDTO;
+import ru.innopolis.attendance.payloads.LogInRequestDTO;
+import ru.innopolis.attendance.payloads.LogInResponseDTO;
+import ru.innopolis.attendance.payloads.SignUpRequestDTO;
+import ru.innopolis.attendance.payloads.UserDTO;
 import ru.tinkoff.eclair.annotation.Log;
 
 import javax.transaction.Transactional;
