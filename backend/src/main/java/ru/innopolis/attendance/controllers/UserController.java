@@ -96,14 +96,14 @@ public class UserController {
             "T(ru.innopolis.attendance.models.Role).ROLE_DOE.name()," +
             "T(ru.innopolis.attendance.models.Role).ROLE_PROFESSOR.name()," +
             "T(ru.innopolis.attendance.models.Role).ROLE_TA.name())")
-    public Collection<UserDTO> getUsers(@RequestParam(required = false) @DateTimeFormat(pattern = "dd.MM.yyyy") LocalDate birthdayAfter,
-                                        @RequestParam(required = false) @DateTimeFormat(pattern = "dd.MM.yyyy") LocalDate birthdayBefore,
+    public Collection<UserDTO> getUsers(@RequestParam(required = false) @DateTimeFormat(pattern = "dd.MM.yyyy") LocalDate birthdayStart,
+                                        @RequestParam(required = false) @DateTimeFormat(pattern = "dd.MM.yyyy") LocalDate birthdayEnd,
                                         @RequestParam(required = false, value = "role") Collection<Role> roles,
                                         @RequestParam(required = false, value = "groupNumber") Collection<Short> groupNumbers,
                                         @RequestParam(required = false) String name) {
         Specification<UserProfile> specs = Specification.where(
-                UserProfileSpecifications.getUserWithBirthdayAfter(birthdayAfter)
-                        .and(UserProfileSpecifications.getUserWithBirthdayBefore(birthdayBefore))
+                UserProfileSpecifications.getUserWithBirthdayAfter(birthdayStart)
+                        .and(UserProfileSpecifications.getUserWithBirthdayBefore(birthdayEnd))
                         .and(UserProfileSpecifications.getUserWithRoles(roles))
                         .and(UserProfileSpecifications.getUserWithGroupNumbers(groupNumbers))
                         .and(

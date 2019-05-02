@@ -150,15 +150,15 @@ public class LessonController {
     @Log(LogLevel.INFO)
     @GetMapping("/search")
     public Collection<LessonSearchDTO> getLessons(@AuthenticationPrincipal UserProfileDetails userProfile,
-                                                  @RequestParam(required = false) @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm") LocalDateTime after,
-                                                  @RequestParam(required = false) @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm") LocalDateTime before,
+                                                  @RequestParam(required = false) @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm") LocalDateTime start,
+                                                  @RequestParam(required = false) @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm") LocalDateTime end,
                                                   @RequestParam(required = false) LessonType type,
                                                   @RequestParam(required = false) String course,
                                                   @RequestParam(required = false) String room,
                                                   @RequestParam(required = false) String teacher) {
         Specification<Lesson> specs = Specification.where(
-                LessonSpecifications.getLessonAfter(after)
-                        .and(LessonSpecifications.getLessonBefore(before))
+                LessonSpecifications.getLessonAfter(start)
+                        .and(LessonSpecifications.getLessonBefore(end))
                         .and(LessonSpecifications.getLessonWithType(type))
                         .and(LessonSpecifications.getLessonWithCourseName(course))
                         .and(LessonSpecifications.getLessonInRoom(room))
