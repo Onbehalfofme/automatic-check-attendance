@@ -133,12 +133,12 @@
 
                 for (let i = 0; i < this.users.length; i++) {
                     let dateTime1 =
-                        moment(this.users[i].date).format("DD.MM.YYYY") +
+                        this.users[i].date +
                         " " +
                         this.users[i].checkIn;
 
                     let dateTime2 =
-                        moment(this.users[i].date).format("DD.MM.YYYY") +
+                        this.users[i].date +
                         " " +
                         this.users[i].checkOut;
 
@@ -152,6 +152,7 @@
             },
             sentStudentAttendance() {
                 AXIOS.patch("/lesson/update/" + this.lessonId, this.selected);
+                this.$emit("hideContent", false);
             },
             reformatData(status, users) {
                 let newVersion = [];
@@ -195,14 +196,17 @@
                 return newVersion;
             },
             selectRow(item) {
+
+                console.log(item);
+
                 if (item.selected) item._rowVariant = "info";
                 else item._rowVariant = "default";
 
                 let dateTime1 =
-                    moment(item.date).format("DD.MM.YYYY") + " " + item.checkIn;
+                    item.date + " " + item.checkIn;
 
                 let dateTime2 =
-                    moment(item.date).format("DD.MM.YYYY") + " " + item.checkOut;
+                    item.date + " " + item.checkOut;
 
                 for (let i = 0; i < this.selected.length; i++) {
                     if (item.selected)
@@ -222,6 +226,8 @@
                                 if (this.users[j].studentId === item.studentId)
                                     attendance = this.users[j].attendance;
 
+                            console.log(dateTime1);
+                            console.log(dateTime1);
                             let dateTime1 =
                                 moment(this.users[i].date).format("DD.MM.YYYY") +
                                 " " +
@@ -240,6 +246,7 @@
                             };
                         }
                 }
+                //console.log(this.selected);
             }
         }
     };

@@ -3,6 +3,7 @@
         <listOfStudents
                 v-if="statusCreate || (!statusCreate && statusUpdate)"
                 :dataForCreate="info"
+                @hideContent="this.$emit('hideContent', $event)"
         />
         <div class="lesson-panel" v-else-if="!statusCreate && !statusUpdate">
             <div class="header">Please select a lesson</div>
