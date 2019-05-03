@@ -91,16 +91,28 @@ public class LessonController {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
 
+        Collection<UserProfile> students = course.getParticipants().stream()
+                .filter(userProfile -> userProfile.getRole() == Role.ROLE_STUDENT)
+                .collect(Collectors.toList());
+
         Lesson lesson = new Lesson();
         lesson.setCourse(course);
         lesson.setDateTime(lessonDTO.getDateTime());
         lesson.setRoom(lessonDTO.getRoom());
         lesson.setType(lessonDTO.getType());
         lesson.setTeacher(user);
+        lesson.setLessonStudents(students.stream()
+                .map(student -> {
+                    LessonStudent lessonStudent = new LessonStudent();
+                    lessonStudent.setId(new LessonStudent.LessonStudentPK(lesson, student));
+                    lessonStudent.setAttendance(AttendanceType.ABSENT);
+                    return lessonStudent;
+                })
+                .collect(Collectors.toList()));
         Long lessonId = lessonRepository.save(lesson).getId();
 
         return new LessonCreationResponseDTO(lessonId,
-                course.getParticipants().stream().filter(userProfile -> userProfile.getRole() == Role.ROLE_STUDENT)
+                students.stream()
                         .map(UserDTO::new)
                         .collect(Collectors.toList()));
     }
@@ -220,6 +232,7 @@ public class LessonController {
     public double getAverageCourseAttendance(@PathVariable long courseId) {
         Collection<Lesson> lessons = lessonRepository.findByCourse_IdAndTypeIn(courseId, LessonType.getShared());
         return lessons.stream()
+                .filter(lesson -> !lesson.getLessonStudents().isEmpty())
                 .mapToDouble(lesson -> (double) lesson.getLessonStudents().stream()
                         .filter(lessonStudent -> lessonStudent.getAttendance() == AttendanceType.PRESENT)
                         .count()
@@ -238,6 +251,7 @@ public class LessonController {
     public double getAverageAttendance() {
         Collection<Lesson> lessons = lessonRepository.findByTypeIn(LessonType.getShared());
         return lessons.stream()
+                .filter(lesson -> !lesson.getLessonStudents().isEmpty())
                 .mapToDouble(lesson -> (double) lesson.getLessonStudents().stream()
                         .filter(lessonStudent -> lessonStudent.getAttendance() == AttendanceType.PRESENT)
                         .count()
