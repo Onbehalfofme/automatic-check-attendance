@@ -152,7 +152,7 @@
             },
             sentStudentAttendance() {
                 AXIOS.patch("/lesson/update/" + this.lessonId, this.selected);
-                this.$emit("hideContent", false);
+                this.$emit("showMess", true);
             },
             reformatData(status, users) {
                 let newVersion = [];
@@ -197,7 +197,7 @@
             },
             selectRow(item) {
 
-                console.log(item);
+                //console.log(item);
 
                 if (item.selected) item._rowVariant = "info";
                 else item._rowVariant = "default";
@@ -226,8 +226,8 @@
                                 if (this.users[j].studentId === item.studentId)
                                     attendance = this.users[j].attendance;
 
-                            console.log(dateTime1);
-                            console.log(dateTime1);
+                            //console.log(dateTime1);
+                            //console.log(dateTime1);
                             let dateTime1 =
                                 moment(this.users[i].date).format("DD.MM.YYYY") +
                                 " " +
