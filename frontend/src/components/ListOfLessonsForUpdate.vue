@@ -1,9 +1,14 @@
 <template>
     <div>
+        <div class="mess-panel" v-if="statusDone">
+            <p v-if="statusCreate"> Lesson has been successfully created!</p>
+            <p v-if="statusUpdate"> Lesson has been successfully updated!</p>
+            <button v-on:click="exit()">Exit</button>
+        </div>
         <listOfStudents
-                v-if="statusCreate || (!statusCreate && statusUpdate)"
+                v-else-if="statusCreate || (!statusCreate && statusUpdate)"
                 :dataForCreate="info"
-                @hideContent="this.$emit('hideContent', $event)"
+                @showMess="statusDone = $event"
         />
         <div class="lesson-panel" v-else-if="!statusCreate && !statusUpdate">
             <div class="header">Please select a lesson</div>
@@ -42,6 +47,7 @@
         props: ["dataForCreate"],
         data() {
             return {
+                statusDone: false,
                 selectMode: "single",
                 info: this.dataForCreate,
                 statusCreate: false,
@@ -86,6 +92,9 @@
         },
 
         methods: {
+            exit() {
+                this.$emit("hideContent", false);
+            },
             rowSelected(item) {
                 this.info = {
                     lessonId: item[0].id,
