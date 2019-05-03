@@ -2,7 +2,8 @@
     <div class="user-panel">
         <div class="chart" v-if="ready">
             <mdb-container>
-                <mdb-bar-chart :data="barChartData" :options="barChartOptions"></mdb-bar-chart>
+                <mdb-bar-chart :data="barChartData" :options="barChartOptions" :width="600"
+                               :heigth="800"></mdb-bar-chart>
             </mdb-container>
         </div>
     </div>
@@ -59,24 +60,14 @@
             };
         },
         created: async function () {
-            await this.getWeekStatistics();
+            console.log(this.info);
+            let date = moment(this.info).format("DD.MM.YYYY");
+            console.log(date);
+            await this.getChart(date);
             this.ready = true;
         },
         methods: {
-            getWeekStatistics: async function () {
-                this.info = new Date(this.info);
-                let number = this.info.getDay();
-                let date = new Date();
-                if (number === 0) date.setDate(this.info.getDate() - 6);
-                else date.setDate(this.info.getDate() - (number - 1));
-                for (let i = 0; i < 5; i++) {
-                    let new_date = moment(date).format("DD.MM.YYYY");
-                    await this.getChart(new_date, i);
-                    date.setDate(date.getDate() + 1);
-                }
-                await new Promise((resolve, reject) => setTimeout(resolve, 1000));
-            },
-            getChart: async function (date, i) {
+            getChart: async function (date) {
                 const AXIOS = await axios.create({
                     baseURL: "http://134.209.227.130:8080",
                     headers: {
@@ -85,20 +76,25 @@
                         "Access-Control-Allow-Origin": "*"
                     }
                 });
-                await AXIOS.get("/lesson/daily", {params: {date}}).then(async response => {
-                    this.daily = await response.data;
-                    let present = 0;
-                    let all = 0;
+                await AXIOS.get("/lesson/weekly", {params: {date}}).then(async response => {
+                    let weekly = await response.data;
+                    for (let i = 0; i < 5; i++) {
+                        let array = weekly[i];
 
-                    for (let j = 0; j < this.daily.length; j++) {
-                        if (this.daily[j].attendance === 'PRESENT') present ++;
-                        all++;
+                        let present = 0;
+                        let all = 0;
+
+                        for (let j = 0; j < array.length; j++) {
+                            if (array[j].attendance === 'PRESENT') present++;
+                            all++;
+                        }
+                        if (all === 0) {
+                            this.barChartData.datasets[0].data[i] = 0;
+                        } else {
+                            this.barChartData.datasets[0].data[i] = present / all * 100;
+                        }
                     }
-                    if (all === 0) {
-                        this.barChartData.datasets[0].data[i] = 0;
-                    } else {
-                        this.barChartData.datasets[0].data[i] = present / all * 100;
-                    }
+
                 });
             }
         }

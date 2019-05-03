@@ -15,7 +15,7 @@
             <div id="tool-bar1">
                 <div><h3>Course:</h3></div>
                 <select class="course" v-model="course">
-                    <option v-for="option in courseOptions" v-bind:value="option.name">
+                    <option v-for="option in courseOptions" v-bind:value="option">
                         {{ option.name }}
                     </option>
                 </select>
@@ -24,7 +24,7 @@
             <div id="tool-bar2">
                 <div><h3>Professor/TA:</h3></div>
                 <select class="teacher" v-model="teacher">
-                    <option v-for="option in teacherOptions" v-bind:value="option.surname">
+                    <option v-for="option in teacherOptions" v-bind:value="option">
                         {{ option.name + " " + option.surname }}
                     </option>
                 </select>
@@ -87,8 +87,8 @@
             getCourseStatistics: function () {
                 let date = moment(this.new_date).format("DD.MM.YYYY");
                 this.$emit("getLessInfo", {
-                    after: date,
-                    before: date,
+                    start: date,
+                    end: date,
                     course: this.course
                 });
                 this.$emit("showContent1", true);
@@ -98,8 +98,8 @@
             getTeacherStatistics: function () {
                 let date = moment(this.new_date).format("DD.MM.YYYY");
                 this.$emit("getLessInfo", {
-                    after: date,
-                    before: date,
+                    start: date,
+                    end: date,
                     teacher: this.teacher
                 });
                 this.$emit("showContent2", true);

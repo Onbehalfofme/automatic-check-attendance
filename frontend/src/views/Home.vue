@@ -71,7 +71,7 @@
             />
             <ListOfLessons
                     v-else-if="isStudent && showCont1"
-                    :dataForCreate="paramOfCall"
+                    :dataForCreateList="paramOfCall"
                     @showContent="showCont1 = $event"
                     @hideContent="showCont1 = $event"
             />

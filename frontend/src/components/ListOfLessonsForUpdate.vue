@@ -103,16 +103,16 @@
             },
             getCourses: async function (info) {
                 let data = null;
-                let after = null;
-                let before = null;
+                let start = null;
+                let end = null;
 
                 if (info.aLectureTime != null)
-                    after =
+                    start =
                         moment(info.aLectureDate).format("DD.MM.YYYY") +
                         " " +
                         info.aLectureTime;
                 if (info.bLectureTime != null)
-                    before =
+                    end =
                         moment(info.bLectureDate).format("DD.MM.YYYY") +
                         " " +
                         info.bLectureTime;
@@ -120,8 +120,8 @@
                 await AXIOS.get("/lesson/search", {
                     params: {
                         course: info.courseId,
-                        after: after,
-                        before: before,
+                        start: start,
+                        end: end,
                         room: info.room,
                         type: info.type,
                         teacher: info.teacher

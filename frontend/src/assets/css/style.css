@@ -107,8 +107,8 @@ body {
 }
 
 .chart {
-    width: 40%;
-    margin: 5% 30% 5% 30%
+    width: 60%;
+    margin: 5% 30% 5% 27%
 }
 
 .top-panel {
@@ -129,6 +129,12 @@ body {
     margin: 0;
     padding: 0;
     border: 0;
+}
+
+
+.button-new {
+    width: 20%;
+    margin: 10% 40% 40% auto;
 }
 
 .top-panel .top-name {
@@ -388,15 +394,30 @@ body {
 .user-panel {
     z-index: 1;
     background-color: white;
+    overflow:scroll;
+    position: absolute;
+    float: top;
+    /*min-height: 500px;*/
+    width: 96%;
+    height: 89%;
+    margin: 70px 2% 20px;
+    box-shadow: 0 0 6px 0 rgba(25, 25, 34, .16);
+    border-radius: 4px;
+}
+
+.user-panel-lesson {
+    z-index: 1;
+    background-color: white;
     overflow: hidden;
     position: absolute;
     float: top;
-    min-height: 500px;
+    min-height: 720px;
     width: 96%;
     margin: 70px 2% 20px;
     box-shadow: 0 0 6px 0 rgba(25, 25, 34, .16);
     border-radius: 4px;
 }
+
 
 .lesson-panel {
     z-index: 1;
@@ -418,7 +439,16 @@ body {
 
 }
 
+
 .user-panel .header {
+    margin: 0 30px 0;
+    font-family: "Quicksand", sans-serif;
+    font-size: 17px;
+    padding: 15px 0 0;
+
+}
+
+.user-panel-lesson .header {
     margin: 0 30px 0;
     font-family: "Quicksand", sans-serif;
     font-size: 17px;
@@ -436,7 +466,7 @@ body {
 
 .user-table {
     float: top;
-
+    position: center;
     margin: 20px 30px 0;
     box-shadow: 0 0 6px 0 rgba(25, 25, 34, .16);
     border-radius: 4px;
@@ -459,6 +489,20 @@ body {
     float: right;
 }
 
+.user-panel button {
+    width: 20%;
+    margin: 5% auto auto 41%;
+}
+
+.user-panel-lesson button {
+    width: 20%;
+    margin: 5% auto auto 41%;
+}
+
+.text {
+    margin: 3% 20%
+}
+
 .input-group {
     width: 96%;
     margin: 15px 30px 8px;
@@ -466,7 +510,6 @@ body {
 
 .user-table {
     float: top;
-
     margin: 20px 30px 0;
     box-shadow: 0 0 6px 0 rgba(25, 25, 34, .16);
     border-radius: 4px;

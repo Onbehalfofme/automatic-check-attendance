@@ -1,5 +1,5 @@
 <template>
-    <div class="user-panel">
+    <div class="user-panel-lesson">
         <div class="header">My attendance statistics</div>
         <br/>
         <br/>
@@ -36,25 +36,32 @@
                                 not attend the lesson for a good reason.
                             </p>
                             <p>You can dispute your attendance mark if it is unfair.</p>
-                            <textarea type="text" class="input-group">
-Please write here your letter to the professor</textarea
+                            <p>Please write here your letter to the professor:</p>
+                            <textarea type="text"
+                                      class="input-group"
+                                      v-model="message"></textarea
                             >
-                            <br/>
                             If necessary, you can upload the justification:
-                            <div class="input-default-wrapper mt-3">
-                                <span class="input-group-text mb-3" id="input1">Upload</span>
-                                <input
-                                        type="file"
-                                        id="file-with-current"
-                                        class="input-default-js"
-                                />
-                                <label
-                                        class="label-for-default-js rounded-right mb-3"
-                                        for="file-with-current"
-                                ><span class="span-choose-file"> </span>
-                                    <div class="float-right span-browse"></div>
-                                </label>
-                            </div>
+                            <template>
+                                <div>
+                                    <b-form-file
+                                            v-model="file"
+                                            :state="Boolean(file)"
+                                            placeholder="Choose a file..."
+                                            drop-placeholder="Drop file here..."
+                                    ></b-form-file>
+                                </div>
+                            </template>
+                            <b-button id="show-btn" v-b-modal.my-modal v-on:click="upload()">Send!</b-button>
+                            <!--<b-modal id="my-modal" hide-footer>-->
+                            <!--<div class="d-block text-center">-->
+                            <!--<h3>The file is successfully uploaded</h3>-->
+                            <!--</div>-->
+                            <!--<b-button class="mt-3" block @click="$bvModal.hide('bv-modal-example')">Ok</b-button>-->
+                            <!--</b-modal>-->
+                            <!--<b-modal id="my-modal">-->
+                            <!--<h3>The file is successfully uploaded</h3>-->
+                            <!--</b-modal>-->
                         </ul>
                     </b-card>
                 </template>
@@ -71,10 +78,13 @@ Please write here your letter to the professor</textarea
     import axios from "axios";
 
     export default {
-        props: ["dataForCreate"],
+        props: ["dataForCreateList"],
         data() {
             return {
+                message: "",
                 filter: "",
+                file: null,
+                file2: null,
                 fields: {
                     time: {
                         key: "dateTime",
@@ -103,15 +113,16 @@ Please write here your letter to the professor</textarea
                     },
                     buttons: {key: "actions", label: ""}
                 },
-                info: this.dataForCreate,
+                info: this.dataForCreateList,
                 data: [],
                 currentPage: 1,
                 totalRows: 0
             };
         },
 
-        created: function () {
-            this.getStatistics(this.info);
+        created: async function () {
+            await this.getStatistics(this.info);
+            console.log(this.data);
         },
         computed: {
             sortOptions() {
@@ -128,7 +139,29 @@ Please write here your letter to the professor</textarea
                 this.totalRows = filteredItems.length;
                 this.currentPage = 1;
             },
-            getStatistics: function (date) {
+            upload: async function () {
+                const AXIOS = axios.create({
+                    baseURL: "http://134.209.227.130:8080",
+                });
+                let formData = new FormData();
+                formData.append('file', this.file);
+                await AXIOS.post("/reason/upload",
+                    formData,
+                    {
+                        headers: {
+                            Authorization: "JWT " + localStorage.getItem("token"),
+                            'Content-Type': 'multipart/form-data',
+                            "Access-Control-Allow-Origin": "*"
+                        },
+                        body: {
+                            lessonId: this.data.id,
+                            message: this.message
+                        }
+
+                    }
+                )
+            },
+            getStatistics: async function (date) {
                 const AXIOS = axios.create({
                     baseURL: "http://134.209.227.130:8080",
                     headers: {
@@ -137,7 +170,7 @@ Please write here your letter to the professor</textarea
                         "Access-Control-Allow-Origin": "*"
                     }
                 });
-                AXIOS.get("/lesson/daily", {params: {date}}).then(response => {
+                await AXIOS.get("/lesson/daily", {params: {date}}).then(response => {
                     this.data = response.data;
                     this.totalRows = this.data.length;
                 });
