@@ -13,9 +13,10 @@ import ru.innopolis.attendance.data.UserRepository;
 import ru.innopolis.attendance.models.*;
 import ru.innopolis.attendance.specifications.UserProfileSpecifications;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -39,7 +40,12 @@ public class CsvController {
                                @RequestParam long courseId,
                                @RequestParam(value = "type") Collection<LessonType> types) throws IOException {
         Collection<Lesson> lessons = lessonRepository.findByCourse_IdAndTypeIn(courseId, types);
-        FileWriter out = new FileWriter("csv/" + fileName + ".csv");
+        try {
+            Files.createDirectories(Paths.get("./csv").toAbsolutePath().normalize());
+        } catch (IOException ex) {
+            throw new SecurityException("Could not create the directory where the uploaded files will be stored.", ex);
+        }
+        FileWriter out = new FileWriter("./csv/" + fileName + ".csv");
         Collection<String> headers = new ArrayList<>();
         headers.add("date");
         headers.addAll(userRepository.findAll(Specification.where(
