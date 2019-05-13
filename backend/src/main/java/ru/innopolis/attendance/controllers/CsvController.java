@@ -38,7 +38,7 @@ public class CsvController {
                                @RequestParam long courseId,
                                @RequestParam(value = "type") Collection<LessonType> types) throws IOException {
         Collection<Lesson> lessons = lessonRepository.findByCourse_IdAndTypeIn(courseId, types);
-        FileWriter out = new FileWriter("attendance/" + fileName + ".csv");
+        FileWriter out = new FileWriter("./csv/" + fileName + ".csv");
         Collection<String> headers = new ArrayList<>();
         headers.add("date");
         headers.addAll(userRepository.findAll(Specification.where(
