@@ -11,14 +11,14 @@ node {
             backend.push("backend")
         }
     }
-    stage('Frontend image build') {
+   /* stage('Frontend image build') {
         frontend = docker.build("onbehalfofme/attendance", "./frontend")
     }
     stage('Push frontend image'){
         docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
             frontend.push("frontend")
         }
-    }
+    }*/
     stage('Remove local images') {
         sh 'docker image prune -a -f'
     }
