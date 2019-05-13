@@ -66,6 +66,7 @@ public class CsvController {
                                 .getAttendance());
                     }
                 }
+                printer.println();
             }
         }
     }
