@@ -52,4 +52,8 @@ public class LessonStudent {
     private String reason;
 
     private String reasonMessage;
+
+    public LessonStudent(AttendanceType attendance) {
+        this.attendance = attendance;
+    }
 }
